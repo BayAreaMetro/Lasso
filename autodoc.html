@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lasso Classes and Functions &#8212; lasso  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to lasso’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-lasso">
+<span id="lasso-classes-and-functions"></span><h1>Lasso Classes and Functions<a class="headerlink" href="#module-lasso" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lasso.TransitParser">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">TransitParser</code><span class="sig-paren">(</span><em class="sig-param">filedef='ntransit_file      := smcw*, ( accessli / line / link / pnr / zac / supplink / factor / faresystem / waitcrvdef / crowdcrvdef / operator / mode / vehicletype )+, smcw*, whitespace*nline              := whitespace?, smcw?, c&quot;LINE&quot;, whitespace, lin_attr*, lin_node*, whitespace?nlin_attr          := ( lin_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value, whitespace?,n                       comma, whitespace?, semicolon_comment* )nlin_nodeattr      := ( lin_nodeattr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value, whitespace?, comma?, whitespace?, semicolon_comment* )nlin_attr_name     := c&quot;allstops&quot; / c&quot;color&quot; / (c&quot;freq&quot;,'[',[1-5],']') / c&quot;mode&quot; / c&quot;name&quot; / c&quot;oneway&quot; / c&quot;owner&quot; / c&quot;runtime&quot; / c&quot;timefac&quot; / c&quot;xyspeed&quot; / c&quot;longname&quot; / c&quot;shortname&quot; / (c&quot;usera&quot;,[1-5]) / (c&quot;headway&quot;,'[',[1-5],']') / c&quot;vehicletype&quot; / c&quot;operator&quot; / c&quot;faresystem&quot;nlin_nodeattr_name := c&quot;access_c&quot; / c&quot;access&quot; / c&quot;delay&quot; /  c&quot;xyspeed&quot; / c&quot;timefac&quot; / c&quot;nntime&quot; / c&quot;time&quot;nlin_node          := lin_nodestart?, whitespace?, nodenum, spaces*, comma?, spaces*, semicolon_comment?, whitespace?, lin_nodeattr*nlin_nodestart     := (whitespace?, &quot;N&quot;, whitespace?, &quot;=&quot;)nlink              := whitespace?, smcw?, c&quot;LINK&quot;, whitespace, link_attr*, whitespace?, semicolon_comment*nlink_attr         := (( (link_attr_name, whitespace?, &quot;=&quot;, whitespace?,  attr_value) /n                        (word_nodes, whitespace?, &quot;=&quot;, whitespace?, nodepair) /n                        (word_modes, whitespace?, &quot;=&quot;, whitespace?, numseq) ),n                      whitespace?, comma?, whitespace?)nlink_attr_name    := c&quot;dist&quot; / c&quot;speed&quot; / c&quot;time&quot; / c&quot;oneway&quot;npnr               := whitespace?, smcw?, c&quot;PNR&quot;, whitespace, pnr_attr*, whitespace?npnr_attr          := (( (pnr_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (word_node, whitespace?, &quot;=&quot;, whitespace?, ( nodepair / nodenum )) /n                        (word_zones, whitespace?, &quot;=&quot;, whitespace?, numseq )),n                       whitespace?, comma?, whitespace?, semicolon_comment*)npnr_attr_name     := c&quot;time&quot; / c&quot;maxtime&quot; / c&quot;distfac&quot; / c&quot;cost&quot;nzac               := whitespace?, smcw?, c&quot;ZONEACCESS&quot;, whitespace, zac_attr*, whitespace?, semicolon_comment*nzac_attr          := (( (c&quot;link&quot;, whitespace?, &quot;=&quot;, whitespace?, nodepair) /n                        (zac_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) ),n                      whitespace?, comma?, whitespace?)nzac_attr_name     := c&quot;mode&quot;nsupplink          := whitespace?, smcw?, c&quot;SUPPLINK&quot;, whitespace, supplink_attr*, whitespace?, semicolon_comment*nsupplink_attr     := (( (supplink_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (npair_attr_name, whitespace?, &quot;=&quot;, whitespace?, nodepair )),n                       whitespace?, comma?, whitespace?)nnpair_attr_name    := c&quot;nodes&quot; / c&quot;n&quot;nsupplink_attr_name:= c&quot;mode&quot; / c&quot;dist&quot; / c&quot;speed&quot; / c&quot;oneway&quot; / c&quot;time&quot;nfactor            := whitespace?, smcw?, c&quot;FACTOR&quot;, whitespace, factor_attr*, whitespace?, semicolon_comment*nfactor_attr       := ( (factor_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value),n                        whitespace?, comma?, whitespace? )nfactor_attr_name  := c&quot;maxwaittime&quot; / word_nodesnfaresystem        := whitespace?, smcw?, c&quot;FARESYSTEM&quot;, whitespace, faresystem_attr*, whitespace?, semicolon_comment*nfaresystem_attr   := (( (faresystem_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (faresystem_fff, whitespace?, &quot;=&quot;, whitespace?, floatseq )),n                      whitespace?, comma?, whitespace? )nfaresystem_attr_name := c&quot;number&quot; / c&quot;name&quot; / c&quot;longname&quot; / c&quot;structure&quot; / c&quot;same&quot; / c&quot;iboardfare&quot; / c&quot;farematrix&quot; / c&quot;farezones&quot;nfaresystem_fff    := c&quot;farefromfs&quot;nwaitcrvdef        := whitespace?, smcw?, c&quot;WAITCRVDEF&quot;, whitespace, crv_attr*, whitespace?, semicolon_comment*ncrowdcrvdef       := whitespace?, smcw?, c&quot;CROWDCRVDEF&quot;, whitespace, crv_attr*, whitespace?, semicolon_comment*ncrv_attr          := (( (opmode_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (word_curve, whitespace?, &quot;=&quot;, whitespace?, xyseq )),n                       whitespace?, comma?, whitespace? )noperator          := whitespace?, smcw?, c&quot;OPERATOR&quot;, whitespace, opmode_attr*, whitespace?, semicolon_comment*nmode              := whitespace?, smcw?, c&quot;MODE&quot;, whitespace, opmode_attr*, whitespace?, semicolon_comment*nopmode_attr       := ( (opmode_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value), whitespace?, comma?, whitespace? )nopmode_attr_name  := c&quot;number&quot; / c&quot;name&quot; / c&quot;longname&quot;nvehicletype       := whitespace?, smcw?, c&quot;VEHICLETYPE&quot;, whitespace, vehtype_attr*, whitespace?, semicolon_comment*nvehtype_attr      := ( (vehtype_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value), whitespace?, comma?, whitespace? )nvehtype_attr_name := c&quot;number&quot; / (c&quot;crowdcurve&quot;,'[',[0-9]+,']') / c&quot;crushcap&quot; / c&quot;loaddistfac&quot; / c&quot;longname&quot; / c&quot;name&quot; / c&quot;seatcap&quot;naccessli          := whitespace?, smcw?, nodenumA, spaces?, nodenumB, spaces?, accesstag?, spaces?, (float/int)?, spaces?, semicolon_comment?naccesstag         := c&quot;wnr&quot; / c&quot;pnr&quot;nword_curve        := c&quot;curve&quot;nword_nodes        := c&quot;nodes&quot;nword_node         := c&quot;node&quot;nword_modes        := c&quot;modes&quot;nword_zones        := c&quot;zones&quot;nxyseq             := xy, (spaces?, &quot;,&quot;, spaces?, xy)*nxy                := pos_floatnum, spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, pos_floatnumnpos_floatnum      := [0-9]+, [\.]?, [0-9]*nnumseq            := int, (spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, int)*nfloatseq          := floatnum, (spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, floatnum)*nfloatnum          := [-]?, [0-9]+, [\.]?, [0-9]*nnodepair          := nodenum, spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, nodenumnnodenumA          := nodenumnnodenumB          := nodenumnnodenum           := intnattr_value        := alphanums / string_single_quote / string_double_quotenalphanums         := [a-zA-Z0-9_\.]+n&lt;comma&gt;           := [,]n&lt;whitespace&gt;      := [ \t\r\n]+n&lt;spaces&gt;          := [ \t]+nsmcw              := whitespace?, (semicolon_comment / c_comment, whitespace?)+n', verbosity=1</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitParser" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="lasso.TransitParser.buildProcessor">
+<code class="sig-name descname">buildProcessor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitParser.buildProcessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build default processor object for this parser class</p>
+<p>The default implementation returns None.  The processor
+can either implement the “method source” API (just provides
+information about Callouts and the like), or the processor
+API and the method-source API.  The processor API merely
+requires that the object be callable, and have the signature:</p>
+<blockquote>
+<div><p>object( (success, children, nextPosition), buffer)</p>
+</div></blockquote>
+<p>(Note: your object can treat the first item as a single tuple
+if it likes).</p>
+<p>See: simpleparse.processor module for details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.convertLineData">
+<code class="sig-name descname">convertLineData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitParser.convertLineData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the parsed tree of data into a usable python list of transit lines
+returns (PROGRAM_PT or PROGRAM_TRNBUILD, list of comments and transit line objects)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.convertPTSystemData">
+<code class="sig-name descname">convertPTSystemData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitParser.convertPTSystemData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the parsed tree of data into a PTSystem object
+returns a PTSystem object</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="lasso.PTSystem">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">PTSystem</code><a class="headerlink" href="#lasso.PTSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Public Transport System definition.  Corresponds to the information in Cube’s Public Transport system,
+including data for modes, operators, wait curves and crowding curves.</p>
+<dl class="method">
+<dt id="lasso.PTSystem.merge">
+<code class="sig-name descname">merge</code><span class="sig-paren">(</span><em class="sig-param">pts</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.PTSystem.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges another pts with self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="lasso.TransitLine">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">TransitLine</code><span class="sig-paren">(</span><em class="sig-param">name=None</em>, <em class="sig-param">template=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transit route. Behaves like a dictionary of attributes.
+<em>n</em> is list of Node objects (see <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code>)
+All other attributes are stored as a dictionary. e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">thisroute</span><span class="p">[</span><span class="s1">&#39;MODE&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;5&#39;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="lasso.TransitLine.extendLine">
+<code class="sig-name descname">extendLine</code><span class="sig-paren">(</span><em class="sig-param">oldnode</em>, <em class="sig-param">newsection</em>, <em class="sig-param">beginning=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.extendLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace nodes up through <strong>and including</strong> <em>oldnode</em> with <em>newsection</em>.
+<em>newsection</em> can be a list of numbers; they will be converted to Nodes.</p>
+<p><strong>This is stop-sensitive!</strong>  If <em>oldnode</em> has the wrong sign, it will throw an exception.</p>
+<p>If beginning, does this at the beginning; otherwise at the end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.getFreq">
+<code class="sig-name descname">getFreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.getFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a float version of the frequency for the given <em>timeperiod</em>, which should be one
+of <code class="docutils literal notranslate"><span class="pre">AM</span></code>, <code class="docutils literal notranslate"><span class="pre">MD</span></code>, <code class="docutils literal notranslate"><span class="pre">PM</span></code>, <code class="docutils literal notranslate"><span class="pre">EV</span></code> or <code class="docutils literal notranslate"><span class="pre">EA</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.getFreqs">
+<code class="sig-name descname">getFreqs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.getFreqs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the frequencies for this line as a list of 5 strings
+(representing AM,MD,PM,EV,EA for CHAMP, or EA,AM,MD,PM,EV for TM1)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.getModeType">
+<code class="sig-name descname">getModeType</code><span class="sig-paren">(</span><em class="sig-param">modeltype</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.getModeType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns on of the keys in MODETYPE_TO_MODES
+(e.g. one of “Local”, “BRT”, “LRT”, “Premium”, “Ferry” or “BART”)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.hasDuplicateStops">
+<code class="sig-name descname">hasDuplicateStops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.hasDuplicateStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a stop occurs more than once and return True if so.
+First == last is ok</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.hasLink">
+<code class="sig-name descname">hasLink</code><span class="sig-paren">(</span><em class="sig-param">nodeA</em>, <em class="sig-param">nodeB</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.hasLink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True iff <em>(nodeA,nodeB)</em> is a link in this line.
+<em>nodeA</em> and <em>nodeB</em> should be integers and this method is stop-insensitive.
+However, it does not check for <em>(nodeB,nodeA)</em> even when the line is two-way.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.hasNode">
+<code class="sig-name descname">hasNode</code><span class="sig-paren">(</span><em class="sig-param">nodeNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.hasNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the given <em>nodeNumber</em> is a node in this line (stop or no).
+<em>nodeNumber</em> should be an integer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.hasOffstreetNodes">
+<code class="sig-name descname">hasOffstreetNodes</code><span class="sig-paren">(</span><em class="sig-param">modeltype</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.hasOffstreetNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the line has offstreet nodes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.hasSegment">
+<code class="sig-name descname">hasSegment</code><span class="sig-paren">(</span><em class="sig-param">nodeA</em>, <em class="sig-param">nodeB</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.hasSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True iff <em>nodeA</em> and <em>nodeB</em> appear in this line, and <em>nodeA</em> appears before <em>nodeB</em>.
+This method is stop-insensitive.  Also it does not do any special checking for two-way
+lines.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.hasSequence">
+<code class="sig-name descname">hasSequence</code><span class="sig-paren">(</span><em class="sig-param">list_of_node_ids</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.hasSequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True iff the nodes indicated by list_of_node_ids appear in this line, in the exact specified order.
+This method is stop-insenstive.
+list_of_node_ids should be a list of positive integers, ordered by transit line path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.hasService">
+<code class="sig-name descname">hasService</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.hasService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if any frequency is nonzero.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.insertNode">
+<code class="sig-name descname">insertNode</code><span class="sig-paren">(</span><em class="sig-param">refNodeNum</em>, <em class="sig-param">newNodeNum</em>, <em class="sig-param">stop=False</em>, <em class="sig-param">after=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.insertNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts the given <em>newNodeNum</em> into this line, as a stop if <em>stop</em> is True.
+The new node is inserted after <em>refNodeNum</em> if <em>after</em> is True, otherwise it is inserted
+before <em>refNodeNum</em>.</p>
+<p><em>refNodeNum</em> and <em>newNodeNum</em> are ints.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.isOneWay">
+<code class="sig-name descname">isOneWay</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.isOneWay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a bool indicating if the line is oneway</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.listNodeIds">
+<code class="sig-name descname">listNodeIds</code><span class="sig-paren">(</span><em class="sig-param">ignoreStops=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.listNodeIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of integers representing the node ids that appear along this line.
+This method is stop-sensitive if called with ignoreStops=False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.next">
+<code class="sig-name descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for iterator.  Iterator usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">line</span> <span class="o">=</span> <span class="n">transitnet</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="s2">&quot;MUN14LI&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">stop</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">stop</span> <span class="c1"># stop is an int</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.numStops">
+<code class="sig-name descname">numStops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.numStops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts and returns the number of stops in the line.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.removeDummyJag">
+<code class="sig-name descname">removeDummyJag</code><span class="sig-paren">(</span><em class="sig-param">to_remove_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.removeDummyJag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through nodes and for patterns that look like x,y,x where y is in to_remove_dict keys,
+replaces with just x.  Converts y to int (without abs) so requires to_remove_dict keys to have matching sign
+Used by TransitNetwork.moveBusesToExpressLanes().
+Returns True if any nodes were removed, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.replaceSegment">
+<code class="sig-name descname">replaceSegment</code><span class="sig-paren">(</span><em class="sig-param">node1</em>, <em class="sig-param">node2</em>, <em class="sig-param">newsection</em>, <em class="sig-param">preserveStopStatus=False</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.replaceSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces the section from node1 to node2 with the newsection
+Newsection can be an array of numbers; this will make nodes.
+preserveStopStatus means if node1 is a stop, make the replacement first node a stop, ditto for node2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.replaceSequence">
+<code class="sig-name descname">replaceSequence</code><span class="sig-paren">(</span><em class="sig-param">node_ids_to_replace</em>, <em class="sig-param">replacement_node_ids</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.replaceSequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces the sequence of nodes indicated by the positive integer list node_ids_to_replace
+with the new sequence of nodes indicated by the positive integer list replacement_node_ids
+This method removes stops from the replaced sequence; stops will have to be re-added.
+Returns true iff the sequence is successfully replaced.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.reverse">
+<code class="sig-name descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.reverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reverses the current line – adds a “-” to the name, and reverses the node order</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.setFreqs">
+<code class="sig-name descname">setFreqs</code><span class="sig-paren">(</span><em class="sig-param">freqs</em>, <em class="sig-param">timepers=None</em>, <em class="sig-param">allowDowngrades=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.setFreqs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set some or all five headways (AM,MD,PM,EV,EA)
+- freqs is a list of numbers (or can be one number if only setting one headway)</p>
+<blockquote>
+<div><p>also accepts list of strings of numbers e.g. [“8”,”0”,”8”,”0”,”0”]</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>If setting fewer than 5 headways, timepers must specify the time period(s)
+for which headways are being set. Can be numbers like [1,3] or strings like [‘AM’,’PM’].
+If setting all headways, True or ‘All’ may be passed.</p></li>
+<li><p>allowDowngrades (optional, pass either True or False) specifies whether headways
+may be increased (i.e., whether service may be reduced) with the current action.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.setNodes">
+<code class="sig-name descname">setNodes</code><span class="sig-paren">(</span><em class="sig-param">newnodelist</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.setNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of ints representing node numbers,
+converts these to Node types uses this new list, throwing away the previous node list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.setOneWay">
+<code class="sig-name descname">setOneWay</code><span class="sig-paren">(</span><em class="sig-param">oneway=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.setOneWay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the oneway flag based on the given arg.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.setOwner">
+<code class="sig-name descname">setOwner</code><span class="sig-paren">(</span><em class="sig-param">newOwner</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.setOwner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the owner for the transit line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.setStop">
+<code class="sig-name descname">setStop</code><span class="sig-paren">(</span><em class="sig-param">nodenum</em>, <em class="sig-param">isStop=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.setStop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Throws an exception if the nodenum isn’t found</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.splitLink">
+<code class="sig-name descname">splitLink</code><span class="sig-paren">(</span><em class="sig-param">nodeA</em>, <em class="sig-param">nodeB</em>, <em class="sig-param">newNodeNum</em>, <em class="sig-param">stop=False</em>, <em class="sig-param">verboseLog=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.splitLink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if the link exists in the line (throws an exception if not)
+and then inserts the <em>newNodeNum</em> in between <em>nodeA</em> and <em>nodeB</em> (as a stop, if <em>stop</em> is True)</p>
+<p><em>nodeA</em>, <em>nodeB</em> and <em>newNodeNum</em> are all ints.</p>
+<p>This is stop-insensitive to <em>nodeA</em> and <em>nodeB</em>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitLine.vehiclesPerPeriod">
+<code class="sig-name descname">vehiclesPerPeriod</code><span class="sig-paren">(</span><em class="sig-param">timeperiod</em>, <em class="sig-param">modeltype</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitLine.vehiclesPerPeriod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of vehicles (as a float) that will run for the given time period.
+E.g. for 10 minute frequencies in the AM, 3*6 = 18</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="lasso.get_shared_streets_intersection_hash">
+<code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">get_shared_streets_intersection_hash</code><span class="sig-paren">(</span><em class="sig-param">lat</em>, <em class="sig-param">long</em>, <em class="sig-param">osm_node_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.get_shared_streets_intersection_hash" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Calculated per:</dt><dd><p><a class="reference external" href="https://github.com/sharedstreets/sharedstreets-js/blob/0e6d7de0aee2e9ae3b007d1e45284b06cc241d02/src/index.ts#L553-L565">https://github.com/sharedstreets/sharedstreets-js/blob/0e6d7de0aee2e9ae3b007d1e45284b06cc241d02/src/index.ts#L553-L565</a></p>
+</dd>
+<dt>Expected in/out</dt><dd><dl class="simple">
+<dt>-93.0965985, 44.952112199999995 osm_node_id = 954734870</dt><dd><p>69f13f881649cb21ee3b359730790bb9</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="lasso.Parameters">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">Parameters</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.Parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p># TODO: this whole flow needs work.</p>
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_PROPERTIES_TO_SPLIT">
+<code class="sig-name descname">DEFAULT_PROPERTIES_TO_SPLIT</code><em class="property"> = {'access': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'access'}, 'lanes': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'lanes'}, 'price': {'categories': {'hov2': ['hov2', 'default', 'sov'], 'hov3': ['hov3', 'hov2', 'default', 'sov'], 'sov': ['sov', 'default'], 'truck': ['trk', 'sov', 'default']}, 'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'price'}, 'transit_priority': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'transit_priority'}, 'traveltime_assert': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'traveltime_assert'}}</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_PROPERTIES_TO_SPLIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Details for calculating the county based on the centroid of the link.
+The COUNTY_VARIABLE should be the name of a field in shapefile.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="lasso.CubeTransit">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">CubeTransit</code><span class="sig-paren">(</span><em class="sig-param">cube_transit_network=None</em>, <em class="sig-param">gtfs_feed=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.CubeTransit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">lasso</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lasso Classes and Functions</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to lasso’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Sijia Wang and Elizabeth Sall.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/autodoc.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
