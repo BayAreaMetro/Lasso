@@ -1,0 +1,958 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lasso.TransitLine &mdash; lasso  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> lasso
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../starting.html">Starting Out</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running.html">Running Lasso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autodoc.html">Lasso Classes and Functions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lasso</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>lasso.TransitLine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lasso.TransitLine</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">.Network</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">.NetworkException</span> <span class="kn">import</span> <span class="n">NetworkException</span>
+<span class="kn">from</span> <span class="nn">.Node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">.Logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TransitLine&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="TransitLine"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine">[docs]</a><span class="k">class</span> <span class="nc">TransitLine</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transit route. Behaves like a dictionary of attributes.</span>
+<span class="sd">    *n* is list of Node objects (see :py:class:`Node`)</span>
+<span class="sd">    All other attributes are stored as a dictionary. e.g.::</span>
+
+<span class="sd">        thisroute[&#39;MODE&#39;]=&#39;5&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">HOURS_PER_TIMEPERIOD</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Network</span><span class="o">.</span><span class="n">MODEL_TYPE_CHAMP</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;AM&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span>  <span class="c1"># what about 4-6a?</span>
+            <span class="s2">&quot;MD&quot;</span><span class="p">:</span> <span class="mf">6.5</span><span class="p">,</span>
+            <span class="s2">&quot;PM&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span>
+            <span class="s2">&quot;EV&quot;</span><span class="p">:</span> <span class="mf">8.5</span><span class="p">,</span>
+            <span class="s2">&quot;EA&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">Network</span><span class="o">.</span><span class="n">MODEL_TYPE_TM1</span><span class="p">:</span> <span class="p">{</span>
+            <span class="c1"># https://github.com/BayAreaMetro/modeling-website/wiki/TimePeriods</span>
+            <span class="s2">&quot;EA&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span>
+            <span class="s2">&quot;AM&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+            <span class="s2">&quot;MD&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+            <span class="s2">&quot;PM&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+            <span class="s2">&quot;EV&quot;</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+    <span class="n">MODETYPE_TO_MODES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Network</span><span class="o">.</span><span class="n">MODEL_TYPE_CHAMP</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Local&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># [11,12,16,17,18,19],</span>
+            <span class="c1"># &quot;BRT&quot;    :[13,20],</span>
+            <span class="c1"># &quot;LRT&quot;    :[14,15,21],</span>
+            <span class="c1"># &quot;Premium&quot;:[22,23,24,25,26,27,28,29,30],</span>
+            <span class="c1"># &quot;Ferry&quot;  :[31],</span>
+            <span class="c1"># &quot;BART&quot;   :[32]</span>
+            <span class="s2">&quot;Express&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+            <span class="s2">&quot;LRT&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+            <span class="s2">&quot;CR&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="n">Network</span><span class="o">.</span><span class="n">MODEL_TYPE_TM1</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Local&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+            <span class="s2">&quot;Express Bus&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+            <span class="s2">&quot;Ferry&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">),</span>
+            <span class="s2">&quot;Light Rail&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span>
+            <span class="s2">&quot;Heavy Rail&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">130</span><span class="p">),</span>
+            <span class="s2">&quot;Commuter Rail&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">130</span><span class="p">,</span> <span class="mi">140</span><span class="p">),</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Do these modes have offstreet stops?</span>
+    <span class="n">MODENUM_TO_OFFSTREET</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Network</span><span class="o">.</span><span class="n">MODEL_TYPE_CHAMP</span><span class="p">:</span> <span class="p">{</span>
+            <span class="mi">11</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># muni bus</span>
+            <span class="mi">12</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># muni Express bus</span>
+            <span class="mi">13</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># muni BRT</span>
+            <span class="mi">14</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># muni cable car -- These are special because they don&#39;t have explicit WNR nodes</span>
+            <span class="mi">15</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># muni LRT       -- and are just implemented by reading the muni.xfer line as muni.access</span>
+            <span class="mi">16</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Shuttles</span>
+            <span class="mi">17</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># SamTrans bus</span>
+            <span class="mi">18</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># AC bus</span>
+            <span class="mi">19</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># other local bus</span>
+            <span class="mi">20</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Regional BRT</span>
+            <span class="mi">21</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Santa Clara LRT</span>
+            <span class="mi">22</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># AC premium bus</span>
+            <span class="mi">23</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># GG premium bus</span>
+            <span class="mi">24</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># SamTrans premium bus</span>
+            <span class="mi">25</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Other premium bus</span>
+            <span class="mi">26</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Caltrain</span>
+            <span class="mi">27</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># SMART</span>
+            <span class="mi">28</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># eBART</span>
+            <span class="mi">29</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Regional Rail/ACE/Amtrak</span>
+            <span class="mi">30</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># HSR</span>
+            <span class="mi">31</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Ferry</span>
+            <span class="mi">32</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># BART</span>
+        <span class="p">},</span>
+        <span class="n">Network</span><span class="o">.</span><span class="n">MODEL_TYPE_TM1</span><span class="p">:</span> <span class="p">{</span>
+            <span class="c1"># https://github.com/BayAreaMetro/modeling-website/wiki/TransitModes</span>
+            <span class="mi">20</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Muni Cable Car</span>
+            <span class="mi">100</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># East Bay Ferry</span>
+            <span class="mi">101</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Golden Gate Ferry</span>
+            <span class="mi">102</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Golden Gate Ferry</span>
+            <span class="mi">103</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Tiburon Ferry</span>
+            <span class="mi">104</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Vallejo Baylink Ferry</span>
+            <span class="mi">105</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># South City Ferry</span>
+            <span class="mi">110</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Muni Metro</span>
+            <span class="mi">111</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Santa Clara VTA LRT</span>
+            <span class="mi">120</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># BART</span>
+            <span class="mi">121</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Oakland Airport Connector</span>
+            <span class="mi">130</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Caltrain</span>
+            <span class="mi">131</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Amtrak Capitol Corridor</span>
+            <span class="mi">132</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Amtrak San Joaquin</span>
+            <span class="mi">133</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># ACE</span>
+            <span class="mi">134</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Dumbarton Rail</span>
+            <span class="mi">135</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># SMART</span>
+            <span class="mi">136</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># EBART</span>
+            <span class="mi">137</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># High speed rail</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="TransitLine.__init__"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Strip leading/trailing dbl-quotes</span>
+
+        <span class="k">if</span> <span class="n">template</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_applyTemplate</span><span class="p">(</span><span class="n">template</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterator for looping through stops</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentStopIdx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for iterator.  Iterator usage::</span>
+
+<span class="sd">            line = transitnet.line(&quot;MUN14LI&quot;)</span>
+<span class="sd">            for stop in line:</span>
+<span class="sd">                print stop # stop is an int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentStopIdx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentStopIdx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">currentStopIdx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+
+    <span class="c1"># python 2 backwards compat</span>
+    <span class="nb">next</span> <span class="o">=</span> <span class="fm">__next__</span>
+
+<div class="viewcode-block" id="TransitLine.setFreqs"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.setFreqs">[docs]</a>    <span class="k">def</span> <span class="nf">setFreqs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">timepers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowDowngrades</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set some or all five headways (AM,MD,PM,EV,EA)</span>
+<span class="sd">        - freqs is a list of numbers (or can be one number if only setting one headway)</span>
+<span class="sd">          also accepts list of strings of numbers e.g. [&quot;8&quot;,&quot;0&quot;,&quot;8&quot;,&quot;0&quot;,&quot;0&quot;]</span>
+<span class="sd">        - If setting fewer than 5 headways, timepers must specify the time period(s)</span>
+<span class="sd">          for which headways are being set. Can be numbers like [1,3] or strings like [&#39;AM&#39;,&#39;PM&#39;].</span>
+<span class="sd">          If setting all headways, True or &#39;All&#39; may be passed.</span>
+<span class="sd">        - allowDowngrades (optional, pass either True or False) specifies whether headways</span>
+<span class="sd">          may be increased (i.e., whether service may be reduced) with the current action.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">all_timepers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AM&quot;</span><span class="p">,</span> <span class="s2">&quot;MD&quot;</span><span class="p">,</span> <span class="s2">&quot;PM&quot;</span><span class="p">,</span> <span class="s2">&quot;EV&quot;</span><span class="p">,</span> <span class="s2">&quot;EA&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">timepers</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;ALL&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NetworkException</span><span class="p">(</span>
+                    <span class="s2">&quot;Must specify all 5 frequencies or specify time periods to set&quot;</span>
+                <span class="p">)</span>
+            <span class="n">num_freqs</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="n">num_timepers</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="n">timepers</span> <span class="o">=</span> <span class="n">all_timepers</span><span class="p">[:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">num_freqs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># only single number, not list, passed</span>
+                <span class="n">num_freqs</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">freqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">freqs</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">num_timepers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">timepers</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># only single time period, not list, passed</span>
+                <span class="n">num_timepers</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">timepers</span> <span class="o">=</span> <span class="p">[</span><span class="n">timepers</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">num_freqs</span> <span class="o">!=</span> <span class="n">num_timepers</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NetworkException</span><span class="p">(</span>
+                    <span class="s2">&quot;Specified &quot;</span>
+                    <span class="o">+</span> <span class="n">num_freqs</span>
+                    <span class="o">+</span> <span class="s2">&quot; frequencies for &quot;</span>
+                    <span class="o">+</span> <span class="n">num_timepers</span>
+                    <span class="o">+</span> <span class="s2">&quot; time periods&quot;</span>
+                <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_timepers</span><span class="p">):</span>
+            <span class="n">timeper</span> <span class="o">=</span> <span class="n">timepers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">timeper_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">timeper</span>
+                <span class="p">)</span>  <span class="c1"># time period may be number (1) or string (&quot;1&quot;)</span>
+                <span class="n">timepers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_timepers</span><span class="p">[</span><span class="n">timeper_int</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">timeper_idx</span> <span class="o">=</span> <span class="n">timeper_int</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>  <span class="c1"># time period may be descriptive (&quot;AM&quot;)</span>
+                <span class="n">timeper</span> <span class="o">=</span> <span class="n">timeper</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">timeper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_timepers</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">NetworkException</span><span class="p">(</span>
+                        <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="n">timeper</span> <span class="o">+</span> <span class="s1">&#39;&quot; is not a valid time period&#39;</span>
+                    <span class="p">)</span>
+                <span class="n">timeper_idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">all_timepers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">timeper</span><span class="p">)</span>
+            <span class="n">attr_set</span> <span class="o">=</span> <span class="s2">&quot;FREQ[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">timeper_idx</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+            <span class="k">if</span> <span class="n">allowDowngrades</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="n">attr_set</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">freqs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="n">attr_set</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">freqs</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="n">attr_set</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="TransitLine.getFreqs"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.getFreqs">[docs]</a>    <span class="k">def</span> <span class="nf">getFreqs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the frequencies for this line as a list of 5 strings</span>
+<span class="sd">        (representing AM,MD,PM,EV,EA for CHAMP, or EA,AM,MD,PM,EV for TM1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;HEADWAY[1]&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;HEADWAY[1]&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;HEADWAY[2]&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;HEADWAY[3]&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;HEADWAY[4]&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;HEADWAY[5]&quot;</span><span class="p">],</span>
+            <span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;FREQ[1]&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;FREQ[2]&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;FREQ[3]&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;FREQ[4]&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;FREQ[5]&quot;</span><span class="p">],</span>
+        <span class="p">]</span></div>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    def getFreq(self, timeperiod, modeltype):</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Returns a float version of the frequency for the given *timeperiod*, which should be one</span>
+<span class="sd">        of ``AM``, ``MD``, ``PM``, ``EV`` or ``EA``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        if modeltype==Network.MODEL_TYPE_CHAMP:</span>
+<span class="sd">            if timeperiod==&quot;AM&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[1]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;MD&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[2]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;PM&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[3]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;EV&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[4]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;EA&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[5]&quot;])</span>
+
+<span class="sd">        if modeltype==Network.MODEL_TYPE_TM1:</span>
+<span class="sd">            if timeperiod==&quot;EA&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[1]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;AM&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[2]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;MD&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[3]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;PM&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[4]&quot;])</span>
+<span class="sd">            elif timeperiod==&quot;EV&quot;:</span>
+<span class="sd">                return float(self.attr[&quot;FREQ[5]&quot;])</span>
+
+<span class="sd">        raise NetworkException(&quot;getFreq() received invalid timeperiod {} or modeltype {}&quot;.format(timeperiod, modeltype))</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="TransitLine.getFreq"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.getFreq">[docs]</a>    <span class="k">def</span> <span class="nf">getFreq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a float version of the frequency for the given *timeperiod*, which should be one</span>
+<span class="sd">        of ``AM``, ``MD``, ``PM``, ``EV`` or ``EA``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">timeperiod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">timeperiod</span> <span class="o">==</span> <span class="s2">&quot;pk&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;HEADWAY[1]&quot;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">timeperiod</span> <span class="o">==</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;HEADWAY[2]&quot;</span><span class="p">])</span>
+
+        <span class="k">raise</span> <span class="n">NetworkException</span><span class="p">(</span>
+            <span class="s2">&quot;getFreq() received invalid timeperiod </span><span class="si">{}</span><span class="s2"> or modeltype </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">timeperiod</span><span class="p">,</span> <span class="n">modeltype</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransitLine.hasService"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.hasService">[docs]</a>    <span class="k">def</span> <span class="nf">hasService</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns true if any frequency is nonzero.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFreq</span><span class="p">(</span><span class="s2">&quot;AM&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFreq</span><span class="p">(</span><span class="s2">&quot;MD&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFreq</span><span class="p">(</span><span class="s2">&quot;PM&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFreq</span><span class="p">(</span><span class="s2">&quot;EV&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFreq</span><span class="p">(</span><span class="s2">&quot;EA&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TransitLine.setOwner"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.setOwner">[docs]</a>    <span class="k">def</span> <span class="nf">setOwner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newOwner</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the owner for the transit line</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;OWNER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">newOwner</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransitLine.getModeType"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.getModeType">[docs]</a>    <span class="k">def</span> <span class="nf">getModeType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modeltype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns on of the keys in MODETYPE_TO_MODES</span>
+<span class="sd">        (e.g. one of &quot;Local&quot;, &quot;BRT&quot;, &quot;LRT&quot;, &quot;Premium&quot;, &quot;Ferry&quot; or &quot;BART&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">modenum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;MODE&quot;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">modetype</span><span class="p">,</span> <span class="n">modelist</span> <span class="ow">in</span> <span class="n">TransitLine</span><span class="o">.</span><span class="n">MODETYPE_TO_MODES</span><span class="p">[</span><span class="n">modeltype</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">modenum</span> <span class="ow">in</span> <span class="n">modelist</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">modetype</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="TransitLine.isOneWay"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.isOneWay">[docs]</a>    <span class="k">def</span> <span class="nf">isOneWay</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a bool indicating if the line is oneway</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;ONEWAY&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">:</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;line [</span><span class="si">{}</span><span class="s2">] lacks ONEWAY attribute; assuming true&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">oneway</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ONEWAY&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">oneway</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># default is true</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="TransitLine.setOneWay"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.setOneWay">[docs]</a>    <span class="k">def</span> <span class="nf">setOneWay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oneway</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the oneway flag based on the given arg.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">oneway</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ONEWAY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;T&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ONEWAY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span></div>
+
+<div class="viewcode-block" id="TransitLine.hasOffstreetNodes"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.hasOffstreetNodes">[docs]</a>    <span class="k">def</span> <span class="nf">hasOffstreetNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modeltype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the line has offstreet nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">modenum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;MODE&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">modenum</span> <span class="ow">in</span> <span class="n">TransitLine</span><span class="o">.</span><span class="n">MODENUM_TO_OFFSTREET</span><span class="p">[</span><span class="n">modeltype</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">TransitLine</span><span class="o">.</span><span class="n">MODENUM_TO_OFFSTREET</span><span class="p">[</span><span class="n">modeltype</span><span class="p">][</span><span class="n">modenum</span><span class="p">]</span>
+
+        <span class="c1"># default to false</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TransitLine.vehiclesPerPeriod"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.vehiclesPerPeriod">[docs]</a>    <span class="k">def</span> <span class="nf">vehiclesPerPeriod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeperiod</span><span class="p">,</span> <span class="n">modeltype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of vehicles (as a float) that will run for the given time period.</span>
+<span class="sd">        E.g. for 10 minute frequencies in the AM, 3*6 = 18</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFreq</span><span class="p">(</span><span class="n">timeperiod</span><span class="p">,</span> <span class="n">modeltype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+
+        <span class="c1"># minutes per time period divided by frequency</span>
+        <span class="k">return</span> <span class="mf">60.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">HOURS_PER_TIMEPERIOD</span><span class="p">[</span><span class="n">modeltype</span><span class="p">][</span><span class="n">timeperiod</span><span class="p">]</span> <span class="o">/</span> <span class="n">freq</span></div>
+
+<div class="viewcode-block" id="TransitLine.hasNode"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.hasNode">[docs]</a>    <span class="k">def</span> <span class="nf">hasNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeNumber</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the given *nodeNumber* is a node in this line (stop or no).</span>
+<span class="sd">        *nodeNumber* should be an integer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num</span><span class="p">))</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeNumber</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TransitLine.hasLink"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.hasLink">[docs]</a>    <span class="k">def</span> <span class="nf">hasLink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeA</span><span class="p">,</span> <span class="n">nodeB</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True iff *(nodeA,nodeB)* is a link in this line.</span>
+<span class="sd">        *nodeA* and *nodeB* should be integers and this method is stop-insensitive.</span>
+<span class="sd">        However, it does not check for *(nodeB,nodeA)* even when the line is two-way.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodeNumPrev</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="n">nodeNum</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">nodeNum</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeB</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nodeNumPrev</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeA</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="n">nodeNumPrev</span> <span class="o">=</span> <span class="n">nodeNum</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TransitLine.hasSegment"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.hasSegment">[docs]</a>    <span class="k">def</span> <span class="nf">hasSegment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeA</span><span class="p">,</span> <span class="n">nodeB</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True iff *nodeA* and *nodeB* appear in this line, and *nodeA* appears before *nodeB*.</span>
+<span class="sd">        This method is stop-insensitive.  Also it does not do any special checking for two-way</span>
+<span class="sd">        lines.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hasA</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="n">nodeNum</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">nodeNum</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeA</span><span class="p">):</span>
+                <span class="n">hasA</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">nodeNum</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeB</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">hasA</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TransitLine.hasSequence"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.hasSequence">[docs]</a>    <span class="k">def</span> <span class="nf">hasSequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_of_node_ids</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True iff the nodes indicated by list_of_node_ids appear in this line, in the exact specified order.</span>
+<span class="sd">        This method is stop-insenstive.</span>
+<span class="sd">        list_of_node_ids should be a list of positive integers, ordered by transit line path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">node_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">listNodeIds</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_ids</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">node_ids</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_node_ids</span><span class="p">)]</span> <span class="o">==</span> <span class="n">list_of_node_ids</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TransitLine.listNodeIds"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.listNodeIds">[docs]</a>    <span class="k">def</span> <span class="nf">listNodeIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignoreStops</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of integers representing the node ids that appear along this line.</span>
+<span class="sd">        This method is stop-sensitive if called with ignoreStops=False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">node_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="n">nodeNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ignoreStops</span><span class="p">:</span>
+                <span class="n">nodeNum</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeNum</span><span class="p">)</span>
+            <span class="n">node_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodeNum</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">node_ids</span></div>
+
+<div class="viewcode-block" id="TransitLine.numStops"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.numStops">[docs]</a>    <span class="k">def</span> <span class="nf">numStops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Counts and returns the number of stops in the line.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numStops</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">isStop</span><span class="p">():</span>
+                <span class="n">numStops</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">numStops</span></div>
+
+<div class="viewcode-block" id="TransitLine.setNodes"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.setNodes">[docs]</a>    <span class="k">def</span> <span class="nf">setNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newnodelist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a list of ints representing node numbers,</span>
+<span class="sd">        converts these to Node types uses this new list, throwing away the previous node list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">newnodelist</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newnodelist</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">newnodelist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">newnodelist</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">newnodelist</span></div>
+
+<div class="viewcode-block" id="TransitLine.insertNode"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.insertNode">[docs]</a>    <span class="k">def</span> <span class="nf">insertNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refNodeNum</span><span class="p">,</span> <span class="n">newNodeNum</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">after</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inserts the given *newNodeNum* into this line, as a stop if *stop* is True.</span>
+<span class="sd">        The new node is inserted after *refNodeNum* if *after* is True, otherwise it is inserted</span>
+<span class="sd">        before *refNodeNum*.</span>
+
+<span class="sd">        *refNodeNum* and *newNodeNum* are ints.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">newNode</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">newNodeNum</span><span class="p">)</span>
+        <span class="n">newNode</span><span class="o">.</span><span class="n">setStop</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span>
+
+        <span class="n">nodeIdx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># out of nodes -- done</span>
+            <span class="k">if</span> <span class="n">nodeIdx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">return</span>
+
+            <span class="n">currentNodeNum</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">nodeIdx</span><span class="p">]</span><span class="o">.</span><span class="n">num</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">currentNodeNum</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">refNodeNum</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">after</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nodeIdx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">newNode</span><span class="p">)</span>
+                    <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="s2">&quot;In line </span><span class="si">%s</span><span class="s2">: inserted node </span><span class="si">%s</span><span class="s2"> after node </span><span class="si">%s</span><span class="s2">&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newNode</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">refNodeNum</span><span class="p">))</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nodeIdx</span><span class="p">,</span> <span class="n">newNode</span><span class="p">)</span>
+                    <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="s2">&quot;In line </span><span class="si">%s</span><span class="s2">: inserted node </span><span class="si">%s</span><span class="s2"> before node </span><span class="si">%s</span><span class="s2">&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newNode</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">refNodeNum</span><span class="p">))</span>
+                    <span class="p">)</span>
+                <span class="n">nodeIdx</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># skip ahead one since we just added</span>
+
+            <span class="n">nodeIdx</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="TransitLine.splitLink"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.splitLink">[docs]</a>    <span class="k">def</span> <span class="nf">splitLink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeA</span><span class="p">,</span> <span class="n">nodeB</span><span class="p">,</span> <span class="n">newNodeNum</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verboseLog</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks to see if the link exists in the line (throws an exception if not)</span>
+<span class="sd">        and then inserts the *newNodeNum* in between *nodeA* and *nodeB* (as a stop, if *stop* is True)</span>
+
+<span class="sd">        *nodeA*, *nodeB* and *newNodeNum* are all ints.</span>
+
+<span class="sd">        This is stop-insensitive to *nodeA* and *nodeB*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasLink</span><span class="p">(</span><span class="n">nodeA</span><span class="p">,</span> <span class="n">nodeB</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">NetworkException</span><span class="p">(</span>
+                <span class="s2">&quot;Line </span><span class="si">%s</span><span class="s2"> Doesn&#39;t have that link - so can&#39;t split it&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">newNode</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">newNodeNum</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stop</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">newNode</span><span class="o">.</span><span class="n">setStop</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">nodeNumPrev</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">nodeIdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)):</span>
+            <span class="n">currentNodeNum</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">nodeIdx</span><span class="p">]</span><span class="o">.</span><span class="n">num</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">currentNodeNum</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeB</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nodeNumPrev</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodeA</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nodeIdx</span><span class="p">,</span> <span class="n">newNode</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verboseLog</span><span class="p">:</span>
+                    <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="s2">&quot;In line </span><span class="si">%s</span><span class="s2">: inserted node </span><span class="si">%s</span><span class="s2"> between node </span><span class="si">%s</span><span class="s2"> and node </span><span class="si">%s</span><span class="s2">&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newNode</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">nodeA</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">nodeB</span><span class="p">))</span>
+                    <span class="p">)</span>
+            <span class="n">nodeNumPrev</span> <span class="o">=</span> <span class="n">currentNodeNum</span></div>
+
+<div class="viewcode-block" id="TransitLine.extendLine"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.extendLine">[docs]</a>    <span class="k">def</span> <span class="nf">extendLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldnode</span><span class="p">,</span> <span class="n">newsection</span><span class="p">,</span> <span class="n">beginning</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace nodes up through **and including** *oldnode* with *newsection*.</span>
+<span class="sd">        *newsection* can be a list of numbers; they will be converted to Nodes.</span>
+
+<span class="sd">        **This is stop-sensitive!**  If *oldnode* has the wrong sign, it will throw an exception.</span>
+
+<span class="sd">        If beginning, does this at the beginning; otherwise at the end.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">oldnode</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="o">-</span><span class="n">oldnode</span><span class="p">)</span>
+
+        <span class="c1"># make the new nodes</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">newsection</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newsection</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">newsection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">newsection</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">beginning</span><span class="p">:</span>
+            <span class="c1"># print self.n[:ind+1]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[:</span> <span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">newsection</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">ind</span><span class="p">:]</span> <span class="o">=</span> <span class="n">newsection</span></div>
+
+<div class="viewcode-block" id="TransitLine.replaceSegment"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.replaceSegment">[docs]</a>    <span class="k">def</span> <span class="nf">replaceSegment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">newsection</span><span class="p">,</span> <span class="n">preserveStopStatus</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Replaces the section from node1 to node2 with the newsection</span>
+<span class="sd">            Newsection can be an array of numbers; this will make nodes.</span>
+<span class="sd">            preserveStopStatus means if node1 is a stop, make the replacement first node a stop, ditto for node2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Make a list of ints since newsection might be nodes</span>
+        <span class="n">new_section_ints</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">newsection</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_section_ints</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_section_ints</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Node</span><span class="p">):</span>
+                <span class="n">new_section_ints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_section_ints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">num</span>
+
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;replacing segment &quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot; with &quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_section_ints</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot; for &quot;</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ind1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+            <span class="n">stop1</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">ind1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="o">-</span><span class="n">node1</span><span class="p">)</span>
+            <span class="n">stop1</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ind2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">node2</span><span class="p">)</span>
+            <span class="n">stop2</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">ind2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="o">-</span><span class="n">node2</span><span class="p">)</span>
+            <span class="n">stop2</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">attr1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">ind1</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span>
+        <span class="n">attr2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">ind2</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span>
+
+        <span class="c1"># make the new nodes</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">newsection</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newsection</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">newsection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">newsection</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="c1"># xfer the attributes</span>
+        <span class="n">newsection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span> <span class="o">=</span> <span class="n">attr1</span>
+        <span class="n">newsection</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span> <span class="o">=</span> <span class="n">attr2</span>
+
+        <span class="k">if</span> <span class="n">preserveStopStatus</span><span class="p">:</span>
+            <span class="n">newsection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">setStop</span><span class="p">(</span><span class="n">stop1</span><span class="p">)</span>
+            <span class="n">newsection</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setStop</span><span class="p">(</span><span class="n">stop2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">ind1</span> <span class="p">:</span> <span class="n">ind2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">newsection</span></div>
+
+<div class="viewcode-block" id="TransitLine.replaceSequence"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.replaceSequence">[docs]</a>    <span class="k">def</span> <span class="nf">replaceSequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_ids_to_replace</span><span class="p">,</span> <span class="n">replacement_node_ids</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replaces the sequence of nodes indicated by the positive integer list node_ids_to_replace</span>
+<span class="sd">        with the new sequence of nodes indicated by the positive integer list replacement_node_ids</span>
+<span class="sd">        This method removes stops from the replaced sequence; stops will have to be re-added.</span>
+<span class="sd">        Returns true iff the sequence is successfully replaced.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasSequence</span><span class="p">(</span><span class="n">node_ids_to_replace</span><span class="p">):</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;replacing sequence &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_ids_to_replace</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot; with &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">replacement_node_ids</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot; for &quot;</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">node_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">listNodeIds</span><span class="p">()</span>
+        <span class="n">replaceNodesStartingAt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_ids</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">node_ids</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_ids_to_replace</span><span class="p">)]</span> <span class="o">==</span> <span class="n">node_ids_to_replace</span><span class="p">:</span>
+                <span class="n">replaceNodesStartingAt</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">replaceNodesStartingAt</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;an unexpected error occurred in replaceSequence for &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">attr1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">replaceNodesStartingAt</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span>
+        <span class="n">attr2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">replaceNodesStartingAt</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_ids_to_replace</span><span class="p">)]</span><span class="o">.</span><span class="n">attr</span>
+
+        <span class="c1"># make the new nodes</span>
+        <span class="n">replacement_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">replacement_node_ids</span>
+        <span class="p">)</span>  <span class="c1"># copy this, we&#39;ll make them nodes</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">replacement_nodes</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">replacement_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">replacement_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">replacement_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="c1"># they aren&#39;t stops</span>
+            <span class="n">replacement_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setStop</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># xfer the attributes</span>
+        <span class="n">replacement_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span> <span class="o">=</span> <span class="n">attr1</span>
+        <span class="n">replacement_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span> <span class="o">=</span> <span class="n">attr2</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span>
+            <span class="n">replaceNodesStartingAt</span> <span class="p">:</span> <span class="n">replaceNodesStartingAt</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_ids_to_replace</span><span class="p">)</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">replacement_nodes</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="TransitLine.setStop"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.setStop">[docs]</a>    <span class="k">def</span> <span class="nf">setStop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodenum</span><span class="p">,</span> <span class="n">isStop</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Throws an exception if the nodenum isn&#39;t found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num</span><span class="p">))</span> <span class="o">==</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nodenum</span><span class="p">):</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">setStop</span><span class="p">(</span><span class="n">isStop</span><span class="p">)</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NetworkException</span><span class="p">(</span>
+                <span class="s2">&quot;TransitLine </span><span class="si">%s</span><span class="s2"> setStop called but stop </span><span class="si">%d</span><span class="s2"> not found&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">nodenum</span><span class="p">)</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransitLine.addStopsToSet"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.addStopsToSet">[docs]</a>    <span class="k">def</span> <span class="nf">addStopsToSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">nodeIdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">nodeIdx</span><span class="p">]</span><span class="o">.</span><span class="n">isStop</span><span class="p">():</span>
+                <span class="nb">set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">nodeIdx</span><span class="p">]</span><span class="o">.</span><span class="n">num</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TransitLine.reverse"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reverses the current line -- adds a &quot;-&quot; to the name, and reverses the node order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if name is 12 chars, have to drop one -- cube has a MAX of 12</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[:</span><span class="mi">11</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;R&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_applyTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Copy all attributes (including nodes) from an existing transit line to this line&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attr</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">attr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">comment</span>
+
+<div class="viewcode-block" id="TransitLine.hasDuplicateStops"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.hasDuplicateStops">[docs]</a>    <span class="k">def</span> <span class="nf">hasDuplicateStops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if a stop occurs more than once and return True if so.</span>
+<span class="sd">        First == last is ok</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_stop_to_idx</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">_stop_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">isStop</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="n">node_num</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">getNum</span><span class="p">()</span>
+
+            <span class="c1">#  { stop num -&gt; [list of stop indices]}, index starts at 0</span>
+            <span class="k">if</span> <span class="n">node_num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_stop_to_idx</span><span class="p">:</span>
+                <span class="n">_stop_to_idx</span><span class="p">[</span><span class="n">node_num</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">_stop_to_idx</span><span class="p">[</span><span class="n">node_num</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_stop_list</span><span class="p">))</span>
+
+            <span class="c1"># list of stops</span>
+            <span class="n">_stop_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_num</span><span class="p">)</span>
+
+        <span class="c1"># check for dupes</span>
+        <span class="k">for</span> <span class="n">node_num</span> <span class="ow">in</span> <span class="n">_stop_to_idx</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_stop_to_idx</span><span class="p">[</span><span class="n">node_num</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># First == last is ok</span>
+            <span class="k">if</span> <span class="n">_stop_to_idx</span><span class="p">[</span><span class="n">node_num</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">_stop_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="k">continue</span>
+
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Duplicate stops for line </span><span class="si">{}</span><span class="s2">: stop </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">node_num</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TransitLine.removeDummyJag"><a class="viewcode-back" href="../../_generated/lasso.TransitLine.html#lasso.TransitLine.removeDummyJag">[docs]</a>    <span class="k">def</span> <span class="nf">removeDummyJag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_remove_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterates through nodes and for patterns that look like x,y,x where y is in to_remove_dict keys,</span>
+<span class="sd">        replaces with just x.  Converts y to int (without abs) so requires to_remove_dict keys to have matching sign</span>
+<span class="sd">        Used by TransitNetwork.moveBusesToExpressLanes().</span>
+<span class="sd">        Returns True if any nodes were removed, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">removed_nodes</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># iterate backwards so we can freely delete from the list</span>
+        <span class="k">for</span> <span class="n">node_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+            <span class="n">nodeNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">node_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+            <span class="n">prev_nodeNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">node_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+            <span class="n">prev_prev_nodeNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">node_idx</span><span class="p">]</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nodeNum</span> <span class="o">==</span> <span class="n">prev_prev_nodeNum</span> <span class="ow">and</span> <span class="n">prev_nodeNum</span> <span class="ow">in</span> <span class="n">to_remove_dict</span><span class="p">:</span>
+                <span class="c1"># WranglerLogger.debug(&quot;removeDummyJag: {} ({},{},{}) =&gt; {}&quot;.format(self.name, nodeNum, prev_nodeNum, prev_prev_nodeNum, nodeNum))</span>
+                <span class="k">del</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">node_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]]</span>
+                <span class="k">del</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">node_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+                <span class="n">removed_nodes</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">removed_nodes</span></div>
+
+    <span class="c1"># Dictionary methods</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">__cmp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">cmp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="c1"># String representation: for outputting to line-file</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">LINE NAME=&quot;</span><span class="si">%s</span><span class="s1">&quot;,</span><span class="se">\n</span><span class="s1">    &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span>
+
+        <span class="c1"># Line attributes</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">    &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">items</span><span class="p">())])</span>
+
+        <span class="c1"># Node list</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">prevAttr</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">nodeIdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)):</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">nodeIdx</span><span class="p">]</span><span class="o">.</span><span class="n">lineFileRepr</span><span class="p">(</span>
+                <span class="n">prependNEquals</span><span class="o">=</span><span class="n">prevAttr</span><span class="p">,</span> <span class="n">lastNode</span><span class="o">=</span><span class="p">(</span><span class="n">nodeIdx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">prevAttr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[</span><span class="n">nodeIdx</span><span class="p">]</span><span class="o">.</span><span class="n">attr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Line name &quot;</span><span class="si">%s</span><span class="s1">&quot; freqs=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getFreqs</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019 Metropolitan Council
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lasso.Parameters &mdash; lasso  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="lasso.TransitLine" href="lasso.TransitLine.html" />
+    <link rel="prev" title="lasso.Project" href="lasso.Project.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> lasso
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../starting.html">Starting Out</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running Lasso</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodoc.html">Lasso Classes and Functions</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../autodoc.html#base-classes">Base Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lasso.CubeTransit.html">lasso.CubeTransit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.ModelRoadwayNetwork.html">lasso.ModelRoadwayNetwork</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.Project.html">lasso.Project</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">lasso.Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.TransitLine.html">lasso.TransitLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.TransitParser.html">lasso.TransitParser</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../autodoc.html#utils-and-functions">Utils and Functions</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">lasso</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../autodoc.html">Lasso Classes and Functions</a> &raquo;</li>
+        
+      <li>lasso.Parameters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_generated/lasso.Parameters.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lasso-parameters">
+<h1>lasso.Parameters<a class="headerlink" href="#lasso-parameters" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lasso.Parameters">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">Parameters</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Parameters.html#Parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p># TODO: this whole flow needs work.</p>
+<dl class="method">
+<dt id="lasso.Parameters.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Parameters.html#Parameters.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Parameters.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>(**kwargs)</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DATA_FILE_LOCATION</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_AREA_TYPE_CODE_DICT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_AREA_TYPE_SHAPE</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_AREA_TYPE_VARIABLE_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_CATEGORIES</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COUNTY_SHAPE</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COUNTY_VARIABLE_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_HIGHEST_TAZ_NUMBER</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MNDOT_COUNT_SHAPE</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MNDOT_COUNT_SHST_DATA</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MNDOT_COUNT_VARIABLE_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MPO_COUNTIES</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MRCC_ASSGNGRP_DICT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MRCC_ROADWAY_CLASS_SHAPE</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MRCC_ROADWAY_CLASS_VARIABLE_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MRCC_SHST_DATA</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_NET_TO_DBF_CROSSWALK</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OSM_ASSGNGRP_DICT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_EPSG</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_LINK_CSV</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_LINK_HEADER_WIDTH_CSV</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_LINK_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_LINK_TXT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_NODE_CSV</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_NODE_HEADER_WIDTH_CSV</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_NODE_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_NODE_TXT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_OUTPUT_VARIABLES</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_PROPERTIES_TO_SPLIT</span></code></p></td>
+<td><p>Details for calculating the county based on the centroid of the link.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_ROADWAY_CLASS_DICT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_TAZ_DATA</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_TAZ_SHAPE</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_TIME_PERIOD_TO_TIME</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_WIDOT_ASSGNGRP_DICT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_WIDOT_COUNT_SHAPE</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_WIDOT_COUNT_SHST_DATA</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_WIDOT_COUNT_VARIABLE_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_WIDOT_ROADWAY_CLASS_SHAPE</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_WIDOT_ROADWAY_CLASS_VARIABLE_SHP</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_WIDOT_SHST_DATA</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SCRATCH_LOCATION</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SETTINGS_LOCATION</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="lasso.Parameters.DATA_FILE_LOCATION">
+<code class="sig-name descname">DATA_FILE_LOCATION</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data'</em><a class="headerlink" href="#lasso.Parameters.DATA_FILE_LOCATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_AREA_TYPE_CODE_DICT">
+<code class="sig-name descname">DEFAULT_AREA_TYPE_CODE_DICT</code><em class="property"> = {23: 4, 24: 3, 25: 2, 35: 2, 36: 1, 41: 1, 51: 1, 52: 1, 53: 1, 60: 1}</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_AREA_TYPE_CODE_DICT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_AREA_TYPE_SHAPE">
+<code class="sig-name descname">DEFAULT_AREA_TYPE_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/area_type/ThriveMSP2040CommunityDesignation.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_AREA_TYPE_SHAPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_AREA_TYPE_VARIABLE_SHP">
+<code class="sig-name descname">DEFAULT_AREA_TYPE_VARIABLE_SHP</code><em class="property"> = 'COMDES2040'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_AREA_TYPE_VARIABLE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_CATEGORIES">
+<code class="sig-name descname">DEFAULT_CATEGORIES</code><em class="property"> = {'hov2': ['hov2', 'default', 'sov'], 'hov3': ['hov3', 'hov2', 'default', 'sov'], 'sov': ['sov', 'default'], 'truck': ['trk', 'sov', 'default']}</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_CATEGORIES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_COUNTY_SHAPE">
+<code class="sig-name descname">DEFAULT_COUNTY_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/county/cb_2017_us_county_5m.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_COUNTY_SHAPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_COUNTY_VARIABLE_SHP">
+<code class="sig-name descname">DEFAULT_COUNTY_VARIABLE_SHP</code><em class="property"> = 'NAME'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_COUNTY_VARIABLE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_HIGHEST_TAZ_NUMBER">
+<code class="sig-name descname">DEFAULT_HIGHEST_TAZ_NUMBER</code><em class="property"> = 3100</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_HIGHEST_TAZ_NUMBER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MNDOT_COUNT_SHAPE">
+<code class="sig-name descname">DEFAULT_MNDOT_COUNT_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/count_mn/AADT_2017_Count_Locations.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MNDOT_COUNT_SHAPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MNDOT_COUNT_SHST_DATA">
+<code class="sig-name descname">DEFAULT_MNDOT_COUNT_SHST_DATA</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/count_mn/mn_count_ShSt_API_match.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MNDOT_COUNT_SHST_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MNDOT_COUNT_VARIABLE_SHP">
+<code class="sig-name descname">DEFAULT_MNDOT_COUNT_VARIABLE_SHP</code><em class="property"> = 'AADT_mn'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MNDOT_COUNT_VARIABLE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MPO_COUNTIES">
+<code class="sig-name descname">DEFAULT_MPO_COUNTIES</code><em class="property"> = ['ANOKA', 'DAKOTA', 'HENNEPIN', 'RAMSEY', 'SCOTT', 'WASHINGTON', 'CARVER']</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MPO_COUNTIES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MRCC_ASSGNGRP_DICT">
+<code class="sig-name descname">DEFAULT_MRCC_ASSGNGRP_DICT</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/lookups/mrcc_route_sys_asgngrp_crosswalk.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MRCC_ASSGNGRP_DICT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MRCC_ROADWAY_CLASS_SHAPE">
+<code class="sig-name descname">DEFAULT_MRCC_ROADWAY_CLASS_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/mrcc/trans_mrcc_centerlines.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MRCC_ROADWAY_CLASS_SHAPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MRCC_ROADWAY_CLASS_VARIABLE_SHP">
+<code class="sig-name descname">DEFAULT_MRCC_ROADWAY_CLASS_VARIABLE_SHP</code><em class="property"> = 'ROUTE_SYS'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MRCC_ROADWAY_CLASS_VARIABLE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_MRCC_SHST_DATA">
+<code class="sig-name descname">DEFAULT_MRCC_SHST_DATA</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/mrcc/mrcc.out.matched.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_MRCC_SHST_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_NET_TO_DBF_CROSSWALK">
+<code class="sig-name descname">DEFAULT_NET_TO_DBF_CROSSWALK</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/examples/settings/net_to_dbf.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_NET_TO_DBF_CROSSWALK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OSM_ASSGNGRP_DICT">
+<code class="sig-name descname">DEFAULT_OSM_ASSGNGRP_DICT</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/lookups/osm_highway_asgngrp_crosswalk.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OSM_ASSGNGRP_DICT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT">
+<code class="sig-name descname">DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/make_complete_network_from_fixed_width_file.s'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_EPSG">
+<code class="sig-name descname">DEFAULT_OUTPUT_EPSG</code><em class="property"> = 26915</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_EPSG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_LINK_CSV">
+<code class="sig-name descname">DEFAULT_OUTPUT_LINK_CSV</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/links.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_LINK_CSV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_LINK_HEADER_WIDTH_CSV">
+<code class="sig-name descname">DEFAULT_OUTPUT_LINK_HEADER_WIDTH_CSV</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/links_header_width.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_LINK_HEADER_WIDTH_CSV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_LINK_SHP">
+<code class="sig-name descname">DEFAULT_OUTPUT_LINK_SHP</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/links.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_LINK_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_LINK_TXT">
+<code class="sig-name descname">DEFAULT_OUTPUT_LINK_TXT</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/links.txt'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_LINK_TXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_NODE_CSV">
+<code class="sig-name descname">DEFAULT_OUTPUT_NODE_CSV</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/nodes.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_NODE_CSV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_NODE_HEADER_WIDTH_CSV">
+<code class="sig-name descname">DEFAULT_OUTPUT_NODE_HEADER_WIDTH_CSV</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/nodes_header_width.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_NODE_HEADER_WIDTH_CSV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_NODE_SHP">
+<code class="sig-name descname">DEFAULT_OUTPUT_NODE_SHP</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/nodes.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_NODE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_NODE_TXT">
+<code class="sig-name descname">DEFAULT_OUTPUT_NODE_TXT</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch/nodes.txt'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_NODE_TXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_OUTPUT_VARIABLES">
+<code class="sig-name descname">DEFAULT_OUTPUT_VARIABLES</code><em class="property"> = ['model_link_id', 'A', 'B', 'shstGeometryId', 'distance', 'roadway', 'name', 'roadway_class', 'bike_access', 'transit_access', 'walk_access', 'drive_access', 'truck_access', 'trn_priority_AM', 'trn_priority_MD', 'trn_priority_PM', 'trn_priority_NT', 'ttime_assert_AM', 'ttime_assert_MD', 'ttime_assert_PM', 'ttime_assert_NT', 'lanes_AM', 'lanes_MD', 'lanes_PM', 'lanes_NT', 'price_sov_AM', 'price_hov2_AM', 'price_hov3_AM', 'price_truck_AM', 'price_sov_MD', 'price_hov2_MD', 'price_hov3_MD', 'price_truck_MD', 'price_sov_PM', 'price_hov2_PM', 'price_hov3_PM', 'price_truck_PM', 'price_sov_NT', 'price_hov2_NT', 'price_hov3_NT', 'price_truck_NT', 'roadway_class_idx', 'assign_group', 'access_AM', 'access_MD', 'access_PM', 'access_NT', 'mpo', 'area_type', 'county', 'centroidconnect', 'AADT', 'count_year', 'count_AM', 'count_MD', 'count_PM', 'count_NT', 'count_daily', 'model_node_id', 'osm_node_id', 'bike_node', 'transit_node', 'walk_node', 'drive_node', 'geometry', 'X', 'Y']</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_OUTPUT_VARIABLES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_PROPERTIES_TO_SPLIT">
+<code class="sig-name descname">DEFAULT_PROPERTIES_TO_SPLIT</code><em class="property"> = {'access': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'access'}, 'lanes': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'lanes'}, 'price': {'categories': {'hov2': ['hov2', 'default', 'sov'], 'hov3': ['hov3', 'hov2', 'default', 'sov'], 'sov': ['sov', 'default'], 'truck': ['trk', 'sov', 'default']}, 'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'price'}, 'trn_priority': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'trn_priority'}, 'ttime_assert': {'time_periods': {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}, 'v': 'ttime_assert'}}</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_PROPERTIES_TO_SPLIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Details for calculating the county based on the centroid of the link.
+The COUNTY_VARIABLE should be the name of a field in shapefile.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_ROADWAY_CLASS_DICT">
+<code class="sig-name descname">DEFAULT_ROADWAY_CLASS_DICT</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/lookups/asgngrp_rc_num_crosswalk.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_ROADWAY_CLASS_DICT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_TAZ_DATA">
+<code class="sig-name descname">DEFAULT_TAZ_DATA</code><em class="property"> = None</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_TAZ_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_TAZ_SHAPE">
+<code class="sig-name descname">DEFAULT_TAZ_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/TAZ/TAZOfficialWCurrentForecasts.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_TAZ_SHAPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_TIME_PERIOD_TO_TIME">
+<code class="sig-name descname">DEFAULT_TIME_PERIOD_TO_TIME</code><em class="property"> = {'AM': ('6:00', '9:00'), 'MD': ('9:00', '16:00'), 'NT': ('19:00', '6:00'), 'PM': ('16:00', '19:00')}</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_TIME_PERIOD_TO_TIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_WIDOT_ASSGNGRP_DICT">
+<code class="sig-name descname">DEFAULT_WIDOT_ASSGNGRP_DICT</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/lookups/widot_ctgy_asgngrp_crosswalk.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_WIDOT_ASSGNGRP_DICT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_WIDOT_COUNT_SHAPE">
+<code class="sig-name descname">DEFAULT_WIDOT_COUNT_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/Wisconsin_Lanes_Counts_Median/TRADAS_(counts).shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_WIDOT_COUNT_SHAPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_WIDOT_COUNT_SHST_DATA">
+<code class="sig-name descname">DEFAULT_WIDOT_COUNT_SHST_DATA</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/Wisconsin_Lanes_Counts_Median/wi_count_ShSt_API_match.csv'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_WIDOT_COUNT_SHST_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_WIDOT_COUNT_VARIABLE_SHP">
+<code class="sig-name descname">DEFAULT_WIDOT_COUNT_VARIABLE_SHP</code><em class="property"> = 'AADT_wi'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_WIDOT_COUNT_VARIABLE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_WIDOT_ROADWAY_CLASS_SHAPE">
+<code class="sig-name descname">DEFAULT_WIDOT_ROADWAY_CLASS_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/Wisconsin_Lanes_Counts_Median/WISLR.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_WIDOT_ROADWAY_CLASS_SHAPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_WIDOT_ROADWAY_CLASS_VARIABLE_SHP">
+<code class="sig-name descname">DEFAULT_WIDOT_ROADWAY_CLASS_VARIABLE_SHP</code><em class="property"> = 'RDWY_CTGY_'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_WIDOT_ROADWAY_CLASS_VARIABLE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_WIDOT_SHST_DATA">
+<code class="sig-name descname">DEFAULT_WIDOT_SHST_DATA</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/Wisconsin_Lanes_Counts_Median/widot.out.matched.geojson'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_WIDOT_SHST_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.SCRATCH_LOCATION">
+<code class="sig-name descname">SCRATCH_LOCATION</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/tests/scratch'</em><a class="headerlink" href="#lasso.Parameters.SCRATCH_LOCATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.SETTINGS_LOCATION">
+<code class="sig-name descname">SETTINGS_LOCATION</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/examples/settings'</em><a class="headerlink" href="#lasso.Parameters.SETTINGS_LOCATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lasso.TransitLine.html" class="btn btn-neutral float-right" title="lasso.TransitLine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="lasso.Project.html" class="btn btn-neutral float-left" title="lasso.Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019 Metropolitan Council
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

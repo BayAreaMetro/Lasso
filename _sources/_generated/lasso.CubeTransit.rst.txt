@@ -1,0 +1,29 @@
+lasso.CubeTransit
+=================
+
+.. currentmodule:: lasso
+
+.. autoclass:: CubeTransit
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CubeTransit.__init__
+      ~CubeTransit.create_cubetransit
+      ~CubeTransit.cube_format
+      ~CubeTransit.evaluate_differences
+      ~CubeTransit.evaluate_route_property_changes
+      ~CubeTransit.evaluate_route_shape_changes
+      ~CubeTransit.gtfs_to_cube
+      ~CubeTransit.write_cube_transit
+   
+   
+
+   
+   
+   

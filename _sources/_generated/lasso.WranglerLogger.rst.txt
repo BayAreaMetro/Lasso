@@ -1,0 +1,6 @@
+lasso.WranglerLogger
+====================
+
+.. currentmodule:: lasso
+
+.. autodata:: WranglerLogger

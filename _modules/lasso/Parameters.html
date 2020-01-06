@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lasso.Parameters &mdash; lasso  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> lasso
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../starting.html">Starting Out</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running.html">Running Lasso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autodoc.html">Lasso Classes and Functions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lasso</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>lasso.Parameters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lasso.Parameters</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">.Logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
+
+
+<div class="viewcode-block" id="Parameters"><a class="viewcode-back" href="../../_generated/lasso.Parameters.html#lasso.Parameters">[docs]</a><span class="k">class</span> <span class="nc">Parameters</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    # TODO: this whole flow needs work.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Time period and category  splitting info</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DEFAULT_TIME_PERIOD_TO_TIME</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AM&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;6:00&quot;</span><span class="p">,</span> <span class="s2">&quot;9:00&quot;</span><span class="p">),</span>  <span class="c1">##TODO FILL IN with real numbers</span>
+        <span class="s2">&quot;MD&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;9:00&quot;</span><span class="p">,</span> <span class="s2">&quot;16:00&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;PM&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;16:00&quot;</span><span class="p">,</span> <span class="s2">&quot;19:00&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;NT&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;19:00&quot;</span><span class="p">,</span> <span class="s2">&quot;6:00&quot;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">DEFAULT_CATEGORIES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># suffix, source (in order of search)</span>
+        <span class="s2">&quot;sov&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;sov&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;hov2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;hov2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;sov&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;hov3&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;hov3&quot;</span><span class="p">,</span> <span class="s2">&quot;hov2&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;sov&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;truck&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;trk&quot;</span><span class="p">,</span> <span class="s2">&quot;sov&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="c1"># prefix, source variable, categories</span>
+    <span class="n">DEFAULT_PROPERTIES_TO_SPLIT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;trn_priority&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s2">&quot;trn_priority&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time_periods&quot;</span><span class="p">:</span> <span class="n">DEFAULT_TIME_PERIOD_TO_TIME</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;ttime_assert&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s2">&quot;ttime_assert&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time_periods&quot;</span><span class="p">:</span> <span class="n">DEFAULT_TIME_PERIOD_TO_TIME</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;lanes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s2">&quot;lanes&quot;</span><span class="p">,</span> <span class="s2">&quot;time_periods&quot;</span><span class="p">:</span> <span class="n">DEFAULT_TIME_PERIOD_TO_TIME</span><span class="p">},</span>
+        <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s2">&quot;price&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time_periods&quot;</span><span class="p">:</span> <span class="n">DEFAULT_TIME_PERIOD_TO_TIME</span><span class="p">,</span>
+            <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="n">DEFAULT_CATEGORIES</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;access&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s2">&quot;access&quot;</span><span class="p">,</span> <span class="s2">&quot;time_periods&quot;</span><span class="p">:</span> <span class="n">DEFAULT_TIME_PERIOD_TO_TIME</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Details for calculating the county based on the centroid of the link.</span>
+<span class="sd">    The COUNTY_VARIABLE should be the name of a field in shapefile.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DATA_FILE_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;metcouncil_data&quot;</span><span class="p">)</span>
+
+    <span class="n">SETTINGS_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;settings&quot;</span><span class="p">)</span>
+
+    <span class="n">SCRATCH_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="s2">&quot;scratch&quot;</span><span class="p">)</span>
+
+    <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data File Location set as : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">DATA_FILE_LOCATION</span><span class="p">))</span>
+
+    <span class="n">DEFAULT_COUNTY_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;county&quot;</span><span class="p">,</span> <span class="s2">&quot;cb_2017_us_county_5m.shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">DEFAULT_COUNTY_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;NAME&quot;</span>
+
+    <span class="n">DEFAULT_MPO_COUNTIES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;ANOKA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;DAKOTA&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;HENNEPIN&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RAMSEY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SCOTT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;WASHINGTON&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CARVER&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">DEFAULT_TAZ_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;TAZ&quot;</span><span class="p">,</span> <span class="s2">&quot;TAZOfficialWCurrentForecasts.shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">DEFAULT_TAZ_DATA</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">DEFAULT_HIGHEST_TAZ_NUMBER</span> <span class="o">=</span> <span class="mi">3100</span>
+
+    <span class="n">DEFAULT_AREA_TYPE_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;area_type&quot;</span><span class="p">,</span> <span class="s2">&quot;ThriveMSP2040CommunityDesignation.shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">DEFAULT_AREA_TYPE_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;COMDES2040&quot;</span>
+    <span class="c1"># area type map from raw data to model category</span>
+
+    <span class="c1"># source https://metrocouncil.org/Planning/Publications-And-Resources/Thrive-MSP-2040-Plan-(1)/7_ThriveMSP2040_LandUsePoliciesbyCD.aspx</span>
+    <span class="c1"># urban center</span>
+    <span class="c1"># urban</span>
+    <span class="c1"># suburban</span>
+    <span class="c1"># suburban edge</span>
+    <span class="c1"># emerging suburban edge</span>
+    <span class="c1"># rural center</span>
+    <span class="c1"># diversified rural</span>
+    <span class="c1"># rural residential</span>
+    <span class="c1"># agricultural</span>
+    <span class="n">DEFAULT_AREA_TYPE_CODE_DICT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">23</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>  <span class="c1"># urban center</span>
+        <span class="mi">24</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="mi">25</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="mi">35</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="mi">36</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">41</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">51</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">52</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">53</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">60</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">DEFAULT_OSM_ASSGNGRP_DICT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;lookups&quot;</span><span class="p">,</span> <span class="s2">&quot;osm_highway_asgngrp_crosswalk.csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_MRCC_ROADWAY_CLASS_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">,</span> <span class="s2">&quot;trans_mrcc_centerlines.shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_MRCC_ROADWAY_CLASS_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;ROUTE_SYS&quot;</span>
+
+    <span class="n">DEFAULT_MRCC_ASSGNGRP_DICT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;lookups&quot;</span><span class="p">,</span> <span class="s2">&quot;mrcc_route_sys_asgngrp_crosswalk.csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_MRCC_SHST_DATA</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">,</span> <span class="s2">&quot;mrcc.out.matched.csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_WIDOT_ROADWAY_CLASS_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;Wisconsin_Lanes_Counts_Median&quot;</span><span class="p">,</span> <span class="s2">&quot;WISLR.shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_WIDOT_ROADWAY_CLASS_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;RDWY_CTGY_&quot;</span>
+
+    <span class="n">DEFAULT_WIDOT_ASSGNGRP_DICT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;lookups&quot;</span><span class="p">,</span> <span class="s2">&quot;widot_ctgy_asgngrp_crosswalk.csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_WIDOT_SHST_DATA</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span>
+        <span class="s2">&quot;Wisconsin_Lanes_Counts_Median&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;widot.out.matched.geojson&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_ROADWAY_CLASS_DICT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;lookups&quot;</span><span class="p">,</span> <span class="s2">&quot;asgngrp_rc_num_crosswalk.csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_MNDOT_COUNT_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;count_mn&quot;</span><span class="p">,</span> <span class="s2">&quot;AADT_2017_Count_Locations.shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_MNDOT_COUNT_SHST_DATA</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;count_mn&quot;</span><span class="p">,</span> <span class="s2">&quot;mn_count_ShSt_API_match.csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_MNDOT_COUNT_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;AADT_mn&quot;</span>
+
+    <span class="n">DEFAULT_WIDOT_COUNT_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;Wisconsin_Lanes_Counts_Median&quot;</span><span class="p">,</span> <span class="s2">&quot;TRADAS_(counts).shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_WIDOT_COUNT_SHST_DATA</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span>
+        <span class="s2">&quot;Wisconsin_Lanes_Counts_Median&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;wi_count_ShSt_API_match.csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">DEFAULT_WIDOT_COUNT_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;AADT_wi&quot;</span>
+
+    <span class="n">DEFAULT_NET_TO_DBF_CROSSWALK</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SETTINGS_LOCATION</span><span class="p">,</span> <span class="s2">&quot;net_to_dbf.csv&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_VARIABLES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;model_link_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;shstGeometryId&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;distance&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;roadway&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;roadway_class&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bike_access&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;transit_access&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;walk_access&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;drive_access&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;truck_access&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;trn_priority_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;trn_priority_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;trn_priority_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;trn_priority_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ttime_assert_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ttime_assert_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ttime_assert_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ttime_assert_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lanes_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lanes_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lanes_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lanes_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_sov_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov2_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov3_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_truck_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_sov_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov2_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov3_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_truck_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_sov_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov2_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov3_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_truck_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_sov_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov2_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_hov3_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;price_truck_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;roadway_class_idx&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;assign_group&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;access_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;access_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;access_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;access_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mpo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;area_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;county&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;centroidconnect&quot;</span><span class="p">,</span>
+        <span class="c1">#&#39;mrcc_id&#39;,</span>
+        <span class="s2">&quot;AADT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count_year&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count_AM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count_MD&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count_PM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count_NT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count_daily&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;model_node_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;osm_node_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bike_node&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;transit_node&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;walk_node&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;drive_node&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geometry&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Y&quot;</span>
+    <span class="p">]</span>
+
+    <span class="n">DEFAULT_OUTPUT_LINK_SHP</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;links.shp&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_NODE_SHP</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;nodes.shp&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_LINK_CSV</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;links.csv&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_NODE_CSV</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;nodes.csv&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_LINK_TXT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;links.txt&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_NODE_TXT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;nodes.txt&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_LINK_HEADER_WIDTH_CSV</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;links_header_width.csv&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_NODE_HEADER_WIDTH_CSV</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;nodes_header_width.csv&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;make_complete_network_from_fixed_width_file.s&quot;</span><span class="p">,)</span>
+
+    <span class="n">DEFAULT_OUTPUT_EPSG</span> <span class="o">=</span> <span class="mi">26915</span>
+
+<div class="viewcode-block" id="Parameters.__init__"><a class="viewcode-back" href="../../_generated/lasso.Parameters.html#lasso.Parameters.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;time_period_to_time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time_period_to_time</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_TIME_PERIOD_TO_TIME</span>
+        <span class="k">if</span> <span class="s2">&quot;categories&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_CATEGORIES</span>
+        <span class="k">if</span> <span class="s2">&quot;properties_to_split&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">properties_to_split</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_PROPERTIES_TO_SPLIT</span>
+        <span class="k">if</span> <span class="s2">&quot;county_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">county_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_COUNTY_SHAPE</span>
+        <span class="k">if</span> <span class="s2">&quot;county_variable_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">county_variable_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_COUNTY_VARIABLE_SHP</span>
+        <span class="k">if</span> <span class="s2">&quot;mpo_counties&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpo_counties</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MPO_COUNTIES</span>
+        <span class="k">if</span> <span class="s2">&quot;taz_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">taz_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_TAZ_SHAPE</span>
+        <span class="k">if</span> <span class="s2">&quot;taz_data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">taz_data</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_TAZ_DATA</span>
+        <span class="k">if</span> <span class="s2">&quot;highest_taz_number&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">highest_taz_number</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_HIGHEST_TAZ_NUMBER</span>
+        <span class="k">if</span> <span class="s2">&quot;output_variables&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_variables</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_VARIABLES</span>
+        <span class="k">if</span> <span class="s2">&quot;area_type_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">area_type_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_AREA_TYPE_SHAPE</span>
+        <span class="k">if</span> <span class="s2">&quot;mrcc_roadway_class_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mrcc_roadway_class_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MRCC_ROADWAY_CLASS_SHAPE</span>
+        <span class="k">if</span> <span class="s2">&quot;widot_roadway_class_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widot_roadway_class_shape</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_ROADWAY_CLASS_SHAPE</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;mndot_count_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mndot_count_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MNDOT_COUNT_SHAPE</span>
+        <span class="k">if</span> <span class="s2">&quot;widot_count_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widot_count_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_COUNT_SHAPE</span>
+        <span class="k">if</span> <span class="s2">&quot;area_type_code_dict&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">area_type_code_dict</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_AREA_TYPE_CODE_DICT</span>
+        <span class="k">if</span> <span class="s2">&quot;mrcc_shst_data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mrcc_shst_data</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MRCC_SHST_DATA</span>
+        <span class="k">if</span> <span class="s2">&quot;widot_shst_data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widot_shst_data</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_SHST_DATA</span>
+        <span class="k">if</span> <span class="s2">&quot;mndot_count_shst_data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mndot_count_shst_data</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MNDOT_COUNT_SHST_DATA</span>
+        <span class="k">if</span> <span class="s2">&quot;widot_count_shst_data&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widot_count_shst_data</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_COUNT_SHST_DATA</span>
+        <span class="k">if</span> <span class="s2">&quot;mrcc_assgngrp_dict&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mrcc_assgngrp_dict</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MRCC_ASSGNGRP_DICT</span>
+        <span class="k">if</span> <span class="s2">&quot;widot_assgngrp_dict&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widot_assgngrp_dict</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_ASSGNGRP_DICT</span>
+        <span class="k">if</span> <span class="s2">&quot;osm_assgngrp_dict&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">osm_assgngrp_dict</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OSM_ASSGNGRP_DICT</span>
+        <span class="k">if</span> <span class="s2">&quot;roadway_class_dict&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">roadway_class_dict</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_ROADWAY_CLASS_DICT</span>
+        <span class="k">if</span> <span class="s2">&quot;area_type_variable_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">area_type_variable_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_AREA_TYPE_VARIABLE_SHP</span>
+        <span class="k">if</span> <span class="s2">&quot;mrcc_roadway_class_variable_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mrcc_roadway_class_variable_shp</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MRCC_ROADWAY_CLASS_VARIABLE_SHP</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;widot_roadway_class_variable_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widot_roadway_class_variable_shp</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_ROADWAY_CLASS_VARIABLE_SHP</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;mndot_count_variable_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mndot_count_variable_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MNDOT_COUNT_VARIABLE_SHP</span>
+        <span class="k">if</span> <span class="s2">&quot;widot_count_variable_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widot_count_variable_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_COUNT_VARIABLE_SHP</span>
+        <span class="k">if</span> <span class="s2">&quot;net_to_dbf&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">net_to_dbf</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_NET_TO_DBF_CROSSWALK</span>
+        <span class="k">if</span> <span class="s2">&quot;output_link_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_link_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_LINK_SHP</span>
+        <span class="k">if</span> <span class="s2">&quot;output_node_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_node_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_NODE_SHP</span>
+        <span class="k">if</span> <span class="s2">&quot;output_link_csv&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_link_csv</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_LINK_CSV</span>
+        <span class="k">if</span> <span class="s2">&quot;output_node_csv&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_node_csv</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_NODE_CSV</span>
+        <span class="k">if</span> <span class="s2">&quot;output_epsg&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_epsg</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_EPSG</span>
+        <span class="k">if</span> <span class="s2">&quot;output_link_txt&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_link_txt</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_LINK_TXT</span>
+        <span class="k">if</span> <span class="s2">&quot;output_node_txt&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_node_txt</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_NODE_TXT</span>
+        <span class="k">if</span> <span class="s2">&quot;output_link_header_width_csv&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_link_header_width_csv</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_LINK_HEADER_WIDTH_CSV</span>
+        <span class="k">if</span> <span class="s2">&quot;output_node_header_width_csv&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_node_header_width_csv</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_NODE_HEADER_WIDTH_CSV</span>
+        <span class="k">if</span> <span class="s2">&quot;output_cube_network_script&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_cube_network_script</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019 Metropolitan Council
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

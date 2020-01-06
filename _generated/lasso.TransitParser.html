@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lasso.TransitParser &mdash; lasso  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="lasso.util" href="lasso.util.html" />
+    <link rel="prev" title="lasso.TransitLine" href="lasso.TransitLine.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> lasso
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../starting.html">Starting Out</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running Lasso</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodoc.html">Lasso Classes and Functions</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../autodoc.html#base-classes">Base Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lasso.CubeTransit.html">lasso.CubeTransit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.ModelRoadwayNetwork.html">lasso.ModelRoadwayNetwork</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.Project.html">lasso.Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.Parameters.html">lasso.Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.TransitLine.html">lasso.TransitLine</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">lasso.TransitParser</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../autodoc.html#utils-and-functions">Utils and Functions</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">lasso</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../autodoc.html">Lasso Classes and Functions</a> &raquo;</li>
+        
+      <li>lasso.TransitParser</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_generated/lasso.TransitParser.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lasso-transitparser">
+<h1>lasso.TransitParser<a class="headerlink" href="#lasso-transitparser" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lasso.TransitParser">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">TransitParser</code><span class="sig-paren">(</span><em class="sig-param">filedef='ntransit_file      := smcw*, ( accessli / line / link / pnr / zac / supplink / factor / faresystem / waitcrvdef / crowdcrvdef / operator / mode / vehicletype )+, smcw*, whitespace*nline              := whitespace?, smcw?, c&quot;LINE&quot;, whitespace, lin_attr*, lin_node*, whitespace?nlin_attr          := ( lin_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value, whitespace?,n                       comma, whitespace?, semicolon_comment* )nlin_nodeattr      := ( lin_nodeattr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value, whitespace?, comma?, whitespace?, semicolon_comment* )nlin_attr_name     := c&quot;allstops&quot; / c&quot;color&quot; / (c&quot;freq&quot;,'[',[1-5],']') / c&quot;mode&quot; / c&quot;name&quot; / c&quot;oneway&quot; / c&quot;owner&quot; / c&quot;runtime&quot; / c&quot;timefac&quot; / c&quot;xyspeed&quot; / c&quot;longname&quot; / c&quot;shortname&quot; / (c&quot;usera&quot;,[1-5]) / (c&quot;headway&quot;,'[',[1-5],']') / c&quot;vehicletype&quot; / c&quot;operator&quot; / c&quot;faresystem&quot;nlin_nodeattr_name := c&quot;access_c&quot; / c&quot;access&quot; / c&quot;delay&quot; /  c&quot;xyspeed&quot; / c&quot;timefac&quot; / c&quot;nntime&quot; / c&quot;time&quot;nlin_node          := lin_nodestart?, whitespace?, nodenum, spaces*, comma?, spaces*, semicolon_comment?, whitespace?, lin_nodeattr*nlin_nodestart     := (whitespace?, &quot;N&quot;, whitespace?, &quot;=&quot;)nlink              := whitespace?, smcw?, c&quot;LINK&quot;, whitespace, link_attr*, whitespace?, semicolon_comment*nlink_attr         := (( (link_attr_name, whitespace?, &quot;=&quot;, whitespace?,  attr_value) /n                        (word_nodes, whitespace?, &quot;=&quot;, whitespace?, nodepair) /n                        (word_modes, whitespace?, &quot;=&quot;, whitespace?, numseq) ),n                      whitespace?, comma?, whitespace?)nlink_attr_name    := c&quot;dist&quot; / c&quot;speed&quot; / c&quot;time&quot; / c&quot;oneway&quot;npnr               := whitespace?, smcw?, c&quot;PNR&quot;, whitespace, pnr_attr*, whitespace?npnr_attr          := (( (pnr_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (word_node, whitespace?, &quot;=&quot;, whitespace?, ( nodepair / nodenum )) /n                        (word_zones, whitespace?, &quot;=&quot;, whitespace?, numseq )),n                       whitespace?, comma?, whitespace?, semicolon_comment*)npnr_attr_name     := c&quot;time&quot; / c&quot;maxtime&quot; / c&quot;distfac&quot; / c&quot;cost&quot;nzac               := whitespace?, smcw?, c&quot;ZONEACCESS&quot;, whitespace, zac_attr*, whitespace?, semicolon_comment*nzac_attr          := (( (c&quot;link&quot;, whitespace?, &quot;=&quot;, whitespace?, nodepair) /n                        (zac_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) ),n                      whitespace?, comma?, whitespace?)nzac_attr_name     := c&quot;mode&quot;nsupplink          := whitespace?, smcw?, c&quot;SUPPLINK&quot;, whitespace, supplink_attr*, whitespace?, semicolon_comment*nsupplink_attr     := (( (supplink_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (npair_attr_name, whitespace?, &quot;=&quot;, whitespace?, nodepair )),n                       whitespace?, comma?, whitespace?)nnpair_attr_name    := c&quot;nodes&quot; / c&quot;n&quot;nsupplink_attr_name:= c&quot;mode&quot; / c&quot;dist&quot; / c&quot;speed&quot; / c&quot;oneway&quot; / c&quot;time&quot;nfactor            := whitespace?, smcw?, c&quot;FACTOR&quot;, whitespace, factor_attr*, whitespace?, semicolon_comment*nfactor_attr       := ( (factor_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value),n                        whitespace?, comma?, whitespace? )nfactor_attr_name  := c&quot;maxwaittime&quot; / word_nodesnfaresystem        := whitespace?, smcw?, c&quot;FARESYSTEM&quot;, whitespace, faresystem_attr*, whitespace?, semicolon_comment*nfaresystem_attr   := (( (faresystem_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (faresystem_fff, whitespace?, &quot;=&quot;, whitespace?, floatseq )),n                      whitespace?, comma?, whitespace? )nfaresystem_attr_name := c&quot;number&quot; / c&quot;name&quot; / c&quot;longname&quot; / c&quot;structure&quot; / c&quot;same&quot; / c&quot;iboardfare&quot; / c&quot;farematrix&quot; / c&quot;farezones&quot;nfaresystem_fff    := c&quot;farefromfs&quot;nwaitcrvdef        := whitespace?, smcw?, c&quot;WAITCRVDEF&quot;, whitespace, crv_attr*, whitespace?, semicolon_comment*ncrowdcrvdef       := whitespace?, smcw?, c&quot;CROWDCRVDEF&quot;, whitespace, crv_attr*, whitespace?, semicolon_comment*ncrv_attr          := (( (opmode_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /n                        (word_curve, whitespace?, &quot;=&quot;, whitespace?, xyseq )),n                       whitespace?, comma?, whitespace? )noperator          := whitespace?, smcw?, c&quot;OPERATOR&quot;, whitespace, opmode_attr*, whitespace?, semicolon_comment*nmode              := whitespace?, smcw?, c&quot;MODE&quot;, whitespace, opmode_attr*, whitespace?, semicolon_comment*nopmode_attr       := ( (opmode_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value), whitespace?, comma?, whitespace? )nopmode_attr_name  := c&quot;number&quot; / c&quot;name&quot; / c&quot;longname&quot;nvehicletype       := whitespace?, smcw?, c&quot;VEHICLETYPE&quot;, whitespace, vehtype_attr*, whitespace?, semicolon_comment*nvehtype_attr      := ( (vehtype_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value), whitespace?, comma?, whitespace? )nvehtype_attr_name := c&quot;number&quot; / (c&quot;crowdcurve&quot;,'[',[0-9]+,']') / c&quot;crushcap&quot; / c&quot;loaddistfac&quot; / c&quot;longname&quot; / c&quot;name&quot; / c&quot;seatcap&quot;naccessli          := whitespace?, smcw?, nodenumA, spaces?, nodenumB, spaces?, accesstag?, spaces?, (float/int)?, spaces?, semicolon_comment?naccesstag         := c&quot;wnr&quot; / c&quot;pnr&quot;nword_curve        := c&quot;curve&quot;nword_nodes        := c&quot;nodes&quot;nword_node         := c&quot;node&quot;nword_modes        := c&quot;modes&quot;nword_zones        := c&quot;zones&quot;nxyseq             := xy, (spaces?, &quot;,&quot;, spaces?, xy)*nxy                := pos_floatnum, spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, pos_floatnumnpos_floatnum      := [0-9]+, [\.]?, [0-9]*nnumseq            := int, (spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, int)*nfloatseq          := floatnum, (spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, floatnum)*nfloatnum          := [-]?, [0-9]+, [\.]?, [0-9]*nnodepair          := nodenum, spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, nodenumnnodenumA          := nodenumnnodenumB          := nodenumnnodenum           := intnattr_value        := alphanums / string_single_quote / string_double_quotenalphanums         := [a-zA-Z0-9_\.]+n&lt;comma&gt;           := [,]n&lt;whitespace&gt;      := [ \t\r\n]+n&lt;spaces&gt;          := [ \t]+nsmcw              := whitespace?, (semicolon_comment / c_comment, whitespace?)+n', verbosity=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit_parser.html#TransitParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.TransitParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">simpleparse.parser.Parser</span></code></p>
+<dl class="method">
+<dt id="lasso.TransitParser.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">filedef='\ntransit_file      := smcw*, ( accessli / line / link / pnr / zac / supplink / factor / faresystem / waitcrvdef / crowdcrvdef / operator / mode / vehicletype )+, smcw*, whitespace*\nline              := whitespace?, smcw?, c&quot;LINE&quot;, whitespace, lin_attr*, lin_node*, whitespace?\nlin_attr          := ( lin_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value, whitespace?,\n                       comma, whitespace?, semicolon_comment* )\nlin_nodeattr      := ( lin_nodeattr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value, whitespace?, comma?, whitespace?, semicolon_comment* )\nlin_attr_name     := c&quot;allstops&quot; / c&quot;color&quot; / (c&quot;freq&quot;,\'[\',[1-5],\']\') / c&quot;mode&quot; / c&quot;name&quot; / c&quot;oneway&quot; / c&quot;owner&quot; / c&quot;runtime&quot; / c&quot;timefac&quot; / c&quot;xyspeed&quot; / c&quot;longname&quot; / c&quot;shortname&quot; / (c&quot;usera&quot;,[1-5]) / (c&quot;headway&quot;,\'[\',[1-5],\']\') / c&quot;vehicletype&quot; / c&quot;operator&quot; / c&quot;faresystem&quot;\nlin_nodeattr_name := c&quot;access_c&quot; / c&quot;access&quot; / c&quot;delay&quot; /  c&quot;xyspeed&quot; / c&quot;timefac&quot; / c&quot;nntime&quot; / c&quot;time&quot;\nlin_node          := lin_nodestart?, whitespace?, nodenum, spaces*, comma?, spaces*, semicolon_comment?, whitespace?, lin_nodeattr*\nlin_nodestart     := (whitespace?, &quot;N&quot;, whitespace?, &quot;=&quot;)\nlink              := whitespace?, smcw?, c&quot;LINK&quot;, whitespace, link_attr*, whitespace?, semicolon_comment*\nlink_attr         := (( (link_attr_name, whitespace?, &quot;=&quot;, whitespace?,  attr_value) /\n                        (word_nodes, whitespace?, &quot;=&quot;, whitespace?, nodepair) /\n                        (word_modes, whitespace?, &quot;=&quot;, whitespace?, numseq) ),\n                      whitespace?, comma?, whitespace?)\nlink_attr_name    := c&quot;dist&quot; / c&quot;speed&quot; / c&quot;time&quot; / c&quot;oneway&quot;\npnr               := whitespace?, smcw?, c&quot;PNR&quot;, whitespace, pnr_attr*, whitespace?\npnr_attr          := (( (pnr_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /\n                        (word_node, whitespace?, &quot;=&quot;, whitespace?, ( nodepair / nodenum )) /\n                        (word_zones, whitespace?, &quot;=&quot;, whitespace?, numseq )),\n                       whitespace?, comma?, whitespace?, semicolon_comment*)\npnr_attr_name     := c&quot;time&quot; / c&quot;maxtime&quot; / c&quot;distfac&quot; / c&quot;cost&quot;\nzac               := whitespace?, smcw?, c&quot;ZONEACCESS&quot;, whitespace, zac_attr*, whitespace?, semicolon_comment*\nzac_attr          := (( (c&quot;link&quot;, whitespace?, &quot;=&quot;, whitespace?, nodepair) /\n                        (zac_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) ),\n                      whitespace?, comma?, whitespace?)\nzac_attr_name     := c&quot;mode&quot;\nsupplink          := whitespace?, smcw?, c&quot;SUPPLINK&quot;, whitespace, supplink_attr*, whitespace?, semicolon_comment*\nsupplink_attr     := (( (supplink_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /\n                        (npair_attr_name, whitespace?, &quot;=&quot;, whitespace?, nodepair )),\n                       whitespace?, comma?, whitespace?)\nnpair_attr_name    := c&quot;nodes&quot; / c&quot;n&quot;\nsupplink_attr_name:= c&quot;mode&quot; / c&quot;dist&quot; / c&quot;speed&quot; / c&quot;oneway&quot; / c&quot;time&quot;\nfactor            := whitespace?, smcw?, c&quot;FACTOR&quot;, whitespace, factor_attr*, whitespace?, semicolon_comment*\nfactor_attr       := ( (factor_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value),\n                        whitespace?, comma?, whitespace? )\nfactor_attr_name  := c&quot;maxwaittime&quot; / word_nodes\nfaresystem        := whitespace?, smcw?, c&quot;FARESYSTEM&quot;, whitespace, faresystem_attr*, whitespace?, semicolon_comment*\nfaresystem_attr   := (( (faresystem_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /\n                        (faresystem_fff, whitespace?, &quot;=&quot;, whitespace?, floatseq )),\n                      whitespace?, comma?, whitespace? )\nfaresystem_attr_name := c&quot;number&quot; / c&quot;name&quot; / c&quot;longname&quot; / c&quot;structure&quot; / c&quot;same&quot; / c&quot;iboardfare&quot; / c&quot;farematrix&quot; / c&quot;farezones&quot;\nfaresystem_fff    := c&quot;farefromfs&quot;\nwaitcrvdef        := whitespace?, smcw?, c&quot;WAITCRVDEF&quot;, whitespace, crv_attr*, whitespace?, semicolon_comment*\ncrowdcrvdef       := whitespace?, smcw?, c&quot;CROWDCRVDEF&quot;, whitespace, crv_attr*, whitespace?, semicolon_comment*\ncrv_attr          := (( (opmode_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value) /\n                        (word_curve, whitespace?, &quot;=&quot;, whitespace?, xyseq )),\n                       whitespace?, comma?, whitespace? )\noperator          := whitespace?, smcw?, c&quot;OPERATOR&quot;, whitespace, opmode_attr*, whitespace?, semicolon_comment*\nmode              := whitespace?, smcw?, c&quot;MODE&quot;, whitespace, opmode_attr*, whitespace?, semicolon_comment*\nopmode_attr       := ( (opmode_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value), whitespace?, comma?, whitespace? )\nopmode_attr_name  := c&quot;number&quot; / c&quot;name&quot; / c&quot;longname&quot;\nvehicletype       := whitespace?, smcw?, c&quot;VEHICLETYPE&quot;, whitespace, vehtype_attr*, whitespace?, semicolon_comment*\nvehtype_attr      := ( (vehtype_attr_name, whitespace?, &quot;=&quot;, whitespace?, attr_value), whitespace?, comma?, whitespace? )\nvehtype_attr_name := c&quot;number&quot; / (c&quot;crowdcurve&quot;,\'[\',[0-9]+,\']\') / c&quot;crushcap&quot; / c&quot;loaddistfac&quot; / c&quot;longname&quot; / c&quot;name&quot; / c&quot;seatcap&quot;\naccessli          := whitespace?, smcw?, nodenumA, spaces?, nodenumB, spaces?, accesstag?, spaces?, (float/int)?, spaces?, semicolon_comment?\naccesstag         := c&quot;wnr&quot; / c&quot;pnr&quot;\nword_curve        := c&quot;curve&quot;\nword_nodes        := c&quot;nodes&quot;\nword_node         := c&quot;node&quot;\nword_modes        := c&quot;modes&quot;\nword_zones        := c&quot;zones&quot;\nxyseq             := xy, (spaces?, &quot;,&quot;, spaces?, xy)*\nxy                := pos_floatnum, spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, pos_floatnum\npos_floatnum      := [0-9]+, [\\.]?, [0-9]*\nnumseq            := int, (spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, int)*\nfloatseq          := floatnum, (spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, floatnum)*\nfloatnum          := [-]?, [0-9]+, [\\.]?, [0-9]*\nnodepair          := nodenum, spaces?, (&quot;-&quot; / &quot;,&quot;), spaces?, nodenum\nnodenumA          := nodenum\nnodenumB          := nodenum\nnodenum           := int\nattr_value        := alphanums / string_single_quote / string_double_quote\nalphanums         := [a-zA-Z0-9_\\.]+\n&lt;comma&gt;           := [,]\n&lt;whitespace&gt;      := [ \\t\\r\\n]+\n&lt;spaces&gt;          := [ \\t]+\nsmcw              := whitespace?, (semicolon_comment / c_comment, whitespace?)+\n', verbosity=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit_parser.html#TransitParser.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.TransitParser.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise the parser, creating the tagging table for it</p>
+<p>declaration – simpleparse ebnf declaration of the language being parsed
+root – root production used for parsing if none explicitly specified
+prebuilts – sequence of (name,value) tuples with prebuilt tables, values</p>
+<blockquote>
+<div><p>can be either objectgenerator EventToken sub-classes or TextTools
+tables</p>
+</div></blockquote>
+<dl class="simple">
+<dt>definitionSources – dictionaries of common constructs for use</dt><dd><p>in building your grammar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([filedef, verbosity])</p></td>
+<td><p>Initialise the parser, creating the tagging table for it</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">buildProcessor</span></code>()</p></td>
+<td><p>Build default processor object for this parser class</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">buildTagger</span></code>([production, processor])</p></td>
+<td><p>Get a particular parsing table for a particular production</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convertLineData</span></code>()</p></td>
+<td><p>Convert the parsed tree of data into a usable python list of transit lines returns (PROGRAM_PT or PROGRAM_TRNBUILD, list of comments and transit line objects)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convertPTSystemData</span></code>()</p></td>
+<td><p>Convert the parsed tree of data into a PTSystem object returns a PTSystem object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse</span></code>(data[, production, processor, start, stop])</p></td>
+<td><p>Parse data with production “production” of this parser</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">resetBeforeParse</span></code>()</p></td>
+<td><p>Called just before the parser’s parse method starts working,</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbosity</span></code>(verbosity)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PROGRAM_PT</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PROGRAM_TRNBUILD</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PROGRAM_UNKNOWN</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="lasso.TransitParser.buildProcessor">
+<code class="sig-name descname">buildProcessor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit_parser.html#TransitParser.buildProcessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.TransitParser.buildProcessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build default processor object for this parser class</p>
+<p>The default implementation returns None.  The processor
+can either implement the “method source” API (just provides
+information about Callouts and the like), or the processor
+API and the method-source API.  The processor API merely
+requires that the object be callable, and have the signature:</p>
+<blockquote>
+<div><p>object( (success, children, nextPosition), buffer)</p>
+</div></blockquote>
+<p>(Note: your object can treat the first item as a single tuple
+if it likes).</p>
+<p>See: simpleparse.processor module for details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.buildTagger">
+<code class="sig-name descname">buildTagger</code><span class="sig-paren">(</span><em class="sig-param">production=None</em>, <em class="sig-param">processor=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitParser.buildTagger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a particular parsing table for a particular production</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.convertLineData">
+<code class="sig-name descname">convertLineData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit_parser.html#TransitParser.convertLineData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.TransitParser.convertLineData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the parsed tree of data into a usable python list of transit lines
+returns (PROGRAM_PT or PROGRAM_TRNBUILD, list of comments and transit line objects)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.convertPTSystemData">
+<code class="sig-name descname">convertPTSystemData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit_parser.html#TransitParser.convertPTSystemData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.TransitParser.convertPTSystemData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the parsed tree of data into a PTSystem object
+returns a PTSystem object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">production=None</em>, <em class="sig-param">processor=None</em>, <em class="sig-param">start=0</em>, <em class="sig-param">stop=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitParser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse data with production “production” of this parser</p>
+<p>data – data to be parsed, a Python string, for now
+production – optional string specifying a non-default production to use</p>
+<blockquote>
+<div><p>for parsing data</p>
+</div></blockquote>
+<dl class="simple">
+<dt>processor – optional pointer to a Processor or MethodSource object for</dt><dd><p>use in determining reporting format and/or post-processing the results
+of the parsing pass.  Can be None if neither is desired (default)</p>
+</dd>
+</dl>
+<p>start – starting index for the parsing, default 0
+stop – stoping index for the parsing, default len(data)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.resetBeforeParse">
+<code class="sig-name descname">resetBeforeParse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lasso.TransitParser.resetBeforeParse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called just before the parser’s parse method starts working,</p>
+<p>Allows you to set up special-purpose structures, such as stacks
+or local storage values.  There is no base implementation.  The
+base implementation does nothing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.TransitParser.setVerbosity">
+<code class="sig-name descname">setVerbosity</code><span class="sig-paren">(</span><em class="sig-param">verbosity</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit_parser.html#TransitParser.setVerbosity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.TransitParser.setVerbosity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.TransitParser.PROGRAM_PT">
+<code class="sig-name descname">PROGRAM_PT</code><em class="property"> = 'PT'</em><a class="headerlink" href="#lasso.TransitParser.PROGRAM_PT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.TransitParser.PROGRAM_TRNBUILD">
+<code class="sig-name descname">PROGRAM_TRNBUILD</code><em class="property"> = 'TRNBUILD'</em><a class="headerlink" href="#lasso.TransitParser.PROGRAM_TRNBUILD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.TransitParser.PROGRAM_UNKNOWN">
+<code class="sig-name descname">PROGRAM_UNKNOWN</code><em class="property"> = 'unknown'</em><a class="headerlink" href="#lasso.TransitParser.PROGRAM_UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lasso.util.html" class="btn btn-neutral float-right" title="lasso.util" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="lasso.TransitLine.html" class="btn btn-neutral float-left" title="lasso.TransitLine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019 Metropolitan Council
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

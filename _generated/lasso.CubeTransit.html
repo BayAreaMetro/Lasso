@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lasso.CubeTransit &mdash; lasso  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="lasso.ModelRoadwayNetwork" href="lasso.ModelRoadwayNetwork.html" />
+    <link rel="prev" title="Lasso Classes and Functions" href="../autodoc.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> lasso
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../starting.html">Starting Out</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running Lasso</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodoc.html">Lasso Classes and Functions</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../autodoc.html#base-classes">Base Classes</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">lasso.CubeTransit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.ModelRoadwayNetwork.html">lasso.ModelRoadwayNetwork</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.Project.html">lasso.Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.Parameters.html">lasso.Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.TransitLine.html">lasso.TransitLine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.TransitParser.html">lasso.TransitParser</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../autodoc.html#utils-and-functions">Utils and Functions</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">lasso</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../autodoc.html">Lasso Classes and Functions</a> &raquo;</li>
+        
+      <li>lasso.CubeTransit</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_generated/lasso.CubeTransit.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lasso-cubetransit">
+<h1>lasso.CubeTransit<a class="headerlink" href="#lasso-cubetransit" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lasso.CubeTransit">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">CubeTransit</code><span class="sig-paren">(</span><em class="sig-param">cube_transit_network=None</em>, <em class="sig-param">gtfs_feed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="lasso.CubeTransit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">cube_transit_network=None</em>, <em class="sig-param">gtfs_feed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.CubeTransit.__init__" title="lasso.CubeTransit.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([cube_transit_network, gtfs_feed])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.CubeTransit.create_cubetransit" title="lasso.CubeTransit.create_cubetransit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_cubetransit</span></code></a>([cube_transit_dir, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.CubeTransit.cube_format" title="lasso.CubeTransit.cube_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cube_format</span></code></a>(x)</p></td>
+<td><p>formatter for cube .lin file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.CubeTransit.evaluate_differences" title="lasso.CubeTransit.evaluate_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_differences</span></code></a>(base_transit)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.CubeTransit.evaluate_route_property_changes" title="lasso.CubeTransit.evaluate_route_property_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_route_property_changes</span></code></a>(line_base)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.CubeTransit.evaluate_route_shape_changes" title="lasso.CubeTransit.evaluate_route_shape_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_route_shape_changes</span></code></a>(line_base)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.CubeTransit.gtfs_to_cube" title="lasso.CubeTransit.gtfs_to_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gtfs_to_cube</span></code></a>(self)</p></td>
+<td><p>prepare gtfs for cube lin file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.CubeTransit.write_cube_transit" title="lasso.CubeTransit.write_cube_transit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_cube_transit</span></code></a>(outpath)</p></td>
+<td><p>write out to .lin file</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="lasso.CubeTransit.create_cubetransit">
+<em class="property">static </em><code class="sig-name descname">create_cubetransit</code><span class="sig-paren">(</span><em class="sig-param">cube_transit_dir=None</em>, <em class="sig-param">cube_transit_file=None</em>, <em class="sig-param">gtfs_feed_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.create_cubetransit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.create_cubetransit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lasso.CubeTransit.cube_format">
+<code class="sig-name descname">cube_format</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.cube_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.cube_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>formatter for cube .lin file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.CubeTransit.evaluate_differences">
+<code class="sig-name descname">evaluate_differences</code><span class="sig-paren">(</span><em class="sig-param">base_transit</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.evaluate_differences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.evaluate_differences" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lasso.CubeTransit.evaluate_route_property_changes">
+<code class="sig-name descname">evaluate_route_property_changes</code><span class="sig-paren">(</span><em class="sig-param">line_base</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.evaluate_route_property_changes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.evaluate_route_property_changes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lasso.CubeTransit.evaluate_route_shape_changes">
+<code class="sig-name descname">evaluate_route_shape_changes</code><span class="sig-paren">(</span><em class="sig-param">line_base</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.evaluate_route_shape_changes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.evaluate_route_shape_changes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lasso.CubeTransit.gtfs_to_cube">
+<em class="property">static </em><code class="sig-name descname">gtfs_to_cube</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.gtfs_to_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.gtfs_to_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>prepare gtfs for cube lin file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.CubeTransit.write_cube_transit">
+<code class="sig-name descname">write_cube_transit</code><span class="sig-paren">(</span><em class="sig-param">outpath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#CubeTransit.write_cube_transit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.CubeTransit.write_cube_transit" title="Permalink to this definition">¶</a></dt>
+<dd><p>write out to .lin file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lasso.ModelRoadwayNetwork.html" class="btn btn-neutral float-right" title="lasso.ModelRoadwayNetwork" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../autodoc.html" class="btn btn-neutral float-left" title="Lasso Classes and Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019 Metropolitan Council
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

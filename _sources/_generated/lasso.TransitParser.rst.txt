@@ -1,0 +1,37 @@
+lasso.TransitParser
+===================
+
+.. currentmodule:: lasso
+
+.. autoclass:: TransitParser
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TransitParser.__init__
+      ~TransitParser.buildProcessor
+      ~TransitParser.buildTagger
+      ~TransitParser.convertLineData
+      ~TransitParser.convertPTSystemData
+      ~TransitParser.parse
+      ~TransitParser.resetBeforeParse
+      ~TransitParser.setVerbosity
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TransitParser.PROGRAM_PT
+      ~TransitParser.PROGRAM_TRNBUILD
+      ~TransitParser.PROGRAM_UNKNOWN
+   
+   
