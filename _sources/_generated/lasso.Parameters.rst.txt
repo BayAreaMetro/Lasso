@@ -27,6 +27,7 @@ lasso.Parameters
       ~Parameters.DEFAULT_AREA_TYPE_CODE_DICT
       ~Parameters.DEFAULT_AREA_TYPE_SHAPE
       ~Parameters.DEFAULT_AREA_TYPE_VARIABLE_SHP
+      ~Parameters.DEFAULT_BUS_ROUTETYPE_SHAPE
       ~Parameters.DEFAULT_CATEGORIES
       ~Parameters.DEFAULT_COUNTY_SHAPE
       ~Parameters.DEFAULT_COUNTY_VARIABLE_SHP

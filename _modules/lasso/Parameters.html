@@ -409,6 +409,10 @@
 
     <span class="n">DEFAULT_OUTPUT_EPSG</span> <span class="o">=</span> <span class="mi">26915</span>
 
+    <span class="n">DEFAULT_BUS_ROUTETYPE_SHAPE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">DATA_FILE_LOCATION</span><span class="p">,</span> <span class="s2">&quot;transit&quot;</span><span class="p">,</span> <span class="s2">&quot;shp_trans_transit_routes&quot;</span><span class="p">,</span> <span class="s2">&quot;TransitRoutes.shp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
 <div class="viewcode-block" id="Parameters.__init__"><a class="viewcode-back" href="../../_generated/lasso.Parameters.html#lasso.Parameters.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
@@ -498,7 +502,9 @@
         <span class="k">if</span> <span class="s2">&quot;output_node_header_width_csv&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">output_node_header_width_csv</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_NODE_HEADER_WIDTH_CSV</span>
         <span class="k">if</span> <span class="s2">&quot;output_cube_network_script&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">output_cube_network_script</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_cube_network_script</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT</span>
+        <span class="k">if</span> <span class="s2">&quot;bus_routetype_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bus_routetype_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_BUS_ROUTETYPE_SHAPE</span></div></div>
 </pre></div>
 
            </div>
