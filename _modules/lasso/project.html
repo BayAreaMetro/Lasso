@@ -168,7 +168,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A single or set of changes to the roadway or transit system.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    
     <span class="n">DEFAULT_PROJECT_NAME</span> <span class="o">=</span> <span class="s2">&quot;USER TO define&quot;</span>
 
     <span class="n">STATIC_VALUES</span> <span class="o">=</span> <span class="p">[</span>
@@ -190,7 +190,7 @@
         <span class="n">evaluate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="sd">        constructor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">card_data</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
 
@@ -211,12 +211,13 @@
 
 <div class="viewcode-block" id="Project.write_project_card"><a class="viewcode-back" href="../../_generated/lasso.Project.html#lasso.Project.write_project_card">[docs]</a>    <span class="k">def</span> <span class="nf">write_project_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes project cards.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        -----------</span>
-<span class="sd">        filename</span>
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): File path to output .yml</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ProjectCard</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">card_data</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Wrote project card to: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
@@ -236,15 +237,23 @@
         <span class="n">build_transit_network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CubeTransit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create project objects.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        -----------</span>
-<span class="sd">        roadway_log_file : str</span>
-<span class="sd">            filename for consuming logfile</span>
+<span class="sd">        Args:</span>
+<span class="sd">            roadway_log_file (str): File path to consuming logfile.</span>
+<span class="sd">            base_roadway_dir (str): Folder path to base roadway network.</span>
+<span class="sd">            base_transit_dir (str): Folder path to base transit network.</span>
+<span class="sd">            base_transit_file (str): File path to base transit network.</span>
+<span class="sd">            build_transit_dir (str): Folder path to build transit network.</span>
+<span class="sd">            build_transit_file (str): File path to build transit network.</span>
+<span class="sd">            roadway_changes (DataFrame): pandas dataframe of CUBE roadway changes.</span>
+<span class="sd">            transit_changes (CubeTransit): build transit changes.</span>
+<span class="sd">            base_roadway_network (RoadwayNetwork): Base roadway network object.</span>
+<span class="sd">            base_transit_network (CubeTransit): Base transit network object.</span>
+<span class="sd">            build_transit_network (CubeTransit): Build transit network object.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Project object</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Project object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">build_transit_dir</span> <span class="ow">and</span> <span class="n">transit_changes</span><span class="p">:</span>
@@ -315,13 +324,12 @@
     <span class="k">def</span> <span class="nf">read_logfile</span><span class="p">(</span><span class="n">logfilename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads a Cube log file and returns a dataframe of roadway_changes</span>
-<span class="sd">        Parameters</span>
-<span class="sd">        -----------</span>
-<span class="sd">        logfilename : str</span>
-<span class="sd">            filename for consuming logfile</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
+<span class="sd">        Args:</span>
+<span class="sd">            logfilename (str): File path to CUBE logfile.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading logfile: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">logfilename</span><span class="p">))</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">logfilename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -436,6 +444,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluates changes from the log file based on the base highway object and</span>
 <span class="sd">        adds entries into the self.card_data dictionary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            limit_variables_to_existing_network (bool): True if no ad-hoc variables.  Default to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1">## if worth it, could also add some functionality  to network wrangler itself.</span>

@@ -175,7 +175,8 @@
 <dl class="method">
 <dt id="lasso.Project.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=''</em>, <em class="sig-param">evaluate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>constructor</p>
+</dd></dl>
 
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
@@ -185,7 +186,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.Project.__init__" title="lasso.Project.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([roadway_changes, transit_changes, …])</p></td>
-<td><p></p></td>
+<td><p>constructor</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.Project.add_highway_changes" title="lasso.Project.add_highway_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_highway_changes</span></code></a>([…])</p></td>
 <td><p>Evaluates changes from the log file based on the base highway object and adds entries into the self.card_data dictionary.</p></td>
@@ -194,12 +195,7 @@
 <td><p>Evaluates changes between base and build transit objects and adds entries into the self.card_data dictionary.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.Project.create_project" title="lasso.Project.create_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_project</span></code></a>([roadway_log_file, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param roadway_log_file</dt>
-<dd class="field-odd"><p>filename for consuming logfile</p>
-</dd>
-</dl>
-</p></td>
+<td><p>Create project objects.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.Project.determine_roadway_network_changes_compatability" title="lasso.Project.determine_roadway_network_changes_compatability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">determine_roadway_network_changes_compatability</span></code></a>()</p></td>
 <td><p>Checks to see that any links or nodes that change exist in base roadway network.</p></td>
@@ -208,14 +204,10 @@
 <td><p>Determines which changes should be evaluated.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.Project.read_logfile" title="lasso.Project.read_logfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_logfile</span></code></a>(logfilename)</p></td>
-<td><p>Reads a Cube log file and returns a dataframe of roadway_changes :param logfilename: filename for consuming logfile :type logfilename: str</p></td>
+<td><p>Reads a Cube log file and returns a dataframe of roadway_changes</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.Project.write_project_card" title="lasso.Project.write_project_card"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_project_card</span></code></a>(filename)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param filename</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Writes project cards.</p></td>
 </tr>
 </tbody>
 </table>
@@ -239,6 +231,11 @@
 <code class="sig-name descname">add_highway_changes</code><span class="sig-paren">(</span><em class="sig-param">limit_variables_to_existing_network=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.add_highway_changes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.add_highway_changes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluates changes from the log file based on the base highway object and
 adds entries into the self.card_data dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>limit_variables_to_existing_network</strong> (<em>bool</em>) – True if no ad-hoc variables.  Default to False.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -251,15 +248,25 @@ adds entries into the self.card_data dictionary.</p>
 <dl class="method">
 <dt id="lasso.Project.create_project">
 <em class="property">static </em><code class="sig-name descname">create_project</code><span class="sig-paren">(</span><em class="sig-param">roadway_log_file=None</em>, <em class="sig-param">base_roadway_dir=None</em>, <em class="sig-param">base_transit_dir=None</em>, <em class="sig-param">base_transit_file=None</em>, <em class="sig-param">build_transit_dir=None</em>, <em class="sig-param">build_transit_file=None</em>, <em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.create_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.create_project" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Create project objects.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>roadway_log_file</strong> (<em>str</em>) – filename for consuming logfile</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>roadway_log_file</strong> (<em>str</em>) – File path to consuming logfile.</p></li>
+<li><p><strong>base_roadway_dir</strong> (<em>str</em>) – Folder path to base roadway network.</p></li>
+<li><p><strong>base_transit_dir</strong> (<em>str</em>) – Folder path to base transit network.</p></li>
+<li><p><strong>base_transit_file</strong> (<em>str</em>) – File path to base transit network.</p></li>
+<li><p><strong>build_transit_dir</strong> (<em>str</em>) – Folder path to build transit network.</p></li>
+<li><p><strong>build_transit_file</strong> (<em>str</em>) – File path to build transit network.</p></li>
+<li><p><strong>roadway_changes</strong> (<em>DataFrame</em>) – pandas dataframe of CUBE roadway changes.</p></li>
+<li><p><strong>transit_changes</strong> (<a class="reference internal" href="lasso.CubeTransit.html#lasso.CubeTransit" title="lasso.CubeTransit"><em>CubeTransit</em></a>) – build transit changes.</p></li>
+<li><p><strong>base_roadway_network</strong> (<em>RoadwayNetwork</em>) – Base roadway network object.</p></li>
+<li><p><strong>base_transit_network</strong> (<a class="reference internal" href="lasso.CubeTransit.html#lasso.CubeTransit" title="lasso.CubeTransit"><em>CubeTransit</em></a>) – Base transit network object.</p></li>
+<li><p><strong>build_transit_network</strong> (<a class="reference internal" href="lasso.CubeTransit.html#lasso.CubeTransit" title="lasso.CubeTransit"><em>CubeTransit</em></a>) – Build transit network object.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Project object</p>
+<dd class="field-even"><p>Project object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -279,15 +286,16 @@ adds entries into the self.card_data dictionary.</p>
 <dl class="method">
 <dt id="lasso.Project.read_logfile">
 <em class="property">static </em><code class="sig-name descname">read_logfile</code><span class="sig-paren">(</span><em class="sig-param">logfilename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.read_logfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.read_logfile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads a Cube log file and returns a dataframe of roadway_changes
-:param logfilename: filename for consuming logfile
-:type logfilename: str</p>
+<dd><p>Reads a Cube log file and returns a dataframe of roadway_changes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>logfilename</strong> (<em>str</em>) – File path to CUBE logfile.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>rtype: <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -295,9 +303,13 @@ adds entries into the self.card_data dictionary.</p>
 <dl class="method">
 <dt id="lasso.Project.write_project_card">
 <code class="sig-name descname">write_project_card</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.write_project_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.write_project_card" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Writes project cards.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> – </p>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – File path to output .yml</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
