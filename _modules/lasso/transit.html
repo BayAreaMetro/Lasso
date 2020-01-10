@@ -165,6 +165,9 @@
 
 
 <div class="viewcode-block" id="CubeTransit"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit">[docs]</a><span class="k">class</span> <span class="nc">CubeTransit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class of transit network</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="CubeTransit.__init__"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">cube_transit_network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TransitNetworkLasso</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -172,6 +175,7 @@
         <span class="n">parameters</span><span class="o">=</span><span class="p">{}</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        constructor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">## TODO Sijia</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cube_transit_network</span> <span class="o">=</span> <span class="n">cube_transit_network</span>
@@ -192,6 +196,18 @@
         <span class="n">gtfs_feed_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create CubeTransit object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cube_transit_dir (str): Folder path to cube transit .lin file.</span>
+<span class="sd">            cube_transit_file (str): File path to cube transit .lin file.</span>
+<span class="sd">            gtfs_feed_dir (str): Folder path to transit standard.</span>
+<span class="sd">            parameters : Lasso paramters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CubeTransit object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="nb">sum</span><span class="p">(</span>
                 <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -224,13 +240,13 @@
 
 <div class="viewcode-block" id="CubeTransit.evaluate_differences"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.evaluate_differences">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_differences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_transit</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate difference between build and base transit network.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        -----------</span>
+<span class="sd">        Args:</span>
+<span class="sd">            base_transit (CubeTransit): base CubeTransit</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-
+<span class="sd">        Returns:</span>
+<span class="sd">            list of transit changes dictionary</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># loop thru every record in new .lin</span>
@@ -339,7 +355,16 @@
         <span class="k">return</span> <span class="n">transit_change_list</span></div>
 
 <div class="viewcode-block" id="CubeTransit.evaluate_route_shape_changes"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.evaluate_route_shape_changes">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_route_shape_changes</span><span class="p">(</span><span class="n">line_build</span><span class="p">,</span> <span class="n">line_base</span><span class="p">):</span>
-        <span class="c1">##TODO Sijia</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluates transit route shape changes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            line_build: build transit line record.</span>
+<span class="sd">            line_base: base transit line record.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list of dictionary for route shape change.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">shape_change_list</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">base_node_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">line_base</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
@@ -381,6 +406,16 @@
         <span class="k">return</span> <span class="n">shape_change_list</span></div>
 
 <div class="viewcode-block" id="CubeTransit.evaluate_route_property_changes"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.evaluate_route_property_changes">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_route_property_changes</span><span class="p">(</span><span class="n">line_build</span><span class="p">,</span> <span class="n">line_base</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate route property changes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            line_build : build transit line record.</span>
+<span class="sd">            line_base: base transit line record.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of dictionary for property changes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">properties_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">line_build</span><span class="o">.</span><span class="n">getFreq</span><span class="p">()</span> <span class="o">!=</span> <span class="n">line_base</span><span class="o">.</span><span class="n">getFreq</span><span class="p">():</span>
             <span class="n">_headway_diff</span> <span class="o">=</span> <span class="n">line_build</span><span class="o">.</span><span class="n">getFreq</span><span class="p">()</span> <span class="o">-</span> <span class="n">line_base</span><span class="o">.</span><span class="n">getFreq</span><span class="p">()</span>
@@ -393,7 +428,11 @@
 <div class="viewcode-block" id="CubeTransit.gtfs_to_cube"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.gtfs_to_cube">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">gtfs_to_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        prepare gtfs for cube lin file</span>
+<span class="sd">        Process gtfs format transit standard for writing cube .lin file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mode_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span>
         <span class="n">bus_mode_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Urb Loc&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Sub Loc&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Express&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
@@ -469,7 +508,10 @@
 
 <div class="viewcode-block" id="CubeTransit.cube_format"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.cube_format">[docs]</a>    <span class="k">def</span> <span class="nf">cube_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        formatter for cube .lin file</span>
+<span class="sd">        Formatter for cube .lin file</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: single transit trip record as a row in DataFrame.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">trip_stop_times_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gtfs_feed</span><span class="o">.</span><span class="n">stop_times</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">trip_stop_times_df</span> <span class="o">=</span> <span class="n">trip_stop_times_df</span><span class="p">[</span><span class="n">trip_stop_times_df</span><span class="o">.</span><span class="n">trip_id</span> <span class="o">==</span> <span class="n">x</span><span class="o">.</span><span class="n">trip_id</span><span class="p">]</span>
@@ -515,7 +557,10 @@
 
 <div class="viewcode-block" id="CubeTransit.write_cube_transit"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.write_cube_transit">[docs]</a>    <span class="k">def</span> <span class="nf">write_cube_transit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outpath</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        write out to .lin file</span>
+<span class="sd">        Write out to .lin file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            outpath (str): File path to output CUBE .lin file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">trip_cube_df</span> <span class="o">=</span> <span class="n">CubeTransit</span><span class="o">.</span><span class="n">gtfs_to_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
