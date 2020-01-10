@@ -172,6 +172,9 @@
 <div class="viewcode-block" id="ModelRoadwayNetwork.__init__"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">GeoDataFrame</span><span class="p">,</span> <span class="n">links</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">shapes</span><span class="p">:</span> <span class="n">GeoDataFrame</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{}</span>
     <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">shapes</span><span class="p">)</span>
 
         <span class="c1"># will have to change if want to alter them</span>
@@ -191,6 +194,19 @@
         <span class="n">fast</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads in links and nodes network standard.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            link_file (str): File path to link json.</span>
+<span class="sd">            node_file (str): File path to node geojson.</span>
+<span class="sd">            shape_file (str): File path to link true shape geojson</span>
+<span class="sd">            fast (bool): boolean that will skip validation to speed up read time.</span>
+<span class="sd">            parameters : parameters for lasso.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ModelRoadwayNetwork</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># road_net =  super().read(link_file, node_file, shape_file, fast=fast)</span>
         <span class="n">road_net</span> <span class="o">=</span> <span class="n">RoadwayNetwork</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">link_file</span><span class="p">,</span> <span class="n">node_file</span><span class="p">,</span> <span class="n">shape_file</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="n">fast</span><span class="p">)</span>
 
@@ -205,6 +221,16 @@
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.from_RoadwayNetwork"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.from_RoadwayNetwork">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_RoadwayNetwork</span><span class="p">(</span><span class="n">roadway_network_object</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        RoadwayNetwork to ModelRoadwayNetwork</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            roadway_network_object (RoadwayNetwork).</span>
+<span class="sd">            parameters : parameters for lasso.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ModelRoadwayNetwork</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ModelRoadwayNetwork</span><span class="p">(</span>
             <span class="n">roadway_network_object</span><span class="o">.</span><span class="n">nodes_df</span><span class="p">,</span>
             <span class="n">roadway_network_object</span><span class="o">.</span><span class="n">links_df</span><span class="p">,</span>
@@ -216,18 +242,17 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Splits properties by time period, assuming a variable structure of</span>
 
-<span class="sd">        Params</span>
-<span class="sd">        ------</span>
-<span class="sd">        properties_to_split: dict</span>
-<span class="sd">             dictionary of output variable prefix mapped to the source variable and what to stratify it by</span>
-<span class="sd">             e.g.</span>
-<span class="sd">             {</span>
-<span class="sd">                 &#39;trn_priority&#39; : {&#39;v&#39;:&#39;trn_priority&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME },</span>
-<span class="sd">                 &#39;ttime_assert&#39; : {&#39;v&#39;:&#39;ttime_assert&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME },</span>
-<span class="sd">                 &#39;lanes&#39; : {&#39;v&#39;:&#39;lanes&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME },</span>
-<span class="sd">                 &#39;price&#39; : {&#39;v&#39;:&#39;price&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME ,&#39;categories&#39;: DEFAULT_CATEGORIES},</span>
-<span class="sd">                 &#39;access&#39; : {&#39;v&#39;:&#39;access&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME},</span>
-<span class="sd">             }</span>
+<span class="sd">        Args:</span>
+<span class="sd">            properties_to_split: dict</span>
+<span class="sd">                dictionary of output variable prefix mapped to the source variable and what to stratify it by</span>
+<span class="sd">                e.g.</span>
+<span class="sd">                {</span>
+<span class="sd">                    &#39;trn_priority&#39; : {&#39;v&#39;:&#39;trn_priority&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME },</span>
+<span class="sd">                    &#39;ttime_assert&#39; : {&#39;v&#39;:&#39;ttime_assert&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME },</span>
+<span class="sd">                    &#39;lanes&#39; : {&#39;v&#39;:&#39;lanes&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME },</span>
+<span class="sd">                    &#39;price&#39; : {&#39;v&#39;:&#39;price&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME ,&#39;categories&#39;: DEFAULT_CATEGORIES},</span>
+<span class="sd">                    &#39;access&#39; : {&#39;v&#39;:&#39;access&#39;, &#39;times_periods&#39;:DEFAULT_TIME_PERIOD_TO_TIME},</span>
+<span class="sd">                }</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">itertools</span>
@@ -280,8 +305,10 @@
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.create_calculated_variables"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.create_calculated_variables">[docs]</a>    <span class="k">def</span> <span class="nf">create_calculated_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Params</span>
-<span class="sd">        -------</span>
+<span class="sd">        Creates calculated roadway variables.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating calculated roadway variables.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_area_type</span><span class="p">()</span>
@@ -300,12 +327,19 @@
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates county variable.</span>
+
 <span class="sd">        This uses the centroid of the geometry field to determine which county it should be labeled.</span>
 <span class="sd">        This isn&#39;t perfect, but it much quicker than other methods.</span>
 
-<span class="sd">        params</span>
-<span class="sd">        -------</span>
+<span class="sd">        Args:</span>
+<span class="sd">            county_shape (str): The File path to county geodatabase.</span>
+<span class="sd">            county_shape_variable (str): The variable name of county in county geodadabase.</span>
+<span class="sd">            network_variable (str): The variable name of county in network standard.  Default to &quot;county&quot;.</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing county variable in network.  Default to False.</span>
 
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">network_variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
@@ -359,18 +393,27 @@
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.calculate_area_type"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.calculate_area_type">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_area_type</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;area_type&quot;</span><span class="p">,</span>
         <span class="n">area_type_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">area_type_shape_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;area_type&quot;</span><span class="p">,</span>
         <span class="n">area_type_codes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This uses the centroid of the geometry field to determine which area type it should be labeled.</span>
-<span class="sd">        PER PRD</span>
-<span class="sd">        ##TODO docstrings</span>
-<span class="sd">        params</span>
-<span class="sd">        -------</span>
+<span class="sd">        Calculates area type variable.</span>
+
+<span class="sd">        This uses the centroid of the geometry field to determine which area it should be labeled.</span>
+<span class="sd">        This isn&#39;t perfect, but it much quicker than other methods.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            area_type_shape (str): The File path to area geodatabase.</span>
+<span class="sd">            area_type_shape_variable (str): The variable name of area type in area geodadabase.</span>
+<span class="sd">            network_variable (str): The variable name of area type in network standard.  Default to &quot;area_type&quot;.</span>
+<span class="sd">            area_type_codes_dict: The dictionary to map input area_type_shape_variable to network_variable</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing county variable in network.  Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -467,17 +510,21 @@
 <div class="viewcode-block" id="ModelRoadwayNetwork.calculate_centroidconnect"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.calculate_centroidconnect">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centroidconnect</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;centroidconnect&quot;</span><span class="p">,</span>
-        <span class="n">as_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">highest_taz_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">as_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Params</span>
-<span class="sd">        ------</span>
-<span class="sd">        network_variable: str</span>
-<span class="sd">          variable that should be written to in the network</span>
-<span class="sd">        as_integer: bool</span>
-<span class="sd">          if true, will convert true/false to 1/0s</span>
+<span class="sd">        Calculates centroid connector variable.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            network_variable (str): Variable that should be written to in the network. Default to &quot;centroidconnect&quot;</span>
+<span class="sd">            highest_taz_number (int): the max TAZ number in the network.</span>
+<span class="sd">            as_integer (bool): If True, will convert true/false to 1/0s.  Defauly to True.</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing county variable in network.  Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">network_variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
@@ -555,14 +602,17 @@
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Params</span>
-<span class="sd">        ------</span>
-<span class="sd">        county_variable: string</span>
-<span class="sd">          name of the variable where the county names are stored.</span>
-<span class="sd">        network_variable: string</span>
-<span class="sd">          name of the variable that should be written to</span>
-<span class="sd">        as_integer: bool</span>
-<span class="sd">          if true, will convert true/false to 1/0s</span>
+<span class="sd">        Calculates mpo variable.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            county_variable (str): Name of the variable where the county names are stored.  Default to &quot;county&quot;.</span>
+<span class="sd">            network_variable (str): Name of the variable that should be written to.  Default to &quot;mpo&quot;.</span>
+<span class="sd">            as_integer (bool): If true, will convert true/false to 1/0s.</span>
+<span class="sd">            mpo_counties (list): List of county names that are within mpo region.</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing county variable in network.  Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">network_variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
@@ -639,13 +689,30 @@
         <span class="n">osm_assgngrp_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates assignment group variable.</span>
+
 <span class="sd">        Assignment Group is used in MetCouncil&#39;s traffic assignment to segment the volume/delay curves.</span>
 <span class="sd">        Original source is from the MRCC data for the Minnesota: &quot;route system&quot; which is a roadway class</span>
 <span class="sd">        For Wisconsin, it is from the Wisconsin DOT database, which has a variable called &quot;roadway category&quot;</span>
 
 <span class="sd">        There is a crosswalk between the MRCC Route System and Wisconsin DOT --&gt; Met Council Assignment group</span>
 
-<span class="sd">        This method joins the  network with mrcc and widot roadway data by shst js matcher returns</span>
+<span class="sd">        This method joins the network with mrcc and widot roadway data by shst js matcher returns</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            network_variable (str): Name of the variable that should be written to.  Default to &quot;assign_group&quot;.</span>
+<span class="sd">            mrcc_roadway_class_shape (str): File path to the MRCC route system geodatabase.</span>
+<span class="sd">            mrcc_shst_data (str): File path to the MRCC SHST match return.</span>
+<span class="sd">            mrcc_roadway_class_variable_shp (str): Name of the variable where MRCC route system are stored.</span>
+<span class="sd">            mrcc_assgngrp_dict (dict): Dictionary to map MRCC route system variable to assignment group.</span>
+<span class="sd">            widot_roadway_class_shape (str): File path to the WIDOT roadway category geodatabase.</span>
+<span class="sd">            widot_shst_data (str): File path to the WIDOT SHST match return.</span>
+<span class="sd">            widot_roadway_class_variable_shp (str): Name of the variable where WIDOT roadway category are stored.</span>
+<span class="sd">            widot_assgngrp_dict (dict): Dictionary to map WIDOT roadway category variable to assignment group.</span>
+<span class="sd">            osm_assgngrp_dict (dict): Dictionary to map OSM roadway class to assignment group.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
@@ -882,9 +949,18 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;roadway_class&quot;</span><span class="p">,</span> <span class="n">roadway_class_dict</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates roadway class variable.</span>
+
 <span class="sd">        roadway_class is a lookup based on assignment group</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            network_variable (str): Name of the variable that should be written to.  Default to &quot;roadway_class&quot;.</span>
+<span class="sd">            roadway_class_dict (dict): Dictionary to map assignment group to roadway class.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating Roadway Class&quot;</span><span class="p">)</span>
 
         <span class="sd">&quot;&quot;&quot;</span>
@@ -929,7 +1005,18 @@
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        join the network with data, via SHST API node match result</span>
+<span class="sd">        Join network links with source data, via SHST API node match result.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            var_shst_csvdata (str): File path to SHST API return.</span>
+<span class="sd">            shst_csv_variable (str): Variable name in the source data.</span>
+<span class="sd">            network_variable (str): Name of the variable that should be written to.</span>
+<span class="sd">            network_var_type : Variable type in the written network.</span>
+<span class="sd">            overwrite (bool): True is overwriting existing variable. Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s2">&quot;Adding Variable </span><span class="si">{}</span><span class="s2"> using Shared Streets Reference from </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -977,16 +1064,29 @@
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.add_counts"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.add_counts">[docs]</a>    <span class="k">def</span> <span class="nf">add_counts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
+        <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;AADT&quot;</span><span class="p">,</span>
         <span class="n">mndot_count_shst_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">widot_count_shst_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mndot_count_variable_shp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">widot_count_variable_shp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;AADT&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds count variable.</span>
+
 <span class="sd">        join the network with count node data, via SHST API node match result</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            network_variable (str): Name of the variable that should be written to.  Default to &quot;AADT&quot;.</span>
+<span class="sd">            mndot_count_shst_data (str): File path to MNDOT count location SHST API node match result.</span>
+<span class="sd">            widot_count_shst_data (str): File path to WIDOT count location SHST API node match result.</span>
+<span class="sd">            mndot_count_variable_shp (str): File path to MNDOT count location geodatabase.</span>
+<span class="sd">            widot_count_variable_shp (str): File path to WIDOT count location geodatabase.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding Counts&quot;</span><span class="p">)</span>
 
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1073,11 +1173,17 @@
 <div class="viewcode-block" id="ModelRoadwayNetwork.read_match_result"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.read_match_result">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">read_match_result</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        read the shst geojson match returns</span>
+<span class="sd">        Reads the shst geojson match returns.</span>
 
-<span class="sd">        return shst dataframe</span>
+<span class="sd">        Returns shst dataframe.</span>
 
-<span class="sd">        reading lots of same type of file and concatenating them into a single DataFrame</span>
+<span class="sd">        Reading lots of same type of file and concatenating them into a single DataFrame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): File path to SHST match results.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            geodataframe: geopandas geodataframe</span>
 
 <span class="sd">        ##todo</span>
 <span class="sd">        not sure why we need, but should be in utilities not this class</span>
@@ -1097,6 +1203,19 @@
         <span class="n">source_gdf</span><span class="p">,</span>  <span class="c1"># source dataframe</span>
         <span class="n">field_name</span><span class="p">,</span>  <span class="c1"># , # targetted attribute from source</span>
     <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets attribute from source data using SHST match result.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            links_df (dataframe): The network dataframe that new attribute should be written to.</span>
+<span class="sd">            join_key (str): SHST ID variable name used to join source data with network dataframe.</span>
+<span class="sd">            source_shst_ref_df (str): File path to source data SHST match result.</span>
+<span class="sd">            source_gdf (str): File path to source data.</span>
+<span class="sd">            field_name (str): Name of the attribute to get from source data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># join based on shared streets geometry ID</span>
         <span class="c1"># pp_link_id is shared streets match return</span>
         <span class="c1"># source_ink_id is mrcc</span>
@@ -1145,7 +1264,13 @@
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.roadway_standard_to_met_council_network"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network">[docs]</a>    <span class="k">def</span> <span class="nf">roadway_standard_to_met_council_network</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_epsg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        rename and format roadway attributes to be consistent with what metcouncil&#39;s model is expecting.</span>
+<span class="sd">        Rename and format roadway attributes to be consistent with what metcouncil&#39;s model is expecting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            output_epsg (int): epsg number of output network.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
@@ -1196,7 +1321,17 @@
         <span class="n">convert_geometry_to_xy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Rename attributes</span>
+<span class="sd">        Rename attributes for DBF/SHP, make sure length within 10 chars.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_df (dataframe): Network standard DataFrame.</span>
+<span class="sd">            variable_crosswalk (str): File path to variable name crosswalk from network standard to DBF names.</span>
+<span class="sd">            output_variables (list): List of strings for DBF variables.</span>
+<span class="sd">            convert_geometry_to_xy (bool): True if converting node geometry to X/Y</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dataframe</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Renaming variables so that they are DBF-safe&quot;</span><span class="p">)</span>
 
@@ -1258,8 +1393,20 @@
         <span class="n">output_node_csv</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        write out dbf/shp for cube</span>
-<span class="sd">        write out csv in addition to shp with full length variable names</span>
+<span class="sd">        Write out dbf/shp for cube.  Write out csv in addition to shp with full length variable names.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node_output_variables (list): List of strings for node output variables.</span>
+<span class="sd">            link_output_variables (list): List of strings for link output variables.</span>
+<span class="sd">            data_to_csv (bool): True if write network in csv format.</span>
+<span class="sd">            data_to_dbf (bool): True if write network in dbf/shp format.</span>
+<span class="sd">            output_link_shp (str): File path to output link dbf/shp.</span>
+<span class="sd">            output_node_shp (str): File path to output node dbf/shp.</span>
+<span class="sd">            output_link_csv (str): File path to output link csv.</span>
+<span class="sd">            output_node_csv (str): File path to output node csv.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing Network as Shapefile&quot;</span><span class="p">)</span>
@@ -1363,15 +1510,14 @@
 <div class="viewcode-block" id="ModelRoadwayNetwork.dataframe_to_fixed_with"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.dataframe_to_fixed_with">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">dataframe_to_fixed_with</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        convert dataframe to fixed width format, geometry column will not be transformed</span>
+<span class="sd">        Convert dataframe to fixed width format, geometry column will not be transformed.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        pandas DataFrame</span>
+<span class="sd">        Args:</span>
+<span class="sd">            df (pandas DataFrame).</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        ----------</span>
-<span class="sd">        pandas dataframe with fixed width for each column</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas dataframe:  dataframe with fixed width for each column.</span>
+<span class="sd">            dict: dictionary with columns names as keys, column width as values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting fixed width convertion&quot;</span><span class="p">)</span>
 
@@ -1397,18 +1543,24 @@
         <span class="n">output_cube_network_script</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this function does:</span>
-<span class="sd">        1. write out link and node fixed width data files for cube</span>
-<span class="sd">        2. write out header and width correspondence</span>
-<span class="sd">        3. write out cube network building script with header and width specification</span>
+<span class="sd">        Writes out fixed width file.</span>
 
-<span class="sd">        parameters</span>
-<span class="sd">        -----------</span>
-<span class="sd">        link GeoDataFrame</span>
-<span class="sd">        node GeoDataFrame</span>
+<span class="sd">        This function does:</span>
+<span class="sd">        1. write out link and node fixed width data files for cube.</span>
+<span class="sd">        2. write out header and width correspondence.</span>
+<span class="sd">        3. write out cube network building script with header and width specification.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -----------</span>
+<span class="sd">        Args:</span>
+<span class="sd">            node_output_variables (list): list of link variable names.</span>
+<span class="sd">            link_output_variables (list): list of node variable names.</span>
+<span class="sd">            output_link_txt (str): File path to output link database.</span>
+<span class="sd">            output_node_txt (str): File path to output node database.</span>
+<span class="sd">            output_link_header_width_csv (str): File path to link column width records.</span>
+<span class="sd">            output_link_header_width_csv (str): File path to node column width records.</span>
+<span class="sd">            output_cube_network_script (str): File path to CUBE network building script.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 

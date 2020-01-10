@@ -189,14 +189,14 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.__init__" title="lasso.ModelRoadwayNetwork.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(nodes, links, shapes[, parameters])</p></td>
 <td><p>Constructor</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.add_counts" title="lasso.ModelRoadwayNetwork.add_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_counts</span></code></a>([mndot_count_shst_data, …])</p></td>
-<td><p>join the network with count node data, via SHST API node match result</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.add_counts" title="lasso.ModelRoadwayNetwork.add_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_counts</span></code></a>([network_variable, …])</p></td>
+<td><p>Adds count variable.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.add_new_roadway_feature_change" title="lasso.ModelRoadwayNetwork.add_new_roadway_feature_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_new_roadway_feature_change</span></code></a>(links, nodes)</p></td>
 <td><p>add the new roadway features defined in the project card</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.add_variable_using_shst_reference" title="lasso.ModelRoadwayNetwork.add_variable_using_shst_reference"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_variable_using_shst_reference</span></code></a>([…])</p></td>
-<td><p>join the network with data, via SHST API node match result</p></td>
+<td><p>Join network links with source data, via SHST API node match result.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.apply" title="lasso.ModelRoadwayNetwork.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(project_card_dictionary)</p></td>
 <td><p>Wrapper method to apply a project to a roadway network.</p></td>
@@ -210,26 +210,26 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.build_selection_key" title="lasso.ModelRoadwayNetwork.build_selection_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_selection_key</span></code></a>(selection_dict)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_area_type" title="lasso.ModelRoadwayNetwork.calculate_area_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_area_type</span></code></a>([network_variable, …])</p></td>
-<td><p>This uses the centroid of the geometry field to determine which area type it should be labeled.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_area_type" title="lasso.ModelRoadwayNetwork.calculate_area_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_area_type</span></code></a>([area_type_shape, …])</p></td>
+<td><p>Calculates area type variable.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_assign_group" title="lasso.ModelRoadwayNetwork.calculate_assign_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_assign_group</span></code></a>([network_variable, …])</p></td>
-<td><p>Assignment Group is used in MetCouncil’s traffic assignment to segment the volume/delay curves.</p></td>
+<td><p>Calculates assignment group variable.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_centroidconnect" title="lasso.ModelRoadwayNetwork.calculate_centroidconnect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_centroidconnect</span></code></a>([…])</p></td>
-<td><p>Params</p></td>
+<td><p>Calculates centroid connector variable.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_county" title="lasso.ModelRoadwayNetwork.calculate_county"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_county</span></code></a>([county_shape, …])</p></td>
-<td><p>This uses the centroid of the geometry field to determine which county it should be labeled.</p></td>
+<td><p>Calculates county variable.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_mpo" title="lasso.ModelRoadwayNetwork.calculate_mpo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_mpo</span></code></a>([county_network_variable, …])</p></td>
-<td><p>Params</p></td>
+<td><p>Calculates mpo variable.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_roadway_class" title="lasso.ModelRoadwayNetwork.calculate_roadway_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_roadway_class</span></code></a>([network_variable, …])</p></td>
-<td><p>roadway_class is a lookup based on assignment group</p></td>
+<td><p>Calculates roadway class variable.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_calculated_variables" title="lasso.ModelRoadwayNetwork.create_calculated_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_calculated_variables</span></code></a>()</p></td>
-<td><p>Params</p></td>
+<td><p>Creates calculated roadway variables.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_dummy_connector_links" title="lasso.ModelRoadwayNetwork.create_dummy_connector_links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dummy_connector_links</span></code></a>(ml_df)</p></td>
 <td><p>create dummy connector links between the general purpose and managed lanes</p></td>
@@ -238,16 +238,16 @@
 <td><p>Create a roadway network with managed lanes links separated out</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.dataframe_to_fixed_with" title="lasso.ModelRoadwayNetwork.dataframe_to_fixed_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataframe_to_fixed_with</span></code></a>(df)</p></td>
-<td><p>convert dataframe to fixed width format, geometry column will not be transformed</p></td>
+<td><p>Convert dataframe to fixed width format, geometry column will not be transformed.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.delete_roadway_feature_change" title="lasso.ModelRoadwayNetwork.delete_roadway_feature_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_roadway_feature_change</span></code></a>(links, nodes)</p></td>
 <td><p>delete the roadway features defined in the project card</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.from_RoadwayNetwork" title="lasso.ModelRoadwayNetwork.from_RoadwayNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_RoadwayNetwork</span></code></a>(roadway_network_object)</p></td>
-<td><p></p></td>
+<td><p>RoadwayNetwork to ModelRoadwayNetwork</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.get_attribute" title="lasso.ModelRoadwayNetwork.get_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_attribute</span></code></a>(links_df, join_key, …)</p></td>
-<td><p></p></td>
+<td><p>Gets attribute from source data using SHST match result.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.get_managed_lane_node_ids" title="lasso.ModelRoadwayNetwork.get_managed_lane_node_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_managed_lane_node_ids</span></code></a>(nodes_list)</p></td>
 <td><p></p></td>
@@ -262,16 +262,16 @@
 <td><p>create an osmnx-flavored network graph</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.read" title="lasso.ModelRoadwayNetwork.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(link_file, node_file, shape_file[, …])</p></td>
-<td><p>Reads a network from the roadway network standard Validates that it conforms to the schema</p></td>
+<td><p>Reads in links and nodes network standard.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.read_match_result" title="lasso.ModelRoadwayNetwork.read_match_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_match_result</span></code></a>(path)</p></td>
-<td><p>read the shst geojson match returns</p></td>
+<td><p>Reads the shst geojson match returns.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.rename_variables_for_dbf" title="lasso.ModelRoadwayNetwork.rename_variables_for_dbf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rename_variables_for_dbf</span></code></a>(input_df[, …])</p></td>
-<td><p>Rename attributes</p></td>
+<td><p>Rename attributes for DBF/SHP, make sure length within 10 chars.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network" title="lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roadway_standard_to_met_council_network</span></code></a>([…])</p></td>
-<td><p>rename and format roadway attributes to be consistent with what metcouncil’s model is expecting.</p></td>
+<td><p>Rename and format roadway attributes to be consistent with what metcouncil’s model is expecting.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.select_roadway_features" title="lasso.ModelRoadwayNetwork.select_roadway_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_roadway_features</span></code></a>(selection[, …])</p></td>
 <td><p>Selects roadway features that satisfy selection criteria</p></td>
@@ -307,10 +307,10 @@
 <td><p>Writes a network in the roadway network standard</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.write_roadway_as_fixedwidth" title="lasso.ModelRoadwayNetwork.write_roadway_as_fixedwidth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_roadway_as_fixedwidth</span></code></a>([…])</p></td>
-<td><p>this function does: 1.</p></td>
+<td><p>Writes out fixed width file.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.write_roadway_as_shp" title="lasso.ModelRoadwayNetwork.write_roadway_as_shp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_roadway_as_shp</span></code></a>([…])</p></td>
-<td><p>write out dbf/shp for cube write out csv in addition to shp with full length variable names</p></td>
+<td><p>Write out dbf/shp for cube.</p></td>
 </tr>
 </tbody>
 </table>
@@ -376,8 +376,23 @@
 </table>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.add_counts">
-<code class="sig-name descname">add_counts</code><span class="sig-paren">(</span><em class="sig-param">mndot_count_shst_data=None</em>, <em class="sig-param">widot_count_shst_data=None</em>, <em class="sig-param">mndot_count_variable_shp=None</em>, <em class="sig-param">widot_count_variable_shp=None</em>, <em class="sig-param">network_variable='AADT'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.add_counts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.add_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>join the network with count node data, via SHST API node match result</p>
+<code class="sig-name descname">add_counts</code><span class="sig-paren">(</span><em class="sig-param">network_variable='AADT'</em>, <em class="sig-param">mndot_count_shst_data=None</em>, <em class="sig-param">widot_count_shst_data=None</em>, <em class="sig-param">mndot_count_variable_shp=None</em>, <em class="sig-param">widot_count_variable_shp=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.add_counts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.add_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds count variable.</p>
+<p>join the network with count node data, via SHST API node match result</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>network_variable</strong> (<em>str</em>) – Name of the variable that should be written to.  Default to “AADT”.</p></li>
+<li><p><strong>mndot_count_shst_data</strong> (<em>str</em>) – File path to MNDOT count location SHST API node match result.</p></li>
+<li><p><strong>widot_count_shst_data</strong> (<em>str</em>) – File path to WIDOT count location SHST API node match result.</p></li>
+<li><p><strong>mndot_count_variable_shp</strong> (<em>str</em>) – File path to MNDOT count location geodatabase.</p></li>
+<li><p><strong>widot_count_variable_shp</strong> (<em>str</em>) – File path to WIDOT count location geodatabase.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -403,7 +418,21 @@ links : dict</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.add_variable_using_shst_reference">
 <code class="sig-name descname">add_variable_using_shst_reference</code><span class="sig-paren">(</span><em class="sig-param">var_shst_csvdata=None</em>, <em class="sig-param">shst_csv_variable=None</em>, <em class="sig-param">network_variable=None</em>, <em class="sig-param">network_var_type=&lt;class 'int'&gt;</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.add_variable_using_shst_reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.add_variable_using_shst_reference" title="Permalink to this definition">¶</a></dt>
-<dd><p>join the network with data, via SHST API node match result</p>
+<dd><p>Join network links with source data, via SHST API node match result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_shst_csvdata</strong> (<em>str</em>) – File path to SHST API return.</p></li>
+<li><p><strong>shst_csv_variable</strong> (<em>str</em>) – Variable name in the source data.</p></li>
+<li><p><strong>network_variable</strong> (<em>str</em>) – Name of the variable that should be written to.</p></li>
+<li><p><strong>network_var_type</strong> – Variable type in the written network.</p></li>
+<li><p><strong>overwrite</strong> (<em>bool</em>) – True is overwriting existing variable. Default to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -466,31 +495,71 @@ link_idx : list</p>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.calculate_area_type">
-<code class="sig-name descname">calculate_area_type</code><span class="sig-paren">(</span><em class="sig-param">network_variable='area_type'</em>, <em class="sig-param">area_type_shape=None</em>, <em class="sig-param">area_type_shape_variable=None</em>, <em class="sig-param">area_type_codes_dict=None</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_area_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_area_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>This uses the centroid of the geometry field to determine which area type it should be labeled.
-PER PRD
-##TODO docstrings
-params
-——-</p>
+<code class="sig-name descname">calculate_area_type</code><span class="sig-paren">(</span><em class="sig-param">area_type_shape=None</em>, <em class="sig-param">area_type_shape_variable=None</em>, <em class="sig-param">network_variable='area_type'</em>, <em class="sig-param">area_type_codes_dict=None</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_area_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_area_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates area type variable.</p>
+<p>This uses the centroid of the geometry field to determine which area it should be labeled.
+This isn’t perfect, but it much quicker than other methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_type_shape</strong> (<em>str</em>) – The File path to area geodatabase.</p></li>
+<li><p><strong>area_type_shape_variable</strong> (<em>str</em>) – The variable name of area type in area geodadabase.</p></li>
+<li><p><strong>network_variable</strong> (<em>str</em>) – The variable name of area type in network standard.  Default to “area_type”.</p></li>
+<li><p><strong>area_type_codes_dict</strong> – The dictionary to map input area_type_shape_variable to network_variable</p></li>
+<li><p><strong>overwrite</strong> (<em>Bool</em>) – True if overwriting existing county variable in network.  Default to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.calculate_assign_group">
 <code class="sig-name descname">calculate_assign_group</code><span class="sig-paren">(</span><em class="sig-param">network_variable='assign_group'</em>, <em class="sig-param">mrcc_roadway_class_shape=None</em>, <em class="sig-param">mrcc_shst_data=None</em>, <em class="sig-param">mrcc_roadway_class_variable_shp=None</em>, <em class="sig-param">mrcc_assgngrp_dict=None</em>, <em class="sig-param">widot_roadway_class_shape=None</em>, <em class="sig-param">widot_shst_data=None</em>, <em class="sig-param">widot_roadway_class_variable_shp=None</em>, <em class="sig-param">widot_assgngrp_dict=None</em>, <em class="sig-param">osm_assgngrp_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_assign_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_assign_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assignment Group is used in MetCouncil’s traffic assignment to segment the volume/delay curves.
+<dd><p>Calculates assignment group variable.</p>
+<p>Assignment Group is used in MetCouncil’s traffic assignment to segment the volume/delay curves.
 Original source is from the MRCC data for the Minnesota: “route system” which is a roadway class
 For Wisconsin, it is from the Wisconsin DOT database, which has a variable called “roadway category”</p>
 <p>There is a crosswalk between the MRCC Route System and Wisconsin DOT –&gt; Met Council Assignment group</p>
-<p>This method joins the  network with mrcc and widot roadway data by shst js matcher returns</p>
+<p>This method joins the network with mrcc and widot roadway data by shst js matcher returns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>network_variable</strong> (<em>str</em>) – Name of the variable that should be written to.  Default to “assign_group”.</p></li>
+<li><p><strong>mrcc_roadway_class_shape</strong> (<em>str</em>) – File path to the MRCC route system geodatabase.</p></li>
+<li><p><strong>mrcc_shst_data</strong> (<em>str</em>) – File path to the MRCC SHST match return.</p></li>
+<li><p><strong>mrcc_roadway_class_variable_shp</strong> (<em>str</em>) – Name of the variable where MRCC route system are stored.</p></li>
+<li><p><strong>mrcc_assgngrp_dict</strong> (<em>dict</em>) – Dictionary to map MRCC route system variable to assignment group.</p></li>
+<li><p><strong>widot_roadway_class_shape</strong> (<em>str</em>) – File path to the WIDOT roadway category geodatabase.</p></li>
+<li><p><strong>widot_shst_data</strong> (<em>str</em>) – File path to the WIDOT SHST match return.</p></li>
+<li><p><strong>widot_roadway_class_variable_shp</strong> (<em>str</em>) – Name of the variable where WIDOT roadway category are stored.</p></li>
+<li><p><strong>widot_assgngrp_dict</strong> (<em>dict</em>) – Dictionary to map WIDOT roadway category variable to assignment group.</p></li>
+<li><p><strong>osm_assgngrp_dict</strong> (<em>dict</em>) – Dictionary to map OSM roadway class to assignment group.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.calculate_centroidconnect">
-<code class="sig-name descname">calculate_centroidconnect</code><span class="sig-paren">(</span><em class="sig-param">network_variable='centroidconnect'</em>, <em class="sig-param">as_integer=True</em>, <em class="sig-param">highest_taz_number=None</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_centroidconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_centroidconnect" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>network_variable: str</dt><dd><p>variable that should be written to in the network</p>
+<code class="sig-name descname">calculate_centroidconnect</code><span class="sig-paren">(</span><em class="sig-param">network_variable='centroidconnect'</em>, <em class="sig-param">highest_taz_number=None</em>, <em class="sig-param">as_integer=True</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_centroidconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_centroidconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates centroid connector variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>network_variable</strong> (<em>str</em>) – Variable that should be written to in the network. Default to “centroidconnect”</p></li>
+<li><p><strong>highest_taz_number</strong> (<em>int</em>) – the max TAZ number in the network.</p></li>
+<li><p><strong>as_integer</strong> (<em>bool</em>) – If True, will convert true/false to 1/0s.  Defauly to True.</p></li>
+<li><p><strong>overwrite</strong> (<em>Bool</em>) – True if overwriting existing county variable in network.  Default to False.</p></li>
+</ul>
 </dd>
-<dt>as_integer: bool</dt><dd><p>if true, will convert true/false to 1/0s</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -498,19 +567,40 @@ For Wisconsin, it is from the Wisconsin DOT database, which has a variable calle
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.calculate_county">
 <code class="sig-name descname">calculate_county</code><span class="sig-paren">(</span><em class="sig-param">county_shape=None</em>, <em class="sig-param">county_shape_variable=None</em>, <em class="sig-param">network_variable='county'</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_county"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_county" title="Permalink to this definition">¶</a></dt>
-<dd><p>This uses the centroid of the geometry field to determine which county it should be labeled.
+<dd><p>Calculates county variable.</p>
+<p>This uses the centroid of the geometry field to determine which county it should be labeled.
 This isn’t perfect, but it much quicker than other methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>county_shape</strong> (<em>str</em>) – The File path to county geodatabase.</p></li>
+<li><p><strong>county_shape_variable</strong> (<em>str</em>) – The variable name of county in county geodadabase.</p></li>
+<li><p><strong>network_variable</strong> (<em>str</em>) – The variable name of county in network standard.  Default to “county”.</p></li>
+<li><p><strong>overwrite</strong> (<em>Bool</em>) – True if overwriting existing county variable in network.  Default to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.calculate_mpo">
 <code class="sig-name descname">calculate_mpo</code><span class="sig-paren">(</span><em class="sig-param">county_network_variable='county'</em>, <em class="sig-param">network_variable='mpo'</em>, <em class="sig-param">as_integer=True</em>, <em class="sig-param">mpo_counties=None</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_mpo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_mpo" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>county_variable: string</dt><dd><p>name of the variable where the county names are stored.</p>
+<dd><p>Calculates mpo variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>county_variable</strong> (<em>str</em>) – Name of the variable where the county names are stored.  Default to “county”.</p></li>
+<li><p><strong>network_variable</strong> (<em>str</em>) – Name of the variable that should be written to.  Default to “mpo”.</p></li>
+<li><p><strong>as_integer</strong> (<em>bool</em>) – If true, will convert true/false to 1/0s.</p></li>
+<li><p><strong>mpo_counties</strong> (<em>list</em>) – List of county names that are within mpo region.</p></li>
+<li><p><strong>overwrite</strong> (<em>Bool</em>) – True if overwriting existing county variable in network.  Default to False.</p></li>
+</ul>
 </dd>
-<dt>network_variable: string</dt><dd><p>name of the variable that should be written to</p>
-</dd>
-<dt>as_integer: bool</dt><dd><p>if true, will convert true/false to 1/0s</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -518,13 +608,31 @@ This isn’t perfect, but it much quicker than other methods.</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.calculate_roadway_class">
 <code class="sig-name descname">calculate_roadway_class</code><span class="sig-paren">(</span><em class="sig-param">network_variable='roadway_class'</em>, <em class="sig-param">roadway_class_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.calculate_roadway_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.calculate_roadway_class" title="Permalink to this definition">¶</a></dt>
-<dd><p>roadway_class is a lookup based on assignment group</p>
+<dd><p>Calculates roadway class variable.</p>
+<p>roadway_class is a lookup based on assignment group</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>network_variable</strong> (<em>str</em>) – Name of the variable that should be written to.  Default to “roadway_class”.</p></li>
+<li><p><strong>roadway_class_dict</strong> (<em>dict</em>) – Dictionary to map assignment group to roadway class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.create_calculated_variables">
 <code class="sig-name descname">create_calculated_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.create_calculated_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.create_calculated_variables" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates calculated roadway variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.create_dummy_connector_links">
@@ -564,16 +672,17 @@ gp_df : GeoDataFrame</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.dataframe_to_fixed_with">
 <em class="property">static </em><code class="sig-name descname">dataframe_to_fixed_with</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.dataframe_to_fixed_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.dataframe_to_fixed_with" title="Permalink to this definition">¶</a></dt>
-<dd><p>convert dataframe to fixed width format, geometry column will not be transformed</p>
+<dd><p>Convert dataframe to fixed width format, geometry column will not be transformed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>DataFrame</strong> (<em>pandas</em>) – </p>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas DataFrame</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>dataframe with fixed width for each column.
+dict: dictionary with columns names as keys, column width as values.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pandas dataframe with fixed width for each column</p>
+<dd class="field-odd"><p>pandas dataframe</p>
 </dd>
 </dl>
 </dd></dl>
@@ -605,12 +714,39 @@ If False, will fail.</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.from_RoadwayNetwork">
 <em class="property">static </em><code class="sig-name descname">from_RoadwayNetwork</code><span class="sig-paren">(</span><em class="sig-param">roadway_network_object</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.from_RoadwayNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.from_RoadwayNetwork" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>RoadwayNetwork to ModelRoadwayNetwork</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>roadway_network_object</strong> (<em>RoadwayNetwork</em>) – </p></li>
+<li><p><strong>parameters</strong> – parameters for lasso.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ModelRoadwayNetwork</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.get_attribute">
 <em class="property">static </em><code class="sig-name descname">get_attribute</code><span class="sig-paren">(</span><em class="sig-param">links_df</em>, <em class="sig-param">join_key</em>, <em class="sig-param">source_shst_ref_df</em>, <em class="sig-param">source_gdf</em>, <em class="sig-param">field_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.get_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.get_attribute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets attribute from source data using SHST match result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>links_df</strong> (<em>dataframe</em>) – The network dataframe that new attribute should be written to.</p></li>
+<li><p><strong>join_key</strong> (<em>str</em>) – SHST ID variable name used to join source data with network dataframe.</p></li>
+<li><p><strong>source_shst_ref_df</strong> (<em>str</em>) – File path to source data SHST match result.</p></li>
+<li><p><strong>source_gdf</strong> (<em>str</em>) – File path to source data.</p></li>
+<li><p><strong>field_name</strong> (<em>str</em>) – Name of the attribute to get from source data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.get_managed_lane_node_ids">
@@ -690,21 +826,40 @@ be filled in, so do that too.</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.read">
 <em class="property">static </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param">link_file</em>, <em class="sig-param">node_file</em>, <em class="sig-param">shape_file</em>, <em class="sig-param">fast=False</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads a network from the roadway network standard
-Validates that it conforms to the schema</p>
-<p>args:
-link_file: full path to the link file
-node_file: full path to the node file
-shape_file: full path to the shape file
-fast: boolean that will skip validation to speed up read time</p>
+<dd><p>Reads in links and nodes network standard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>link_file</strong> (<em>str</em>) – File path to link json.</p></li>
+<li><p><strong>node_file</strong> (<em>str</em>) – File path to node geojson.</p></li>
+<li><p><strong>shape_file</strong> (<em>str</em>) – File path to link true shape geojson</p></li>
+<li><p><strong>fast</strong> (<em>bool</em>) – boolean that will skip validation to speed up read time.</p></li>
+<li><p><strong>parameters</strong> – parameters for lasso.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ModelRoadwayNetwork</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.read_match_result">
 <em class="property">static </em><code class="sig-name descname">read_match_result</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.read_match_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.read_match_result" title="Permalink to this definition">¶</a></dt>
-<dd><p>read the shst geojson match returns</p>
-<p>return shst dataframe</p>
-<p>reading lots of same type of file and concatenating them into a single DataFrame</p>
+<dd><p>Reads the shst geojson match returns.</p>
+<p>Returns shst dataframe.</p>
+<p>Reading lots of same type of file and concatenating them into a single DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – File path to SHST match results.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>geopandas geodataframe</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>geodataframe</p>
+</dd>
+</dl>
 <p>##todo
 not sure why we need, but should be in utilities not this class</p>
 </dd></dl>
@@ -712,13 +867,34 @@ not sure why we need, but should be in utilities not this class</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.rename_variables_for_dbf">
 <code class="sig-name descname">rename_variables_for_dbf</code><span class="sig-paren">(</span><em class="sig-param">input_df</em>, <em class="sig-param">variable_crosswalk=None</em>, <em class="sig-param">output_variables=None</em>, <em class="sig-param">convert_geometry_to_xy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.rename_variables_for_dbf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.rename_variables_for_dbf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rename attributes</p>
+<dd><p>Rename attributes for DBF/SHP, make sure length within 10 chars.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_df</strong> (<em>dataframe</em>) – Network standard DataFrame.</p></li>
+<li><p><strong>variable_crosswalk</strong> (<em>str</em>) – File path to variable name crosswalk from network standard to DBF names.</p></li>
+<li><p><strong>output_variables</strong> (<em>list</em>) – List of strings for DBF variables.</p></li>
+<li><p><strong>convert_geometry_to_xy</strong> (<em>bool</em>) – True if converting node geometry to X/Y</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataframe</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network">
 <code class="sig-name descname">roadway_standard_to_met_council_network</code><span class="sig-paren">(</span><em class="sig-param">output_epsg=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.roadway_standard_to_met_council_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network" title="Permalink to this definition">¶</a></dt>
-<dd><p>rename and format roadway attributes to be consistent with what metcouncil’s model is expecting.</p>
+<dd><p>Rename and format roadway attributes to be consistent with what metcouncil’s model is expecting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>output_epsg</strong> (<em>int</em>) – epsg number of output network.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -774,18 +950,21 @@ link - which includes at least a variable for <cite>name</cite></p>
 <dt id="lasso.ModelRoadwayNetwork.split_properties_by_time_period_and_category">
 <code class="sig-name descname">split_properties_by_time_period_and_category</code><span class="sig-paren">(</span><em class="sig-param">properties_to_split=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.split_properties_by_time_period_and_category"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.split_properties_by_time_period_and_category" title="Permalink to this definition">¶</a></dt>
 <dd><p>Splits properties by time period, assuming a variable structure of</p>
-<dl>
-<dt>properties_to_split: dict</dt><dd><p>dictionary of output variable prefix mapped to the source variable and what to stratify it by
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>properties_to_split</strong> – <p>dict
+dictionary of output variable prefix mapped to the source variable and what to stratify it by
 e.g.
 {</p>
 <blockquote>
-<div><p>‘trn_priority’ : {‘v’:’trn_priority’, ‘times_periods’:DEFAULT_TIME_PERIOD_TO_TIME },
+<div><p>’trn_priority’ : {‘v’:’trn_priority’, ‘times_periods’:DEFAULT_TIME_PERIOD_TO_TIME },
 ‘ttime_assert’ : {‘v’:’ttime_assert’, ‘times_periods’:DEFAULT_TIME_PERIOD_TO_TIME },
 ‘lanes’ : {‘v’:’lanes’, ‘times_periods’:DEFAULT_TIME_PERIOD_TO_TIME },
 ‘price’ : {‘v’:’price’, ‘times_periods’:DEFAULT_TIME_PERIOD_TO_TIME ,’categories’: DEFAULT_CATEGORIES},
 ‘access’ : {‘v’:’access’, ‘times_periods’:DEFAULT_TIME_PERIOD_TO_TIME},</p>
 </div></blockquote>
 <p>}</p>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -892,16 +1071,25 @@ filename: the name prefix of the roadway files that will be generated</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.write_roadway_as_fixedwidth">
 <code class="sig-name descname">write_roadway_as_fixedwidth</code><span class="sig-paren">(</span><em class="sig-param">node_output_variables=None</em>, <em class="sig-param">link_output_variables=None</em>, <em class="sig-param">output_link_txt=None</em>, <em class="sig-param">output_node_txt=None</em>, <em class="sig-param">output_link_header_width_csv=None</em>, <em class="sig-param">output_node_header_width_csv=None</em>, <em class="sig-param">output_cube_network_script=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.write_roadway_as_fixedwidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.write_roadway_as_fixedwidth" title="Permalink to this definition">¶</a></dt>
-<dd><p>this function does:
-1. write out link and node fixed width data files for cube
-2. write out header and width correspondence
-3. write out cube network building script with header and width specification</p>
+<dd><p>Writes out fixed width file.</p>
+<p>This function does:
+1. write out link and node fixed width data files for cube.
+2. write out header and width correspondence.
+3. write out cube network building script with header and width specification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>GeoDataFrame</strong> (<em>node</em>) – </p></li>
-<li><p><strong>GeoDataFrame</strong> – </p></li>
+<li><p><strong>node_output_variables</strong> (<em>list</em>) – list of link variable names.</p></li>
+<li><p><strong>link_output_variables</strong> (<em>list</em>) – list of node variable names.</p></li>
+<li><p><strong>output_link_txt</strong> (<em>str</em>) – File path to output link database.</p></li>
+<li><p><strong>output_node_txt</strong> (<em>str</em>) – File path to output node database.</p></li>
+<li><p><strong>output_link_header_width_csv</strong> (<em>str</em>) – File path to link column width records.</p></li>
+<li><p><strong>output_link_header_width_csv</strong> – File path to node column width records.</p></li>
+<li><p><strong>output_cube_network_script</strong> (<em>str</em>) – File path to CUBE network building script.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -909,8 +1097,24 @@ filename: the name prefix of the roadway files that will be generated</p>
 <dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.write_roadway_as_shp">
 <code class="sig-name descname">write_roadway_as_shp</code><span class="sig-paren">(</span><em class="sig-param">node_output_variables=None</em>, <em class="sig-param">link_output_variables=None</em>, <em class="sig-param">data_to_csv=True</em>, <em class="sig-param">data_to_dbf=False</em>, <em class="sig-param">output_link_shp=None</em>, <em class="sig-param">output_node_shp=None</em>, <em class="sig-param">output_link_csv=None</em>, <em class="sig-param">output_node_csv=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/Roadway.html#ModelRoadwayNetwork.write_roadway_as_shp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.write_roadway_as_shp" title="Permalink to this definition">¶</a></dt>
-<dd><p>write out dbf/shp for cube
-write out csv in addition to shp with full length variable names</p>
+<dd><p>Write out dbf/shp for cube.  Write out csv in addition to shp with full length variable names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_output_variables</strong> (<em>list</em>) – List of strings for node output variables.</p></li>
+<li><p><strong>link_output_variables</strong> (<em>list</em>) – List of strings for link output variables.</p></li>
+<li><p><strong>data_to_csv</strong> (<em>bool</em>) – True if write network in csv format.</p></li>
+<li><p><strong>data_to_dbf</strong> (<em>bool</em>) – True if write network in dbf/shp format.</p></li>
+<li><p><strong>output_link_shp</strong> (<em>str</em>) – File path to output link dbf/shp.</p></li>
+<li><p><strong>output_node_shp</strong> (<em>str</em>) – File path to output node dbf/shp.</p></li>
+<li><p><strong>output_link_csv</strong> (<em>str</em>) – File path to output link csv.</p></li>
+<li><p><strong>output_node_csv</strong> (<em>str</em>) – File path to output node csv.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
