@@ -165,6 +165,38 @@
     <span class="n">unhashed</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
     <span class="nb">hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">unhashed</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
     <span class="k">return</span> <span class="nb">hash</span></div>
+
+
+<div class="viewcode-block" id="hhmmss_to_datetime"><a class="viewcode-back" href="../../_generated/lasso.util.html#lasso.util.hhmmss_to_datetime">[docs]</a><span class="k">def</span> <span class="nf">hhmmss_to_datetime</span><span class="p">(</span><span class="n">hhmmss_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a datetime time object from a string of hh:mm:ss</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        hhmmss_str: string of hh:mm:ss</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dt: datetime.time object representing time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">hhmmss_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">dt</span></div>
+
+
+<div class="viewcode-block" id="secs_to_datetime"><a class="viewcode-back" href="../../_generated/lasso.util.html#lasso.util.secs_to_datetime">[docs]</a><span class="k">def</span> <span class="nf">secs_to_datetime</span><span class="p">(</span><span class="n">secs</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a datetime time object from a seconds from midnight</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        secs: seconds from midnight</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dt: datetime.time object representing time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+
+    <span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">min</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">secs</span><span class="p">))</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">dt</span></div>
 </pre></div>
 
            </div>

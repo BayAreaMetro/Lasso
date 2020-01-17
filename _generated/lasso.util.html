@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="lasso.WranglerLogger" href="lasso.WranglerLogger.html" />
-    <link rel="prev" title="lasso.TransitParser" href="lasso.TransitParser.html" /> 
+    <link rel="prev" title="lasso.Parameters" href="lasso.Parameters.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -173,6 +173,12 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.util.get_shared_streets_intersection_hash" title="lasso.util.get_shared_streets_intersection_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_shared_streets_intersection_hash</span></code></a>(lat, long)</p></td>
 <td><p>Calculated per:</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.util.hhmmss_to_datetime" title="lasso.util.hhmmss_to_datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hhmmss_to_datetime</span></code></a>(hhmmss_str)</p></td>
+<td><p>Creates a datetime time object from a string of hh:mm:ss</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.util.secs_to_datetime" title="lasso.util.secs_to_datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">secs_to_datetime</span></code></a>(secs)</p></td>
+<td><p>Creates a datetime time object from a seconds from midnight</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="function">
@@ -185,6 +191,40 @@
 <dt>-93.0965985, 44.952112199999995 osm_node_id = 954734870</dt><dd><p>69f13f881649cb21ee3b359730790bb9</p>
 </dd>
 </dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lasso.util.hhmmss_to_datetime">
+<code class="sig-prename descclassname">lasso.util.</code><code class="sig-name descname">hhmmss_to_datetime</code><span class="sig-paren">(</span><em class="sig-param">hhmmss_str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/util.html#hhmmss_to_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.util.hhmmss_to_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a datetime time object from a string of hh:mm:ss</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hhmmss_str</strong> – string of hh:mm:ss</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>datetime.time object representing time</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dt</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lasso.util.secs_to_datetime">
+<code class="sig-prename descclassname">lasso.util.</code><code class="sig-name descname">secs_to_datetime</code><span class="sig-paren">(</span><em class="sig-param">secs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/util.html#secs_to_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.util.secs_to_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a datetime time object from a seconds from midnight</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>secs</strong> – seconds from midnight</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>datetime.time object representing time</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dt</p>
 </dd>
 </dl>
 </dd></dl>
@@ -202,7 +242,7 @@
         <a href="lasso.WranglerLogger.html" class="btn btn-neutral float-right" title="lasso.WranglerLogger" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="lasso.TransitParser.html" class="btn btn-neutral float-left" title="lasso.TransitParser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="lasso.Parameters.html" class="btn btn-neutral float-left" title="lasso.Parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

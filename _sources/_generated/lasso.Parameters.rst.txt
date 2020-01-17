@@ -27,10 +27,10 @@ lasso.Parameters
       ~Parameters.DEFAULT_AREA_TYPE_CODE_DICT
       ~Parameters.DEFAULT_AREA_TYPE_SHAPE
       ~Parameters.DEFAULT_AREA_TYPE_VARIABLE_SHP
-      ~Parameters.DEFAULT_BUS_ROUTETYPE_SHAPE
       ~Parameters.DEFAULT_CATEGORIES
       ~Parameters.DEFAULT_COUNTY_SHAPE
       ~Parameters.DEFAULT_COUNTY_VARIABLE_SHP
+      ~Parameters.DEFAULT_CUBE_TIME_PERIODS
       ~Parameters.DEFAULT_HIGHEST_TAZ_NUMBER
       ~Parameters.DEFAULT_MNDOT_COUNT_SHAPE
       ~Parameters.DEFAULT_MNDOT_COUNT_SHST_DATA
@@ -67,5 +67,7 @@ lasso.Parameters
       ~Parameters.DEFAULT_WIDOT_SHST_DATA
       ~Parameters.SCRATCH_LOCATION
       ~Parameters.SETTINGS_LOCATION
+      ~Parameters.route_type_bus_mode_dict
+      ~Parameters.route_type_mode_dict
    
    

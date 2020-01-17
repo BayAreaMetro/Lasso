@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="lasso.TransitLine" href="lasso.TransitLine.html" />
+    <link rel="next" title="lasso.util" href="lasso.util.html" />
     <link rel="prev" title="lasso.Project" href="lasso.Project.html" /> 
 </head>
 
@@ -92,8 +92,6 @@
 <li class="toctree-l3"><a class="reference internal" href="lasso.ModelRoadwayNetwork.html">lasso.ModelRoadwayNetwork</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lasso.Project.html">lasso.Project</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">lasso.Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lasso.TransitLine.html">lasso.TransitLine</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lasso.TransitParser.html">lasso.TransitParser</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../autodoc.html#utils-and-functions">Utils and Functions</a></li>
@@ -209,16 +207,16 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_AREA_TYPE_VARIABLE_SHP</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_BUS_ROUTETYPE_SHAPE</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_CATEGORIES</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_CATEGORIES</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COUNTY_SHAPE</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COUNTY_SHAPE</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COUNTY_VARIABLE_SHP</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COUNTY_VARIABLE_SHP</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_CUBE_TIME_PERIODS</span></code></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_HIGHEST_TAZ_NUMBER</span></code></p></td>
@@ -329,6 +327,12 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SETTINGS_LOCATION</span></code></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">route_type_bus_mode_dict</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">route_type_mode_dict</span></code></p></td>
+<td><p></p></td>
+</tr>
 </tbody>
 </table>
 <dl class="attribute">
@@ -352,11 +356,6 @@
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="lasso.Parameters.DEFAULT_BUS_ROUTETYPE_SHAPE">
-<code class="sig-name descname">DEFAULT_BUS_ROUTETYPE_SHAPE</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/metcouncil_data/transit/shp_trans_transit_routes/TransitRoutes.shp'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_BUS_ROUTETYPE_SHAPE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
 <dt id="lasso.Parameters.DEFAULT_CATEGORIES">
 <code class="sig-name descname">DEFAULT_CATEGORIES</code><em class="property"> = {'hov2': ['hov2', 'default', 'sov'], 'hov3': ['hov3', 'hov2', 'default', 'sov'], 'sov': ['sov', 'default'], 'truck': ['trk', 'sov', 'default']}</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_CATEGORIES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -369,6 +368,11 @@
 <dl class="attribute">
 <dt id="lasso.Parameters.DEFAULT_COUNTY_VARIABLE_SHP">
 <code class="sig-name descname">DEFAULT_COUNTY_VARIABLE_SHP</code><em class="property"> = 'NAME'</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_COUNTY_VARIABLE_SHP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.DEFAULT_CUBE_TIME_PERIODS">
+<code class="sig-name descname">DEFAULT_CUBE_TIME_PERIODS</code><em class="property"> = {'1': 'AM', '2': 'MD'}</em><a class="headerlink" href="#lasso.Parameters.DEFAULT_CUBE_TIME_PERIODS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -553,6 +557,16 @@ The COUNTY_VARIABLE should be the name of a field in shapefile.</p>
 <code class="sig-name descname">SETTINGS_LOCATION</code><em class="property"> = '/home/travis/build/wsp-sag/Lasso/docs/examples/settings'</em><a class="headerlink" href="#lasso.Parameters.SETTINGS_LOCATION" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="attribute">
+<dt id="lasso.Parameters.route_type_bus_mode_dict">
+<code class="sig-name descname">route_type_bus_mode_dict</code><em class="property"> = {'Express': 7, 'Sub Loc': 6, 'Urb Loc': 5}</em><a class="headerlink" href="#lasso.Parameters.route_type_bus_mode_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Parameters.route_type_mode_dict">
+<code class="sig-name descname">route_type_mode_dict</code><em class="property"> = {0: 8, 2: 9}</em><a class="headerlink" href="#lasso.Parameters.route_type_mode_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -565,7 +579,7 @@ The COUNTY_VARIABLE should be the name of a field in shapefile.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="lasso.TransitLine.html" class="btn btn-neutral float-right" title="lasso.TransitLine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="lasso.util.html" class="btn btn-neutral float-right" title="lasso.util" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="lasso.Project.html" class="btn btn-neutral float-left" title="lasso.Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
