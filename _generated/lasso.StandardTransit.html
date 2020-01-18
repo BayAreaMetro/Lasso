@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lasso.StandardTransit &mdash; lasso  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="lasso.ModelRoadwayNetwork" href="lasso.ModelRoadwayNetwork.html" />
+    <link rel="prev" title="lasso.CubeTransit" href="lasso.CubeTransit.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> lasso
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../starting.html">Starting Out</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running.html">Running Lasso</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodoc.html">Lasso Classes and Functions</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../autodoc.html#base-classes">Base Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lasso.CubeTransit.html">lasso.CubeTransit</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">lasso.StandardTransit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.ModelRoadwayNetwork.html">lasso.ModelRoadwayNetwork</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.Project.html">lasso.Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lasso.Parameters.html">lasso.Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../autodoc.html#utils-and-functions">Utils and Functions</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">lasso</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../autodoc.html">Lasso Classes and Functions</a> &raquo;</li>
+        
+      <li>lasso.StandardTransit</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_generated/lasso.StandardTransit.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lasso-standardtransit">
+<h1>lasso.StandardTransit<a class="headerlink" href="#lasso-standardtransit" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lasso.StandardTransit">
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">StandardTransit</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Holds a standard transit feed as a Partridge object and contains
+methods to manipulate and translate the GTFS data to MetCouncil’s
+Cube Line files.</p>
+<dl class="method">
+<dt id="lasso.StandardTransit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.__init__" title="lasso.StandardTransit.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(ptg_feed[, parameters])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.calculate_cube_mode" title="lasso.StandardTransit.calculate_cube_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_cube_mode</span></code></a>(row)</p></td>
+<td><p>Assigns a cube mode number by following logic.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.cube_format" title="lasso.StandardTransit.cube_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cube_format</span></code></a>(row)</p></td>
+<td><p>Creates a string represnting the route in cube line file notation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.read_gtfs" title="lasso.StandardTransit.read_gtfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_gtfs</span></code></a>(gtfs_feed_dir[, parameters])</p></td>
+<td><p>Reads GTFS files from a directory and returns a StandardTransit instance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.route_properties_gtfs_to_cube" title="lasso.StandardTransit.route_properties_gtfs_to_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">route_properties_gtfs_to_cube</span></code></a>(self)</p></td>
+<td><p>prepare gtfs for cube lin file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.shape_gtfs_to_cube" title="lasso.StandardTransit.shape_gtfs_to_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape_gtfs_to_cube</span></code></a>(row)</p></td>
+<td><p>Creates a list of nodes that for the route in appropriate cube format.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.time_to_cube_time_period" title="lasso.StandardTransit.time_to_cube_time_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_to_cube_time_period</span></code></a>(start_time_secs[, …])</p></td>
+<td><p>Converts seconds from midnight to the cube time period.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.write_as_cube_lin" title="lasso.StandardTransit.write_as_cube_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_as_cube_lin</span></code></a>(outpath)</p></td>
+<td><p>Writes the gtfs feed as a cube line file after converting gtfs properties to MetCouncil cube properties.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="lasso.StandardTransit.calculate_cube_mode">
+<code class="sig-name descname">calculate_cube_mode</code><span class="sig-paren">(</span><em class="sig-param">row</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.calculate_cube_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.calculate_cube_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns a cube mode number by following logic.</p>
+<p>For rail, uses GTFS route_type variable:
+<a class="reference external" href="https://developers.google.com/transit/gtfs/reference">https://developers.google.com/transit/gtfs/reference</a></p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+#                 route_type : cube_mode
+route_type_to_cube_mode = {0: 8, # Tram, Streetcar, Light rail</p>
+<blockquote>
+<div><p>3: 0, # Bus; further disaggregated for cube
+2: 9} # Rail</p>
+</div></blockquote>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a>`
+For buses, uses route id numbers and route name to find
+express and suburban buses  as follows:</p>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a>`
+if not cube_mode:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>if ‘express’ in row[‘LONGNAME’].lower():</dt><dd><p>cube_mode = 7  # Express</p>
+</dd>
+<dt>elif int(row[‘route_id’].split(“-“)[0]) &gt; 99:</dt><dd><p>cube_mode = 6  # Suburban Local</p>
+</dd>
+<dt>else:</dt><dd><p>cube_mode = 5  # Urban Local</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>row</strong> – DataFrame row</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cube mode number</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cube_mode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.StandardTransit.cube_format">
+<code class="sig-name descname">cube_format</code><span class="sig-paren">(</span><em class="sig-param">row</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.cube_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.cube_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a string represnting the route in cube line file notation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>row</strong> – row of trips DataFrame</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>string representation of route in cube line file notation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>s</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.StandardTransit.read_gtfs">
+<em class="property">static </em><code class="sig-name descname">read_gtfs</code><span class="sig-paren">(</span><em class="sig-param">gtfs_feed_dir</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.read_gtfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.read_gtfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads GTFS files from a directory and returns a StandardTransit
+instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gtfs_feed_dir</strong> – location of the GTFS files</p></li>
+<li><p><strong>parameters</strong> (<em>Optional</em>) – Parameters instance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>StandardTransit instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.StandardTransit.route_properties_gtfs_to_cube">
+<em class="property">static </em><code class="sig-name descname">route_properties_gtfs_to_cube</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.route_properties_gtfs_to_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.route_properties_gtfs_to_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>prepare gtfs for cube lin file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>DataFrame of trips with cube-appropriate values for:</dt><dd><ul class="simple">
+<li><p>NAME</p></li>
+<li><p>ONEWAY</p></li>
+<li><p>OPERATOR</p></li>
+<li><p>MODE</p></li>
+<li><p>HEADWAY</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>trip_df (DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.StandardTransit.shape_gtfs_to_cube">
+<code class="sig-name descname">shape_gtfs_to_cube</code><span class="sig-paren">(</span><em class="sig-param">row</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.shape_gtfs_to_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.shape_gtfs_to_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a list of nodes that for the route in appropriate
+cube format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>a string representation of the node list</dt><dd><p>for a route in cube format.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>node_list_str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.StandardTransit.time_to_cube_time_period">
+<code class="sig-name descname">time_to_cube_time_period</code><span class="sig-paren">(</span><em class="sig-param">start_time_secs</em>, <em class="sig-param">as_str=True</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.time_to_cube_time_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.time_to_cube_time_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts seconds from midnight to the cube time period.</p>
+<p>if <cite>as_str</cite> is True, will return as the time period name,
+otherwise will return as time period number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_time_secs</strong> – start time for transit trip in seconds
+from midnight</p></li>
+<li><p><strong>as_str</strong> – if True, returns the time period as a string,
+otherwise returns a numeric time period</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>if as_str is False, returns the numeric</dt><dd><p>time period</p>
+</dd>
+<dt>this_tp: if as_str is True, returns the Cube time period</dt><dd><p>name abbreviation</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>this_tp_num</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.StandardTransit.write_as_cube_lin">
+<code class="sig-name descname">write_as_cube_lin</code><span class="sig-paren">(</span><em class="sig-param">outpath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.write_as_cube_lin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.write_as_cube_lin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the gtfs feed as a cube line file after
+converting gtfs properties to MetCouncil cube properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>outpath</strong> – file location for cube line file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lasso.ModelRoadwayNetwork.html" class="btn btn-neutral float-right" title="lasso.ModelRoadwayNetwork" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="lasso.CubeTransit.html" class="btn btn-neutral float-left" title="lasso.CubeTransit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019 Metropolitan Council
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

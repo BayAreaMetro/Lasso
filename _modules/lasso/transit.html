@@ -160,138 +160,8 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">partridge</span> <span class="k">as</span> <span class="nn">ptg</span>
 
-<span class="kn">from</span> <span class="nn">.Logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
-<span class="kn">from</span> <span class="nn">.Parameters</span> <span class="kn">import</span> <span class="n">Parameters</span>
-
-
-<span class="k">class</span> <span class="nc">CubeTransformer</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lines_list</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="nf">lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-        <span class="c1"># WranglerLogger.debug(&quot;lines: \n {}&quot;.format(line))</span>
-
-        <span class="c1"># This MUST be a tuple because it returns to start in the tree</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">line</span><span class="p">}</span>
-        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
-
-    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">program_type_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PROGRAM_TYPE</span><span class="p">,</span> <span class="n">whitespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># WranglerLogger.debug(&quot;program_type_line:{}&quot;.format(PROGRAM_TYPE))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">program_type</span> <span class="o">=</span> <span class="n">PROGRAM_TYPE</span><span class="o">.</span><span class="n">value</span>
-
-        <span class="c1"># This MUST be a tuple because it returns to start  in the tree</span>
-        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;program_type&quot;</span><span class="p">,</span> <span class="n">PROGRAM_TYPE</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-
-    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lin_attributes</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
-        <span class="c1"># WranglerLogger.debug(&quot;line...attributes:\n  {}&quot;.format(lin_attributes))</span>
-        <span class="c1"># WranglerLogger.debug(&quot;line...nodes:\n  {}&quot;.format(nodes))</span>
-        <span class="n">lin_name</span> <span class="o">=</span> <span class="n">lin_attributes</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">]</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="c1">#WranglerLogger.debug(&quot;parsing: {}&quot;.format(lin_name))</span>
-
-        <span class="k">return</span> <span class="p">(</span><span class="n">lin_name</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;line_properties&quot;</span><span class="p">:</span> <span class="n">lin_attributes</span><span class="p">,</span> <span class="s2">&quot;line_shape&quot;</span><span class="p">:</span> <span class="n">nodes</span><span class="p">})</span>
-
-    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">lin_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">lin_attr</span><span class="p">):</span>
-        <span class="n">lin_attr</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">lin_attr</span><span class="p">}</span>
-        <span class="c1"># WranglerLogger.debug(&quot;lin_attributes:  {}&quot;.format(lin_attr))</span>
-        <span class="k">return</span> <span class="n">lin_attr</span>
-
-    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">lin_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lin_attr_name</span><span class="p">,</span> <span class="n">attr_value</span><span class="p">,</span> <span class="n">SEMICOLON_COMMENT</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># WranglerLogger.debug(&quot;lin_attr {}:  {}&quot;.format(lin_attr_name, attr_value))</span>
-        <span class="k">return</span> <span class="n">lin_attr_name</span><span class="p">,</span> <span class="n">attr_value</span>
-
-    <span class="k">def</span> <span class="nf">lin_attr_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="n">attr_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="c1"># WranglerLogger.debug(&quot;.......args {}&quot;.format(args))</span>
-        <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;USERA&quot;</span><span class="p">,</span> <span class="s2">&quot;FREQ&quot;</span><span class="p">,</span> <span class="s2">&quot;HEADWAY&quot;</span><span class="p">]:</span>
-            <span class="n">attr_name</span> <span class="o">=</span> <span class="n">attr_name</span> <span class="o">+</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
-        <span class="k">return</span> <span class="n">attr_name</span>
-
-    <span class="k">def</span> <span class="nf">attr_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_value</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">attr_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">attr_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
-
-    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lin_node</span><span class="p">):</span>
-        <span class="n">lin_node</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">lin_node</span><span class="p">)</span>
-        <span class="c1"># WranglerLogger.debug(&quot;nodes:\n {}&quot;.format(lin_node))</span>
-
-        <span class="k">return</span> <span class="n">lin_node</span>
-
-    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">lin_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">NODE_NUM</span><span class="p">,</span> <span class="n">SEMICOLON_COMMENT</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">lin_nodeattr</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">NODE_NUM</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="s2">&quot;node&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span><span class="p">}</span>
-
-    <span class="n">start</span> <span class="o">=</span> <span class="nb">dict</span>
-
-
-<span class="n">TRANSIT_LINE_FILE_GRAMMAR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
-
-<span class="s2">?start             : program_type_line? lines</span>
-<span class="s2">WHITESPACE        : /[ \t\r\n]/+</span>
-<span class="s2">STRING            : /(&quot;(?!&quot;&quot;).*?(?&lt;!\\)(\\\\)*?&quot;|&#39;(?!&#39;&#39;).*?(?&lt;!\\)(\\\\)*?&#39;)/i</span>
-<span class="s2">SEMICOLON_COMMENT : /;[^\n]*/</span>
-<span class="s2">BOOLEAN           : &quot;T&quot;i | &quot;F&quot;i</span>
-<span class="s2">program_type_line : &quot;;;&lt;&lt;&quot; PROGRAM_TYPE &quot;&gt;&gt;&lt;&lt;LINE&gt;&gt;;;&quot; WHITESPACE?</span>
-<span class="s2">PROGRAM_TYPE      : &quot;PT&quot; | &quot;TRNBUILD&quot;</span>
-
-<span class="s2">lines             : line*</span>
-<span class="s2">line              : &quot;LINE&quot; lin_attributes nodes</span>
-
-<span class="s2">lin_attributes    : lin_attr+</span>
-<span class="s2">lin_attr          : lin_attr_name &quot;=&quot; attr_value &quot;,&quot; SEMICOLON_COMMENT*</span>
-<span class="s2">TIME_PERIOD       : &quot;1&quot;..&quot;5&quot;</span>
-<span class="s2">!lin_attr_name     : &quot;allstops&quot;i</span>
-<span class="s2">                    | &quot;color&quot;i</span>
-<span class="s2">                    | (&quot;freq&quot;i &quot;[&quot; TIME_PERIOD &quot;]&quot;)</span>
-<span class="s2">                    | (&quot;headway&quot;i &quot;[&quot; TIME_PERIOD &quot;]&quot;)</span>
-<span class="s2">                    | &quot;mode&quot;i</span>
-<span class="s2">                    | &quot;name&quot;i</span>
-<span class="s2">                    | &quot;oneway&quot;i</span>
-<span class="s2">                    | &quot;owner&quot;i</span>
-<span class="s2">                    | &quot;runtime&quot;i</span>
-<span class="s2">                    | &quot;timefac&quot;i</span>
-<span class="s2">                    | &quot;xyspeed&quot;i</span>
-<span class="s2">                    | &quot;longname&quot;i</span>
-<span class="s2">                    | &quot;shortname&quot;i</span>
-<span class="s2">                    | (&quot;usera&quot;i TIME_PERIOD)</span>
-<span class="s2">                    | &quot;vehicletype&quot;i</span>
-<span class="s2">                    | &quot;operator&quot;i</span>
-<span class="s2">                    | &quot;faresystem&quot;i</span>
-
-<span class="s2">attr_value        : BOOLEAN | STRING | SIGNED_INT</span>
-
-<span class="s2">nodes             : lin_node+</span>
-<span class="s2">lin_node          : (&quot;N&quot; | &quot;NODES&quot;)? &quot;=&quot;? NODE_NUM &quot;,&quot;? SEMICOLON_COMMENT? lin_nodeattr*</span>
-<span class="s2">NODE_NUM          : SIGNED_INT</span>
-<span class="s2">lin_nodeattr      : lin_nodeattr_name &quot;=&quot; attr_value &quot;,&quot;? SEMICOLON_COMMENT*</span>
-<span class="s2">!lin_nodeattr_name : &quot;access_c&quot;i</span>
-<span class="s2">                    | &quot;access&quot;i</span>
-<span class="s2">                    | &quot;delay&quot;i</span>
-<span class="s2">                    | &quot;xyspeed&quot;i</span>
-<span class="s2">                    | &quot;timefac&quot;i</span>
-<span class="s2">                    | &quot;nntime&quot;i</span>
-<span class="s2">                    | &quot;time&quot;i</span>
-
-<span class="s2">operator          : SEMICOLON_COMMENT* &quot;OPERATOR&quot; opmode_attr* SEMICOLON_COMMENT*</span>
-<span class="s2">mode              : SEMICOLON_COMMENT* &quot;MODE&quot; opmode_attr* SEMICOLON_COMMENT*</span>
-<span class="s2">opmode_attr       : ( (opmode_attr_name &quot;=&quot; attr_value) &quot;,&quot;?  )</span>
-<span class="s2">opmode_attr_name  : &quot;number&quot; | &quot;name&quot; | &quot;longname&quot;</span>
-
-<span class="si">%i</span><span class="s2">mport common.SIGNED_INT</span>
-<span class="si">%i</span><span class="s2">mport common.WS</span>
-<span class="si">%i</span><span class="s2">gnore WS</span>
-
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
+<span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Parameters</span>
 
 
 <div class="viewcode-block" id="CubeTransit"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit">[docs]</a><span class="k">class</span> <span class="nc">CubeTransit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -515,8 +385,7 @@
                 <span class="n">base_cube_time_period_number</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">updated_shapes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_route_shape_changes</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">shapes</span><span class="p">[</span><span class="n">line</span><span class="p">],</span>
-                <span class="n">base_transit</span><span class="o">.</span><span class="n">shapes</span><span class="p">[</span><span class="n">line</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">shapes</span><span class="p">[</span><span class="n">line</span><span class="p">],</span> <span class="n">base_transit</span><span class="o">.</span><span class="n">shapes</span><span class="p">[</span><span class="n">line</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">updated_properties</span><span class="p">:</span>
                 <span class="n">update_prop_card_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_update_route_card_dict</span><span class="p">(</span>
@@ -677,7 +546,9 @@
 
         <span class="k">return</span> <span class="n">update_card_dict</span></div>
 
-<div class="viewcode-block" id="CubeTransit.create_delete_route_card_dict"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.create_delete_route_card_dict">[docs]</a>    <span class="k">def</span> <span class="nf">create_delete_route_card_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">base_transit_line_properties_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="CubeTransit.create_delete_route_card_dict"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.create_delete_route_card_dict">[docs]</a>    <span class="k">def</span> <span class="nf">create_delete_route_card_dict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">base_transit_line_properties_dict</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a project card change formatted dictionary for deleting a line.</span>
 
@@ -1000,7 +871,9 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">properties_list</span></div>
 
-<div class="viewcode-block" id="CubeTransit.evaluate_route_shape_changes"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.evaluate_route_shape_changes">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_route_shape_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_build</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">shape_base</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">):</span>
+<div class="viewcode-block" id="CubeTransit.evaluate_route_shape_changes"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.evaluate_route_shape_changes">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_route_shape_changes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">shape_build</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">shape_base</span><span class="p">:</span> <span class="n">DataFrame</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -1022,8 +895,8 @@
         <span class="n">start_pos</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">end_pos</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sort_len</span><span class="p">):</span>
-            <span class="k">if</span> <span class="p">((</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">base_node_list</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">build_node_list</span><span class="p">))):</span>
-                <span class="n">start_pos</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">base_node_list</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">build_node_list</span><span class="p">)):</span>
+                <span class="n">start_pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
                 <span class="k">break</span>
             <span class="k">if</span> <span class="n">base_node_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">build_node_list</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
                 <span class="n">start_pos</span> <span class="o">=</span> <span class="n">i</span>
@@ -1033,8 +906,8 @@
 
         <span class="n">j</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sort_len</span><span class="p">):</span>
-            <span class="k">if</span> <span class="p">((</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">base_node_list</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">build_node_list</span><span class="p">))):</span>
-                <span class="n">end_pos</span> <span class="o">=</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">base_node_list</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">build_node_list</span><span class="p">)):</span>
+                <span class="n">end_pos</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="k">break</span>
             <span class="k">if</span> <span class="n">base_node_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">build_node_list</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
                 <span class="n">end_pos</span> <span class="o">=</span> <span class="n">j</span>
@@ -1042,29 +915,37 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">start_pos</span> <span class="ow">or</span> <span class="n">end_pos</span><span class="p">):</span>
-            <span class="n">existing</span> <span class="o">=</span> <span class="n">base_node_list</span><span class="p">[(</span><span class="n">start_pos</span><span class="o">-</span><span class="mi">2</span> <span class="k">if</span> <span class="n">start_pos</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">):(</span><span class="n">end_pos</span><span class="o">+</span><span class="mi">2</span> <span class="k">if</span> <span class="n">end_pos</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)]</span>
-            <span class="nb">set</span> <span class="o">=</span> <span class="n">build_node_list</span><span class="p">[(</span><span class="n">start_pos</span><span class="o">-</span><span class="mi">2</span> <span class="k">if</span> <span class="n">start_pos</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">):(</span><span class="n">end_pos</span><span class="o">+</span><span class="mi">2</span> <span class="k">if</span> <span class="n">end_pos</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">start_pos</span> <span class="ow">or</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="n">existing</span> <span class="o">=</span> <span class="n">base_node_list</span><span class="p">[</span>
+                <span class="p">(</span><span class="n">start_pos</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">start_pos</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span> <span class="p">:</span> <span class="p">(</span>
+                    <span class="n">end_pos</span> <span class="o">+</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">end_pos</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">)</span>
+            <span class="p">]</span>
+            <span class="nb">set</span> <span class="o">=</span> <span class="n">build_node_list</span><span class="p">[</span>
+                <span class="p">(</span><span class="n">start_pos</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">start_pos</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span> <span class="p">:</span> <span class="p">(</span>
+                    <span class="n">end_pos</span> <span class="o">+</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">end_pos</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">)</span>
+            <span class="p">]</span>
 
             <span class="n">shape_change_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;property&quot;</span> <span class="p">:</span> <span class="s2">&quot;routing&quot;</span><span class="p">,</span> <span class="s2">&quot;existing&quot;</span> <span class="p">:</span> <span class="n">existing</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span> <span class="p">:</span> <span class="nb">set</span><span class="p">}</span>
+                <span class="p">{</span><span class="s2">&quot;property&quot;</span><span class="p">:</span> <span class="s2">&quot;routing&quot;</span><span class="p">,</span> <span class="s2">&quot;existing&quot;</span><span class="p">:</span> <span class="n">existing</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">}</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">shape_change_list</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">StandardTransit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardTransit"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit">[docs]</a><span class="k">class</span> <span class="nc">StandardTransit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Holds a standard transit feed as a Partridge object and contains</span>
 <span class="sd">    methods to manipulate and translate the GTFS data to MetCouncil&#39;s</span>
 <span class="sd">    Cube Line files.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptg_feed</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">Parameters</span><span class="p">()):</span>
+<div class="viewcode-block" id="StandardTransit.__init__"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptg_feed</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">Parameters</span><span class="p">()):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">feed</span> <span class="o">=</span> <span class="n">ptg_feed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span></div>
 
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="StandardTransit.read_gtfs"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.read_gtfs">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">read_gtfs</span><span class="p">(</span><span class="n">gtfs_feed_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">()):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads GTFS files from a directory and returns a StandardTransit</span>
@@ -1077,9 +958,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            StandardTransit instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">StandardTransit</span><span class="p">(</span><span class="n">ptg</span><span class="o">.</span><span class="n">load_feed</span><span class="p">(</span><span class="n">gtfs_feed_dir</span><span class="p">),</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StandardTransit</span><span class="p">(</span><span class="n">ptg</span><span class="o">.</span><span class="n">load_feed</span><span class="p">(</span><span class="n">gtfs_feed_dir</span><span class="p">),</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">write_as_cube_lin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardTransit.write_as_cube_lin"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.write_as_cube_lin">[docs]</a>    <span class="k">def</span> <span class="nf">write_as_cube_lin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the gtfs feed as a cube line file after</span>
 <span class="sd">        converting gtfs properties to MetCouncil cube properties.</span>
@@ -1089,17 +970,16 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-
         <span class="n">trip_cube_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">route_properties_gtfs_to_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="n">trip_cube_df</span><span class="p">[</span><span class="s2">&quot;LIN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trip_cube_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cube_format</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="n">l</span> <span class="o">=</span> <span class="n">trip_cube_df</span><span class="p">[</span><span class="s2">&quot;LIN&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">l</span><span class="p">))</span></div>
 
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="StandardTransit.route_properties_gtfs_to_cube"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.route_properties_gtfs_to_cube">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">route_properties_gtfs_to_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        prepare gtfs for cube lin file</span>
@@ -1112,7 +992,9 @@
 <span class="sd">                - MODE</span>
 <span class="sd">                - HEADWAY</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Converting GTFS Standard Properties to MetCouncil&#39;s Cube Standard&quot;</span><span class="p">)</span>
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Converting GTFS Standard Properties to MetCouncil&#39;s Cube Standard&quot;</span>
+        <span class="p">)</span>
         <span class="n">metro_operator_dict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
             <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
@@ -1161,9 +1043,9 @@
         <span class="n">trip_df</span><span class="p">[</span><span class="s2">&quot;ONEWAY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;T&quot;</span>
         <span class="n">trip_df</span><span class="p">[</span><span class="s2">&quot;OPERATOR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trip_df</span><span class="p">[</span><span class="s2">&quot;agency_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">metro_operator_dict</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">trip_df</span>
+        <span class="k">return</span> <span class="n">trip_df</span></div>
 
-    <span class="k">def</span> <span class="nf">calculate_cube_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardTransit.calculate_cube_mode"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.calculate_cube_mode">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_cube_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assigns a cube mode number by following logic.</span>
 
@@ -1196,24 +1078,27 @@
 <span class="sd">            cube_mode: cube mode number</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#                 route_type : cube_mode</span>
-        <span class="n">route_type_to_cube_mode</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="c1"># Tram, Streetcar, Light rail</span>
-                                   <span class="mi">3</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># Bus; further disaggregated for cube</span>
-                                   <span class="mi">2</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span> <span class="c1"># Rail</span>
-
+        <span class="n">route_type_to_cube_mode</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>  <span class="c1"># Tram, Streetcar, Light rail</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Bus; further disaggregated for cube</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+        <span class="p">}</span>  <span class="c1"># Rail</span>
 
         <span class="n">cube_mode</span> <span class="o">=</span> <span class="n">route_type_to_cube_mode</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;route_type&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cube_mode</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">&#39;express&#39;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;route_long_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;express&quot;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;route_long_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
                 <span class="n">cube_mode</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># Express</span>
-            <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;route_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">99</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;route_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">99</span><span class="p">:</span>
                 <span class="n">cube_mode</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1"># Suburban Local</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cube_mode</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Urban Local</span>
 
-        <span class="k">return</span> <span class="n">cube_mode</span>
+        <span class="k">return</span> <span class="n">cube_mode</span></div>
 
-    <span class="k">def</span> <span class="nf">time_to_cube_time_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_time_secs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">as_str</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardTransit.time_to_cube_time_period"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.time_to_cube_time_period">[docs]</a>    <span class="k">def</span> <span class="nf">time_to_cube_time_period</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">start_time_secs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">as_str</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts seconds from midnight to the cube time period.</span>
 
@@ -1278,9 +1163,9 @@
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">this_tp_num</span>
+        <span class="k">return</span> <span class="n">this_tp_num</span></div>
 
-    <span class="k">def</span> <span class="nf">shape_gtfs_to_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardTransit.shape_gtfs_to_cube"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.shape_gtfs_to_cube">[docs]</a>    <span class="k">def</span> <span class="nf">shape_gtfs_to_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a list of nodes that for the route in appropriate</span>
 <span class="sd">        cube format.</span>
@@ -1291,7 +1176,9 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">trip_stop_times_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">stop_times</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">trip_stop_times_df</span> <span class="o">=</span> <span class="n">trip_stop_times_df</span><span class="p">[</span><span class="n">trip_stop_times_df</span><span class="o">.</span><span class="n">trip_id</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">trip_id</span><span class="p">]</span>
+        <span class="n">trip_stop_times_df</span> <span class="o">=</span> <span class="n">trip_stop_times_df</span><span class="p">[</span>
+            <span class="n">trip_stop_times_df</span><span class="o">.</span><span class="n">trip_id</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">trip_id</span>
+        <span class="p">]</span>
 
         <span class="n">trip_node_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">trip_node_df</span> <span class="o">=</span> <span class="n">trip_node_df</span><span class="p">[</span><span class="n">trip_node_df</span><span class="o">.</span><span class="n">shape_id</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">shape_id</span><span class="p">]</span>
@@ -1315,9 +1202,9 @@
                 <span class="k">if</span> <span class="n">nodeIdx</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trip_node_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
                     <span class="n">node_list_str</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
 
-        <span class="k">return</span> <span class="n">node_list_str</span>
+        <span class="k">return</span> <span class="n">node_list_str</span></div>
 
-    <span class="k">def</span> <span class="nf">cube_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardTransit.cube_format"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.cube_format">[docs]</a>    <span class="k">def</span> <span class="nf">cube_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a string represnting the route in cube line file notation</span>
 
@@ -1336,7 +1223,137 @@
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> OPERATOR=</span><span class="si">{}</span><span class="s2">,&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">OPERATOR</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> NODES=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape_gtfs_to_cube</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">s</span>
+        <span class="k">return</span> <span class="n">s</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">CubeTransformer</span><span class="p">(</span><span class="n">Transformer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="c1"># WranglerLogger.debug(&quot;lines: \n {}&quot;.format(line))</span>
+
+        <span class="c1"># This MUST be a tuple because it returns to start in the tree</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">line</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+
+    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">program_type_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PROGRAM_TYPE</span><span class="p">,</span> <span class="n">whitespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># WranglerLogger.debug(&quot;program_type_line:{}&quot;.format(PROGRAM_TYPE))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">program_type</span> <span class="o">=</span> <span class="n">PROGRAM_TYPE</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="c1"># This MUST be a tuple because it returns to start  in the tree</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;program_type&quot;</span><span class="p">,</span> <span class="n">PROGRAM_TYPE</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lin_attributes</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
+        <span class="c1"># WranglerLogger.debug(&quot;line...attributes:\n  {}&quot;.format(lin_attributes))</span>
+        <span class="c1"># WranglerLogger.debug(&quot;line...nodes:\n  {}&quot;.format(nodes))</span>
+        <span class="n">lin_name</span> <span class="o">=</span> <span class="n">lin_attributes</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># WranglerLogger.debug(&quot;parsing: {}&quot;.format(lin_name))</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">lin_name</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;line_properties&quot;</span><span class="p">:</span> <span class="n">lin_attributes</span><span class="p">,</span> <span class="s2">&quot;line_shape&quot;</span><span class="p">:</span> <span class="n">nodes</span><span class="p">})</span>
+
+    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">lin_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">lin_attr</span><span class="p">):</span>
+        <span class="n">lin_attr</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">lin_attr</span><span class="p">}</span>
+        <span class="c1"># WranglerLogger.debug(&quot;lin_attributes:  {}&quot;.format(lin_attr))</span>
+        <span class="k">return</span> <span class="n">lin_attr</span>
+
+    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">lin_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lin_attr_name</span><span class="p">,</span> <span class="n">attr_value</span><span class="p">,</span> <span class="n">SEMICOLON_COMMENT</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># WranglerLogger.debug(&quot;lin_attr {}:  {}&quot;.format(lin_attr_name, attr_value))</span>
+        <span class="k">return</span> <span class="n">lin_attr_name</span><span class="p">,</span> <span class="n">attr_value</span>
+
+    <span class="k">def</span> <span class="nf">lin_attr_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">attr_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="c1"># WranglerLogger.debug(&quot;.......args {}&quot;.format(args))</span>
+        <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;USERA&quot;</span><span class="p">,</span> <span class="s2">&quot;FREQ&quot;</span><span class="p">,</span> <span class="s2">&quot;HEADWAY&quot;</span><span class="p">]:</span>
+            <span class="n">attr_name</span> <span class="o">=</span> <span class="n">attr_name</span> <span class="o">+</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="k">return</span> <span class="n">attr_name</span>
+
+    <span class="k">def</span> <span class="nf">attr_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">attr_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">attr_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lin_node</span><span class="p">):</span>
+        <span class="n">lin_node</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">lin_node</span><span class="p">)</span>
+        <span class="c1"># WranglerLogger.debug(&quot;nodes:\n {}&quot;.format(lin_node))</span>
+
+        <span class="k">return</span> <span class="n">lin_node</span>
+
+    <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">lin_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">NODE_NUM</span><span class="p">,</span> <span class="n">SEMICOLON_COMMENT</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">lin_nodeattr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">NODE_NUM</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;node_id&quot;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="s2">&quot;node&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span><span class="p">}</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="nb">dict</span>
+
+
+<span class="n">TRANSIT_LINE_FILE_GRAMMAR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">?start             : program_type_line? lines</span>
+<span class="s2">WHITESPACE        : /[ \t\r\n]/+</span>
+<span class="s2">STRING            : /(&quot;(?!&quot;&quot;).*?(?&lt;!\\)(\\\\)*?&quot;|&#39;(?!&#39;&#39;).*?(?&lt;!\\)(\\\\)*?&#39;)/i</span>
+<span class="s2">SEMICOLON_COMMENT : /;[^\n]*/</span>
+<span class="s2">BOOLEAN           : &quot;T&quot;i | &quot;F&quot;i</span>
+<span class="s2">program_type_line : &quot;;;&lt;&lt;&quot; PROGRAM_TYPE &quot;&gt;&gt;&lt;&lt;LINE&gt;&gt;;;&quot; WHITESPACE?</span>
+<span class="s2">PROGRAM_TYPE      : &quot;PT&quot; | &quot;TRNBUILD&quot;</span>
+
+<span class="s2">lines             : line*</span>
+<span class="s2">line              : &quot;LINE&quot; lin_attributes nodes</span>
+
+<span class="s2">lin_attributes    : lin_attr+</span>
+<span class="s2">lin_attr          : lin_attr_name &quot;=&quot; attr_value &quot;,&quot; SEMICOLON_COMMENT*</span>
+<span class="s2">TIME_PERIOD       : &quot;1&quot;..&quot;5&quot;</span>
+<span class="s2">!lin_attr_name     : &quot;allstops&quot;i</span>
+<span class="s2">                    | &quot;color&quot;i</span>
+<span class="s2">                    | (&quot;freq&quot;i &quot;[&quot; TIME_PERIOD &quot;]&quot;)</span>
+<span class="s2">                    | (&quot;headway&quot;i &quot;[&quot; TIME_PERIOD &quot;]&quot;)</span>
+<span class="s2">                    | &quot;mode&quot;i</span>
+<span class="s2">                    | &quot;name&quot;i</span>
+<span class="s2">                    | &quot;oneway&quot;i</span>
+<span class="s2">                    | &quot;owner&quot;i</span>
+<span class="s2">                    | &quot;runtime&quot;i</span>
+<span class="s2">                    | &quot;timefac&quot;i</span>
+<span class="s2">                    | &quot;xyspeed&quot;i</span>
+<span class="s2">                    | &quot;longname&quot;i</span>
+<span class="s2">                    | &quot;shortname&quot;i</span>
+<span class="s2">                    | (&quot;usera&quot;i TIME_PERIOD)</span>
+<span class="s2">                    | &quot;vehicletype&quot;i</span>
+<span class="s2">                    | &quot;operator&quot;i</span>
+<span class="s2">                    | &quot;faresystem&quot;i</span>
+
+<span class="s2">attr_value        : BOOLEAN | STRING | SIGNED_INT</span>
+
+<span class="s2">nodes             : lin_node+</span>
+<span class="s2">lin_node          : (&quot;N&quot; | &quot;NODES&quot;)? &quot;=&quot;? NODE_NUM &quot;,&quot;? SEMICOLON_COMMENT? lin_nodeattr*</span>
+<span class="s2">NODE_NUM          : SIGNED_INT</span>
+<span class="s2">lin_nodeattr      : lin_nodeattr_name &quot;=&quot; attr_value &quot;,&quot;? SEMICOLON_COMMENT*</span>
+<span class="s2">!lin_nodeattr_name : &quot;access_c&quot;i</span>
+<span class="s2">                    | &quot;access&quot;i</span>
+<span class="s2">                    | &quot;delay&quot;i</span>
+<span class="s2">                    | &quot;xyspeed&quot;i</span>
+<span class="s2">                    | &quot;timefac&quot;i</span>
+<span class="s2">                    | &quot;nntime&quot;i</span>
+<span class="s2">                    | &quot;time&quot;i</span>
+
+<span class="s2">operator          : SEMICOLON_COMMENT* &quot;OPERATOR&quot; opmode_attr* SEMICOLON_COMMENT*</span>
+<span class="s2">mode              : SEMICOLON_COMMENT* &quot;MODE&quot; opmode_attr* SEMICOLON_COMMENT*</span>
+<span class="s2">opmode_attr       : ( (opmode_attr_name &quot;=&quot; attr_value) &quot;,&quot;?  )</span>
+<span class="s2">opmode_attr_name  : &quot;number&quot; | &quot;name&quot; | &quot;longname&quot;</span>
+
+<span class="si">%i</span><span class="s2">mport common.SIGNED_INT</span>
+<span class="si">%i</span><span class="s2">mport common.WS</span>
+<span class="si">%i</span><span class="s2">gnore WS</span>
+
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 
            </div>

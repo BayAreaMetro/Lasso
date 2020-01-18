@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lasso Classes and Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#base-classes">Base Classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_generated/lasso.CubeTransit.html">lasso.CubeTransit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_generated/lasso.StandardTransit.html">lasso.StandardTransit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_generated/lasso.ModelRoadwayNetwork.html">lasso.ModelRoadwayNetwork</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_generated/lasso.Project.html">lasso.Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_generated/lasso.Parameters.html">lasso.Parameters</a></li>
@@ -96,7 +97,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#utils-and-functions">Utils and Functions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_generated/lasso.util.html">lasso.util</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_generated/lasso.WranglerLogger.html">lasso.WranglerLogger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_generated/lasso.logger.html">lasso.logger</a></li>
 </ul>
 </li>
 </ul>
@@ -178,20 +179,17 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="_generated/lasso.CubeTransit.html#lasso.CubeTransit" title="lasso.CubeTransit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CubeTransit</span></code></a></p></td>
 <td><p>Class for storing information about transit defined in Cube line files.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork" title="lasso.ModelRoadwayNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelRoadwayNetwork</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_generated/lasso.StandardTransit.html#lasso.StandardTransit" title="lasso.StandardTransit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StandardTransit</span></code></a></p></td>
+<td><p>Holds a standard transit feed as a Partridge object and contains methods to manipulate and translate the GTFS data to MetCouncil’s Cube Line files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork" title="lasso.ModelRoadwayNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelRoadwayNetwork</span></code></a></p></td>
 <td><p>Subclass of network_wrangler class <span class="xref std std-ref">RoadwayNetwork</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_generated/lasso.Project.html#lasso.Project" title="lasso.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Project</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_generated/lasso.Project.html#lasso.Project" title="lasso.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Project</span></code></a></p></td>
 <td><p>A single or set of changes to the roadway or transit system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_generated/lasso.Parameters.html#lasso.Parameters" title="lasso.Parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameters</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_generated/lasso.Parameters.html#lasso.Parameters" title="lasso.Parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameters</span></code></a></p></td>
 <td><p># TODO: this whole flow needs work.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransitLine</span></code></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransitParser</span></code></p></td>
-<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -207,8 +205,8 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="_generated/lasso.util.html#module-lasso.util" title="lasso.util"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_generated/lasso.WranglerLogger.html#lasso.WranglerLogger" title="lasso.WranglerLogger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WranglerLogger</span></code></a></p></td>
-<td><p>Instances of the Logger class represent a single logging channel.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_generated/lasso.logger.html#module-lasso.logger" title="lasso.logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logger</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>

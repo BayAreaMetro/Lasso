@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>lasso.WranglerLogger &mdash; lasso  documentation</title>
+  <title>lasso.logger &mdash; lasso  documentation</title>
   
 
   
@@ -89,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../autodoc.html#base-classes">Base Classes</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../autodoc.html#utils-and-functions">Utils and Functions</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="lasso.util.html">lasso.util</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">lasso.WranglerLogger</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">lasso.logger</a></li>
 </ul>
 </li>
 </ul>
@@ -141,13 +141,13 @@
         
           <li><a href="../autodoc.html">Lasso Classes and Functions</a> &raquo;</li>
         
-      <li>lasso.WranglerLogger</li>
+      <li>lasso.logger</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_generated/lasso.WranglerLogger.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_generated/lasso.logger.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -160,23 +160,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="lasso-wranglerlogger">
-<h1>lasso.WranglerLogger<a class="headerlink" href="#lasso-wranglerlogger" title="Permalink to this headline">¶</a></h1>
-<dl class="data">
-<dt id="lasso.WranglerLogger">
-<code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">WranglerLogger</code><em class="property"> = &lt;Logger WranglerLogger (DEBUG)&gt;</em><a class="headerlink" href="#lasso.WranglerLogger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instances of the Logger class represent a single logging channel. A
-“logging channel” indicates an area of an application. Exactly how an
-“area” is defined is up to the application developer. Since an
-application can have any number of areas, logging channels are identified
-by a unique string. Application areas can be nested (e.g. an area
-of “input processing” might include sub-areas “read CSV files”, “read
-XLS files” and “read Gnumeric files”). To cater for this natural nesting,
-channel names are organized into a namespace hierarchy where levels are
-separated by periods, much like the Java or Python package namespace. So
-in the instance given above, channel names might be “input” for the upper
-level, and “input.csv”, “input.xls” and “input.gnu” for the sub-levels.
-There is no arbitrary limit to the depth of nesting.</p>
+  <div class="section" id="module-lasso.logger">
+<span id="lasso-logger"></span><h1>lasso.logger<a class="headerlink" href="#module-lasso.logger" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Functions</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.logger.setupLogging" title="lasso.logger.setupLogging"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setupLogging</span></code></a>(infoLogFilename, debugLogFilename)</p></td>
+<td><p>Sets up the logger.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="lasso.logger.setupLogging">
+<code class="sig-prename descclassname">lasso.logger.</code><code class="sig-name descname">setupLogging</code><span class="sig-paren">(</span><em class="sig-param">infoLogFilename</em>, <em class="sig-param">debugLogFilename</em>, <em class="sig-param">logToConsole=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/logger.html#setupLogging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.logger.setupLogging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up the logger.  The infoLog is terse, just gives the bare minimum of details
+so the network composition will be clear later.
+The debuglog is very noisy, for debugging.</p>
+<p>Pass none to either.
+Spews it all out to console too, if logToConsole is true.</p>
 </dd></dl>
 
 </div>

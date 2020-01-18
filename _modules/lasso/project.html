@@ -160,7 +160,7 @@
 <span class="kn">from</span> <span class="nn">network_wrangler</span> <span class="kn">import</span> <span class="n">RoadwayNetwork</span>
 
 <span class="kn">from</span> <span class="nn">.transit</span> <span class="kn">import</span> <span class="n">CubeTransit</span><span class="p">,</span> <span class="n">StandardTransit</span>
-<span class="kn">from</span> <span class="nn">.Logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
+<span class="kn">from</span> <span class="nn">.logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
 
 
 <div class="viewcode-block" id="Project"><a class="viewcode-back" href="../../_generated/lasso.Project.html#lasso.Project">[docs]</a><span class="k">class</span> <span class="nc">Project</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -259,9 +259,11 @@
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                 <span class="s2">&quot;Base network has </span><span class="si">{}</span><span class="s2"> lines&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">base_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">))</span>
             <span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">base_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">base_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
                 <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;Base network lines: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> - &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">))</span>
+                    <span class="s2">&quot;Base network lines: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> - &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No base transit network.&quot;</span>
@@ -278,9 +280,11 @@
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                 <span class="s2">&quot;Build network has </span><span class="si">{}</span><span class="s2"> lines&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">build_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">))</span>
             <span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">build_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">build_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
                 <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;Build network lines: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> - &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">build_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">))</span>
+                    <span class="s2">&quot;Build network lines: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> - &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">build_transit_network</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No transit changes given or processed.&quot;</span>
