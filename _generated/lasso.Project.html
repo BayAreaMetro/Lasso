@@ -171,6 +171,106 @@
 <em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">Project</code><span class="sig-paren">(</span><em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=''</em>, <em class="sig-param">evaluate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A single or set of changes to the roadway or transit system.</p>
+<p>Compares a base and a build transit network or a base and build
+highway network and produces project cards.</p>
+<p>Typical usage example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span>
+    <span class="n">base_transit_source</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CUBE_DIR</span><span class="p">,</span> <span class="s2">&quot;transit.LIN&quot;</span><span class="p">),</span>
+    <span class="n">build_transit_source</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CUBE_DIR</span><span class="p">,</span> <span class="s2">&quot;transit_route_shape_change&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">test_project</span><span class="o">.</span><span class="n">evaluate_changes</span><span class="p">()</span>
+<span class="n">test_project</span><span class="o">.</span><span class="n">write_project_card</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_DIR</span><span class="p">,</span> <span class="s2">&quot;t_transit_shape_test.yml&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="lasso.Project.DEFAULT_PROJECT_NAME">
+<code class="sig-name descname">DEFAULT_PROJECT_NAME</code><a class="headerlink" href="#lasso.Project.DEFAULT_PROJECT_NAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>a class-level constant that defines what
+the project name will be if none is set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.STATIC_VALUES">
+<code class="sig-name descname">STATIC_VALUES</code><a class="headerlink" href="#lasso.Project.STATIC_VALUES" title="Permalink to this definition">¶</a></dt>
+<dd><p>a class-level constant which defines values that
+are not evaluated when assessing changes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.card_data">
+<code class="sig-name descname">card_data</code><a class="headerlink" href="#lasso.Project.card_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>{“project”: &lt;project_name&gt;, “changes”: &lt;list of change dicts&gt;}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.roadway_changes">
+<code class="sig-name descname">roadway_changes</code><a class="headerlink" href="#lasso.Project.roadway_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>pandas dataframe of CUBE roadway changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.transit_changes">
+<code class="sig-name descname">transit_changes</code><a class="headerlink" href="#lasso.Project.transit_changes" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="lasso.CubeTransit.html#lasso.CubeTransit" title="lasso.CubeTransit">CubeTransit</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.base_roadway_network">
+<code class="sig-name descname">base_roadway_network</code><a class="headerlink" href="#lasso.Project.base_roadway_network" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>RoadwayNetwork</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.base_transit_network">
+<code class="sig-name descname">base_transit_network</code><a class="headerlink" href="#lasso.Project.base_transit_network" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="lasso.CubeTransit.html#lasso.CubeTransit" title="lasso.CubeTransit">CubeTransit</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.build_transit_network">
+<code class="sig-name descname">build_transit_network</code><a class="headerlink" href="#lasso.Project.build_transit_network" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="lasso.CubeTransit.html#lasso.CubeTransit" title="lasso.CubeTransit">CubeTransit</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lasso.Project.project_name">
+<code class="sig-name descname">project_name</code><a class="headerlink" href="#lasso.Project.project_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the project, set to DEFAULT_PROJECT_NAME if not provided</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="lasso.Project.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=''</em>, <em class="sig-param">evaluate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.__init__" title="Permalink to this definition">¶</a></dt>
@@ -194,13 +294,13 @@
 <td><p>Evaluates changes between base and build transit objects and adds entries into the self.card_data dictionary.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.Project.create_project" title="lasso.Project.create_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_project</span></code></a>([roadway_log_file, …])</p></td>
-<td><p>Create project objects.</p></td>
+<td><p>Constructor for a Project instance.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.Project.determine_roadway_network_changes_compatability" title="lasso.Project.determine_roadway_network_changes_compatability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">determine_roadway_network_changes_compatability</span></code></a>()</p></td>
 <td><p>Checks to see that any links or nodes that change exist in base roadway network.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.Project.evaluate_changes" title="lasso.Project.evaluate_changes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_changes</span></code></a>()</p></td>
-<td><p>Determines which changes should be evaluated.</p></td>
+<td><p>Determines which changes should be evaluated, initiates self.card_data to be an aggregation of transit and highway changes.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.Project.read_logfile" title="lasso.Project.read_logfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_logfile</span></code></a>(logfilename)</p></td>
 <td><p>Reads a Cube log file and returns a dataframe of roadway_changes</p></td>
@@ -247,7 +347,7 @@ adds entries into the self.card_data dictionary.</p>
 <dl class="method">
 <dt id="lasso.Project.create_project">
 <em class="property">static </em><code class="sig-name descname">create_project</code><span class="sig-paren">(</span><em class="sig-param">roadway_log_file=None</em>, <em class="sig-param">base_roadway_dir=None</em>, <em class="sig-param">base_transit_source=None</em>, <em class="sig-param">build_transit_source=None</em>, <em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.create_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.create_project" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create project objects.</p>
+<dd><p>Constructor for a Project instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -265,7 +365,7 @@ adds entries into the self.card_data dictionary.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Project object</p>
+<dd class="field-even"><p>A Project instance.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -279,7 +379,8 @@ adds entries into the self.card_data dictionary.</p>
 <dl class="method">
 <dt id="lasso.Project.evaluate_changes">
 <code class="sig-name descname">evaluate_changes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.evaluate_changes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.evaluate_changes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines which changes should be evaluated.</p>
+<dd><p>Determines which changes should be evaluated, initiates
+self.card_data to be an aggregation of transit and highway changes.</p>
 </dd></dl>
 
 <dl class="method">
@@ -291,7 +392,7 @@ adds entries into the self.card_data dictionary.</p>
 <dd class="field-odd"><p><strong>logfilename</strong> (<em>str</em>) – File path to CUBE logfile.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>DataFrame</p>
+<dd class="field-even"><p>A DataFrame reprsentation of the log file.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -314,13 +415,13 @@ adds entries into the self.card_data dictionary.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="lasso.Project.DEFAULT_PROJECT_NAME">
-<code class="sig-name descname">DEFAULT_PROJECT_NAME</code><em class="property"> = 'USER TO define'</em><a class="headerlink" href="#lasso.Project.DEFAULT_PROJECT_NAME" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-name descname">DEFAULT_PROJECT_NAME</code><em class="property"> = 'USER TO define'</em></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="lasso.Project.STATIC_VALUES">
-<code class="sig-name descname">STATIC_VALUES</code><em class="property"> = ['model_link_id', 'area_type', 'county', 'asgngrp', 'centroidconnect']</em><a class="headerlink" href="#lasso.Project.STATIC_VALUES" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-name descname">STATIC_VALUES</code><em class="property"> = ['model_link_id', 'area_type', 'county', 'asgngrp', 'centroidconnect']</em></dt>
 <dd></dd></dl>
 
 </dd></dl>
