@@ -1324,11 +1324,7 @@
         <span class="p">)</span>
 
         <span class="c1"># CUBE expect node id to be N</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
-            <span class="n">columns</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;model_node_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;N&quot;</span>
-                <span class="p">},</span>
-            <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model_node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.rename_variables_for_dbf"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.rename_variables_for_dbf">[docs]</a>    <span class="k">def</span> <span class="nf">rename_variables_for_dbf</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1689,17 +1685,13 @@
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;FILEI LINKI[1] = %LINK_DATA_PATH%,&quot;</span>
         <span class="n">start_pos</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">link_max_width_df</span><span class="p">)):</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="s2">&quot; VAR=&quot;</span>
-                <span class="o">+</span> <span class="n">link_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; VAR=&quot;</span> <span class="o">+</span> <span class="n">link_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">link_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
-                    <span class="s2">&quot;(C&quot;</span>
-                    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">link_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                    <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
-                    <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">link_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+                <span class="o">==</span> <span class="s2">&quot;O&quot;</span>
+            <span class="p">):</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;(C&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">link_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
 
             <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
                 <span class="s2">&quot;, BEG=&quot;</span>
@@ -1707,7 +1699,7 @@
                 <span class="o">+</span> <span class="s2">&quot;, LEN=&quot;</span>
                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">link_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
-                <span class="p">)</span>
+            <span class="p">)</span>
 
             <span class="n">start_pos</span> <span class="o">+=</span> <span class="n">link_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
 
@@ -1716,17 +1708,13 @@
         <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;FILEI NODEI[1] = %NODE_DATA_PATH%,&quot;</span>
         <span class="n">start_pos</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_max_width_df</span><span class="p">)):</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="s2">&quot; VAR=&quot;</span>
-                <span class="o">+</span> <span class="n">node_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; VAR=&quot;</span> <span class="o">+</span> <span class="n">node_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">node_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
-                    <span class="s2">&quot;(C&quot;</span>
-                    <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                    <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
-                    <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">node_max_width_df</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+                <span class="o">==</span> <span class="s2">&quot;O&quot;</span>
+            <span class="p">):</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;(C&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
 
             <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span>
                 <span class="s2">&quot;, BEG=&quot;</span>
@@ -1734,7 +1722,7 @@
                 <span class="o">+</span> <span class="s2">&quot;, LEN=&quot;</span>
                 <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
-                <span class="p">)</span>
+            <span class="p">)</span>
 
             <span class="n">start_pos</span> <span class="o">+=</span> <span class="n">node_max_width_df</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
 

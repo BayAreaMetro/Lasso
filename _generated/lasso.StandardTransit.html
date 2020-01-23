@@ -241,20 +241,20 @@ about time periods and variables.</p>
 <dd><p>Assigns a cube mode number by following logic.</p>
 <p>For rail, uses GTFS route_type variable:
 <a class="reference external" href="https://developers.google.com/transit/gtfs/reference">https://developers.google.com/transit/gtfs/reference</a></p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
-#                 route_type : cube_mode
+<dl>
+<dt>::</dt><dd><p>#             route_type : cube_mode
 route_type_to_cube_mode = {0: 8, # Tram, Streetcar, Light rail</p>
 <blockquote>
 <div><p>3: 0, # Bus; further disaggregated for cube
 2: 9} # Rail</p>
 </div></blockquote>
-<p><a href="#id3"><span class="problematic" id="id4">``</span></a>`
-For buses, uses route id numbers and route name to find
+</dd>
+</dl>
+<p>For buses, uses route id numbers and route name to find
 express and suburban buses  as follows:</p>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a>`
-if not cube_mode:</p>
-<blockquote>
-<div><dl class="simple">
+<dl class="simple">
+<dt>::</dt><dd><dl class="simple">
+<dt>if not cube_mode:</dt><dd><dl class="simple">
 <dt>if ‘express’ in row[‘LONGNAME’].lower():</dt><dd><p>cube_mode = 7  # Express</p>
 </dd>
 <dt>elif int(row[‘route_id’].split(“-“)[0]) &gt; 99:</dt><dd><p>cube_mode = 6  # Suburban Local</p>
@@ -262,8 +262,10 @@ if not cube_mode:</p>
 <dt>else:</dt><dd><p>cube_mode = 5  # Urban Local</p>
 </dd>
 </dl>
-</div></blockquote>
-<p><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>row</strong> – A DataFrame row with route_type, route_long_name, and route_id</p>

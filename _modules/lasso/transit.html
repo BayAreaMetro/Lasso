@@ -324,7 +324,7 @@
 
         <span class="k">return</span> <span class="n">tn</span></div>
 
-<div class="viewcode-block" id="CubeTransit.evaluate_differences"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.evaluate_differences">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_differences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_transit</span><span class="p">):</span>
+<div class="viewcode-block" id="CubeTransit.evaluate_differences"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.evaluate_differences">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_differences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_transit</span><span class="p">)</span> <span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        1. Identifies what routes need to be updated, deleted, or added</span>
 <span class="sd">        2. For routes being added or updated, identify if the time periods</span>
@@ -448,9 +448,7 @@
 
         <span class="k">return</span> <span class="n">project_card_changes</span></div>
 
-<div class="viewcode-block" id="CubeTransit.add_additional_time_periods"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.add_additional_time_periods">[docs]</a>    <span class="k">def</span> <span class="nf">add_additional_time_periods</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">new_time_period_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">orig_line_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="CubeTransit.add_additional_time_periods"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.add_additional_time_periods">[docs]</a>    <span class="k">def</span> <span class="nf">add_additional_time_periods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_time_period_number</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">orig_line_name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Copies a route to another cube time period with appropriate</span>
 <span class="sd">        values for time-period-specific properties.</span>
@@ -601,7 +599,7 @@
 
         <span class="k">return</span> <span class="n">delete_card_dict</span></div>
 
-<div class="viewcode-block" id="CubeTransit.create_add_route_card_dict"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.create_add_route_card_dict">[docs]</a>    <span class="k">def</span> <span class="nf">create_add_route_card_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="CubeTransit.create_add_route_card_dict"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.create_add_route_card_dict">[docs]</a>    <span class="k">def</span> <span class="nf">create_add_route_card_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a project card change formatted dictionary for adding</span>
 <span class="sd">        a route based on the information in self.route_properties for</span>
@@ -665,12 +663,7 @@
         <span class="k">return</span> <span class="n">time_periods_list</span></div>
 
 <div class="viewcode-block" id="CubeTransit.build_route_name"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.build_route_name">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">build_route_name</span><span class="p">(</span>
-        <span class="n">route_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">time_period</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">agency_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">direction_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">build_route_name</span><span class="p">(</span><span class="n">route_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">time_period</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">agency_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">direction_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a route name by contatenating route, time period, agency, and direction</span>
 
@@ -696,7 +689,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="CubeTransit.unpack_route_name"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.unpack_route_name">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">unpack_route_name</span><span class="p">(</span><span class="n">line_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">unpack_route_name</span><span class="p">(</span><span class="n">line_name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unpacks route name into direction, route, agency, and time period info</span>
 
@@ -718,7 +711,7 @@
 
         <span class="k">return</span> <span class="n">route_id</span><span class="p">,</span> <span class="n">time_period</span><span class="p">,</span> <span class="n">agency_id</span><span class="p">,</span> <span class="n">direction_id</span></div>
 
-<div class="viewcode-block" id="CubeTransit.calculate_start_end_times"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.calculate_start_end_times">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_start_end_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_properties_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="CubeTransit.calculate_start_end_times"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.calculate_start_end_times">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_start_end_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_properties_dict</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the start and end times of the property change</span>
 <span class="sd">        WARNING: Doesn&#39;t take care of discongruous time periods!!!!</span>
@@ -789,9 +782,8 @@
 <span class="sd">            cube_properties_dict: &lt;cube style property name&gt; : &lt;property value&gt;</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A list of dictionaries with values for</span>
-<span class="sd">              &quot;property&quot;: &lt;standard style property name&gt;</span>
-<span class="sd">              &quot;set&quot; : &lt;property value with correct units&gt;</span>
+<span class="sd">            A list of dictionaries with values for `&quot;property&quot;: &lt;standard</span>
+<span class="sd">                style property name&gt;, &quot;set&quot; : &lt;property value with correct units&gt;`</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">standard_properties_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -828,12 +820,12 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            transit_change_list (list): a list of dictionary values suitable for writing to a project card</span>
-<span class="sd">                {</span>
+<span class="sd">                `{</span>
 <span class="sd">                &#39;property&#39;: &lt;property_name&gt;,</span>
 <span class="sd">                &#39;set&#39;: &lt;set value&gt;,</span>
 <span class="sd">                &#39;change&#39;: &lt;change from existing value&gt;,</span>
 <span class="sd">                &#39;existing&#39;: &lt;existing value to check&gt;,</span>
-<span class="sd">                }</span>
+<span class="sd">                }`</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -1093,24 +1085,23 @@
 <span class="sd">        For rail, uses GTFS route_type variable:</span>
 <span class="sd">        https://developers.google.com/transit/gtfs/reference</span>
 
-<span class="sd">        ```</span>
-<span class="sd">        #                 route_type : cube_mode</span>
-<span class="sd">        route_type_to_cube_mode = {0: 8, # Tram, Streetcar, Light rail</span>
-<span class="sd">                                   3: 0, # Bus; further disaggregated for cube</span>
-<span class="sd">                                   2: 9} # Rail</span>
-<span class="sd">        ```</span>
+<span class="sd">        ::</span>
+<span class="sd">            #             route_type : cube_mode</span>
+<span class="sd">            route_type_to_cube_mode = {0: 8, # Tram, Streetcar, Light rail</span>
+<span class="sd">                                       3: 0, # Bus; further disaggregated for cube</span>
+<span class="sd">                                       2: 9} # Rail</span>
+
 <span class="sd">        For buses, uses route id numbers and route name to find</span>
 <span class="sd">        express and suburban buses  as follows:</span>
 
-<span class="sd">        ```</span>
-<span class="sd">        if not cube_mode:</span>
-<span class="sd">            if &#39;express&#39; in row[&#39;LONGNAME&#39;].lower():</span>
-<span class="sd">                cube_mode = 7  # Express</span>
-<span class="sd">            elif int(row[&#39;route_id&#39;].split(&quot;-&quot;)[0]) &gt; 99:</span>
-<span class="sd">                cube_mode = 6  # Suburban Local</span>
-<span class="sd">            else:</span>
-<span class="sd">                cube_mode = 5  # Urban Local</span>
-<span class="sd">        ```</span>
+<span class="sd">        ::</span>
+<span class="sd">            if not cube_mode:</span>
+<span class="sd">                if &#39;express&#39; in row[&#39;LONGNAME&#39;].lower():</span>
+<span class="sd">                    cube_mode = 7  # Express</span>
+<span class="sd">                elif int(row[&#39;route_id&#39;].split(&quot;-&quot;)[0]) &gt; 99:</span>
+<span class="sd">                    cube_mode = 6  # Suburban Local</span>
+<span class="sd">                else:</span>
+<span class="sd">                    cube_mode = 5  # Urban Local</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            row: A DataFrame row with route_type, route_long_name, and route_id</span>
@@ -1281,7 +1272,6 @@
 <span class="sd">            a route shape</span>
 <span class="sd">        lines_list (list): a list of the line names</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">line_order</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lines_list</span> <span class="o">=</span> <span class="p">[]</span>
