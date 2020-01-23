@@ -16,6 +16,7 @@ lasso.StandardTransit
       ~StandardTransit.__init__
       ~StandardTransit.calculate_cube_mode
       ~StandardTransit.cube_format
+      ~StandardTransit.fromTransitNetwork
       ~StandardTransit.read_gtfs
       ~StandardTransit.route_properties_gtfs_to_cube
       ~StandardTransit.shape_gtfs_to_cube

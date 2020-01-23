@@ -151,6 +151,18 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">.logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
 
+<span class="k">def</span> <span class="nf">get_base_dir</span><span class="p">(</span><span class="n">init_d</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">init_d</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;metcouncil_data&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Lasso base directory set as: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">d</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Cannot find Lasso base directory from </span><span class="si">{}</span><span class="s2">, please input using keyword in parameters: `lasso_dir =` &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">init_d</span><span class="p">)</span>
+    <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">raise</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+
 
 <div class="viewcode-block" id="Parameters"><a class="viewcode-back" href="../../_generated/lasso.Parameters.html#lasso.Parameters">[docs]</a><span class="k">class</span> <span class="nc">Parameters</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A class representing all the parameters defining the networks</span>
@@ -495,11 +507,13 @@
 <span class="sd">    Details for calculating the county based on the centroid of the link.</span>
 <span class="sd">    The COUNTY_VARIABLE should be the name of a field in shapefile.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">DATA_FILE_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;metcouncil_data&quot;</span><span class="p">)</span>
 
-    <span class="n">SETTINGS_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;settings&quot;</span><span class="p">)</span>
+    <span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">get_base_dir</span><span class="p">()</span>
+    <span class="n">DATA_FILE_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span>  <span class="s2">&quot;metcouncil_data&quot;</span><span class="p">)</span>
 
-    <span class="n">SCRATCH_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="s2">&quot;scratch&quot;</span><span class="p">)</span>
+    <span class="n">SETTINGS_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="p">,</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;settings&quot;</span><span class="p">)</span>
+
+    <span class="n">SCRATCH_LOCATION</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="s2">&quot;scratch&quot;</span><span class="p">)</span>
 
     <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data File Location set as : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">DATA_FILE_LOCATION</span><span class="p">))</span>
 
@@ -709,6 +723,8 @@
         <span class="n">SCRATCH_LOCATION</span><span class="p">,</span> <span class="s2">&quot;make_complete_network_from_fixed_width_file.s&quot;</span>
     <span class="p">)</span>
 
+    <span class="n">DEFAULT_OUTPUT_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SCRATCH_LOCATION</span><span class="p">)</span>
+
     <span class="n">DEFAULT_OUTPUT_EPSG</span> <span class="o">=</span> <span class="mi">26915</span>
 
 <div class="viewcode-block" id="Parameters.__init__"><a class="viewcode-back" href="../../_generated/lasso.Parameters.html#lasso.Parameters.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -809,6 +825,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">output_cube_network_script</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT</span>
             <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;output_dir&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_dir</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_DIR</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create all the possible headway variable combinations based on the cube time periods setting</span>
 <span class="sd">        &quot;&quot;&quot;</span>

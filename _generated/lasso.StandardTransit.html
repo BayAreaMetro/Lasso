@@ -218,19 +218,22 @@ about time periods and variables.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.cube_format" title="lasso.StandardTransit.cube_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cube_format</span></code></a>(row)</p></td>
 <td><p>Creates a string represnting the route in cube line file notation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.read_gtfs" title="lasso.StandardTransit.read_gtfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_gtfs</span></code></a>(gtfs_feed_dir[, parameters])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.fromTransitNetwork" title="lasso.StandardTransit.fromTransitNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromTransitNetwork</span></code></a>(transit_network_object[, …])</p></td>
+<td><p>RoadwayNetwork to ModelRoadwayNetwork</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.read_gtfs" title="lasso.StandardTransit.read_gtfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_gtfs</span></code></a>(gtfs_feed_dir[, parameters])</p></td>
 <td><p>Reads GTFS files from a directory and returns a StandardTransit instance.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.route_properties_gtfs_to_cube" title="lasso.StandardTransit.route_properties_gtfs_to_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">route_properties_gtfs_to_cube</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.route_properties_gtfs_to_cube" title="lasso.StandardTransit.route_properties_gtfs_to_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">route_properties_gtfs_to_cube</span></code></a>(self)</p></td>
 <td><p>Prepare gtfs for cube lin file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.shape_gtfs_to_cube" title="lasso.StandardTransit.shape_gtfs_to_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape_gtfs_to_cube</span></code></a>(row)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.shape_gtfs_to_cube" title="lasso.StandardTransit.shape_gtfs_to_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape_gtfs_to_cube</span></code></a>(row)</p></td>
 <td><p>Creates a list of nodes that for the route in appropriate cube format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.time_to_cube_time_period" title="lasso.StandardTransit.time_to_cube_time_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_to_cube_time_period</span></code></a>(start_time_secs[, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.time_to_cube_time_period" title="lasso.StandardTransit.time_to_cube_time_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_to_cube_time_period</span></code></a>(start_time_secs[, …])</p></td>
 <td><p>Converts seconds from midnight to the cube time period.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lasso.StandardTransit.write_as_cube_lin" title="lasso.StandardTransit.write_as_cube_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_as_cube_lin</span></code></a>(outpath)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.StandardTransit.write_as_cube_lin" title="lasso.StandardTransit.write_as_cube_lin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_as_cube_lin</span></code></a>([outpath])</p></td>
 <td><p>Writes the gtfs feed as a cube line file after converting gtfs properties to MetCouncil cube properties.</p></td>
 </tr>
 </tbody>
@@ -290,6 +293,23 @@ trip_id, shape_id, NAME, LONGNAME, tod, HEADWAY, MODE, ONEWAY, OPERATOR</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>string representation of route in cube line file notation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.StandardTransit.fromTransitNetwork">
+<em class="property">static </em><code class="sig-name descname">fromTransitNetwork</code><span class="sig-paren">(</span><em class="sig-param">transit_network_object</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.fromTransitNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.fromTransitNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>RoadwayNetwork to ModelRoadwayNetwork</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transit_network_object</strong> – Reference to an instance of TransitNetwork.</p></li>
+<li><p><strong>parameters</strong> – Parameters instance for lasso.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>StandardTransit</p>
 </dd>
 </dl>
 </dd></dl>
@@ -389,7 +409,7 @@ otherwise returns a numeric time period</p></li>
 
 <dl class="method">
 <dt id="lasso.StandardTransit.write_as_cube_lin">
-<code class="sig-name descname">write_as_cube_lin</code><span class="sig-paren">(</span><em class="sig-param">outpath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.write_as_cube_lin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.write_as_cube_lin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_as_cube_lin</code><span class="sig-paren">(</span><em class="sig-param">outpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.write_as_cube_lin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.write_as_cube_lin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the gtfs feed as a cube line file after
 converting gtfs properties to MetCouncil cube properties.</p>
 <dl class="field-list simple">

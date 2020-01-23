@@ -23,6 +23,7 @@ lasso.Parameters
 
    .. autosummary::
    
+      ~Parameters.BASE_DIR
       ~Parameters.DATA_FILE_LOCATION
       ~Parameters.DEFAULT_AREA_TYPE_CODE_DICT
       ~Parameters.DEFAULT_AREA_TYPE_SHAPE
@@ -43,6 +44,7 @@ lasso.Parameters
       ~Parameters.DEFAULT_NET_TO_DBF_CROSSWALK
       ~Parameters.DEFAULT_OSM_ASSGNGRP_DICT
       ~Parameters.DEFAULT_OUTPUT_CUBE_NETWORK_SCRIPT
+      ~Parameters.DEFAULT_OUTPUT_DIR
       ~Parameters.DEFAULT_OUTPUT_EPSG
       ~Parameters.DEFAULT_OUTPUT_LINK_CSV
       ~Parameters.DEFAULT_OUTPUT_LINK_HEADER_WIDTH_CSV

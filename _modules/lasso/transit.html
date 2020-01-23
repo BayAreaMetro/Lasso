@@ -170,6 +170,8 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">partridge</span> <span class="k">as</span> <span class="nn">ptg</span>
 
+<span class="kn">from</span> <span class="nn">network_wrangler</span> <span class="kn">import</span> <span class="n">TransitNetwork</span>
+
 <span class="kn">from</span> <span class="nn">.logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
 <span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Parameters</span>
 
@@ -970,6 +972,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">feed</span> <span class="o">=</span> <span class="n">ptg_feed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span></div>
 
+<div class="viewcode-block" id="StandardTransit.fromTransitNetwork"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.fromTransitNetwork">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fromTransitNetwork</span><span class="p">(</span><span class="n">transit_network_object</span><span class="p">:</span> <span class="n">TransitNetwork</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        RoadwayNetwork to ModelRoadwayNetwork</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            transit_network_object: Reference to an instance of TransitNetwork.</span>
+<span class="sd">            parameters : Parameters instance for lasso.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            StandardTransit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">StandardTransit</span><span class="p">(</span><span class="n">transit_network_object</span><span class="o">.</span><span class="n">feed</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="StandardTransit.read_gtfs"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.read_gtfs">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">read_gtfs</span><span class="p">(</span><span class="n">gtfs_feed_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">()):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -986,7 +1002,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">StandardTransit</span><span class="p">(</span><span class="n">ptg</span><span class="o">.</span><span class="n">load_feed</span><span class="p">(</span><span class="n">gtfs_feed_dir</span><span class="p">),</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="StandardTransit.write_as_cube_lin"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.write_as_cube_lin">[docs]</a>    <span class="k">def</span> <span class="nf">write_as_cube_lin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardTransit.write_as_cube_lin"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.write_as_cube_lin">[docs]</a>    <span class="k">def</span> <span class="nf">write_as_cube_lin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outpath</span><span class="p">:</span> <span class="nb">str</span>  <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Writes the gtfs feed as a cube line file after</span>
 <span class="sd">        converting gtfs properties to MetCouncil cube properties.</span>
@@ -995,7 +1011,8 @@
 <span class="sd">            outpath: File location for output cube line file.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">outpath</span><span class="p">:</span>
+            <span class="n">outpath</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parameters</span><span class="o">.</span><span class="n">outpath</span><span class="p">,</span><span class="s2">&quot;outtransit.lin&quot;</span><span class="p">)</span>
         <span class="n">trip_cube_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">route_properties_gtfs_to_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="n">trip_cube_df</span><span class="p">[</span><span class="s2">&quot;LIN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trip_cube_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cube_format</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>

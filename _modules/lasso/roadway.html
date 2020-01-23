@@ -183,7 +183,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shapes_metcounciL_df</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shapes_metcouncil_df</span> <span class="o">=</span> <span class="kc">None</span></div>
         <span class="c1">##todo also write to file</span>
         <span class="c1"># WranglerLogger.debug(&quot;Used PARAMS\n&quot;, &#39;\n&#39;.join([&#39;{}: {}&#39;.format(k,v) for k,v in self.parameters.__dict__.items()]))</span>
 
@@ -446,7 +446,7 @@
         <span class="n">area_type_shape</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">area_type_shape</span> <span class="k">if</span> <span class="n">area_type_shape</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">area_type_shape</span>
         <span class="p">)</span>
-
+        <span class="nb">print</span><span class="p">(</span><span class="n">area_type_shape</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">area_type_shape</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No area type shape specified&quot;</span>
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
