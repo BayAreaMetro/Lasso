@@ -161,6 +161,7 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
@@ -206,17 +207,21 @@
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.add_new_roadway_feature_change">add_new_roadway_feature_change() (lasso.ModelRoadwayNetwork method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_generated/lasso.Project.html#lasso.Project.add_transit_changes">add_transit_changes() (lasso.Project method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.add_variable_using_shst_reference">add_variable_using_shst_reference() (lasso.ModelRoadwayNetwork method)</a>
+</li>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.addition_map">addition_map() (lasso.ModelRoadwayNetwork method)</a>
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.apply">apply() (lasso.ModelRoadwayNetwork method)</a>
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.apply_managed_lane_feature_change">apply_managed_lane_feature_change() (lasso.ModelRoadwayNetwork method)</a>
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.apply_roadway_feature_change">apply_roadway_feature_change() (lasso.ModelRoadwayNetwork method)</a>
+</li>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.assess_connectivity">assess_connectivity() (lasso.ModelRoadwayNetwork method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -388,6 +393,8 @@
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.delete_roadway_feature_change">delete_roadway_feature_change() (lasso.ModelRoadwayNetwork method)</a>
 </li>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.deletion_map">deletion_map() (lasso.ModelRoadwayNetwork method)</a>
+</li>
       <li><a href="_generated/lasso.Project.html#lasso.Project.determine_roadway_network_changes_compatability">determine_roadway_network_changes_compatability() (lasso.Project method)</a>
 </li>
       <li><a href="_generated/lasso.CubeTransit.html#lasso.CubeTransit.diff_dict">diff_dict (lasso.CubeTransit attribute)</a>
@@ -434,8 +441,12 @@
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.get_managed_lane_node_ids">get_managed_lane_node_ids() (lasso.ModelRoadwayNetwork static method)</a>
 </li>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.get_modal_graph">get_modal_graph() (lasso.ModelRoadwayNetwork static method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.get_modal_links_nodes">get_modal_links_nodes() (lasso.ModelRoadwayNetwork static method)</a>
+</li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.get_property_by_time_period_and_group">get_property_by_time_period_and_group() (lasso.ModelRoadwayNetwork method)</a>
 </li>
       <li><a href="_generated/lasso.util.html#lasso.util.get_shared_streets_intersection_hash">get_shared_streets_intersection_hash() (in module lasso.util)</a>
@@ -449,6 +460,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_generated/lasso.util.html#lasso.util.hhmmss_to_datetime">hhmmss_to_datetime() (in module lasso.util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.is_network_connected">is_network_connected() (lasso.ModelRoadwayNetwork method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -490,19 +509,27 @@
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.MANAGED_LANES_REQUIRED_ATTRIBUTES">MANAGED_LANES_REQUIRED_ATTRIBUTES (lasso.ModelRoadwayNetwork attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.MANAGED_LANES_SCALAR">MANAGED_LANES_SCALAR (lasso.ModelRoadwayNetwork attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.MAX_SEARCH_BREADTH">MAX_SEARCH_BREADTH (lasso.ModelRoadwayNetwork attribute)</a>
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork">ModelRoadwayNetwork (class in lasso)</a>
+</li>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.MODES_TO_NETWORK_LINK_VARIABLES">MODES_TO_NETWORK_LINK_VARIABLES (lasso.ModelRoadwayNetwork attribute)</a>
+</li>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.MODES_TO_NETWORK_NODE_VARIABLES">MODES_TO_NETWORK_NODE_VARIABLES (lasso.ModelRoadwayNetwork attribute)</a>
 </li>
   </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.network_connection_plot">network_connection_plot() (lasso.ModelRoadwayNetwork static method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.NODE_FOREIGN_KEY">NODE_FOREIGN_KEY (lasso.ModelRoadwayNetwork attribute)</a>
 </li>
@@ -583,6 +610,8 @@
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.select_roadway_features">select_roadway_features() (lasso.ModelRoadwayNetwork method)</a>
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.selection_has_unique_link_id">selection_has_unique_link_id() (lasso.ModelRoadwayNetwork static method)</a>
+</li>
+      <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.selection_map">selection_map() (lasso.ModelRoadwayNetwork method)</a>
 </li>
       <li><a href="_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.SELECTION_REQUIRES">SELECTION_REQUIRES (lasso.ModelRoadwayNetwork attribute)</a>
 </li>

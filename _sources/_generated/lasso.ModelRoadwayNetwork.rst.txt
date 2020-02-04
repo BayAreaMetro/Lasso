@@ -17,9 +17,11 @@ lasso.ModelRoadwayNetwork
       ~ModelRoadwayNetwork.add_counts
       ~ModelRoadwayNetwork.add_new_roadway_feature_change
       ~ModelRoadwayNetwork.add_variable_using_shst_reference
+      ~ModelRoadwayNetwork.addition_map
       ~ModelRoadwayNetwork.apply
       ~ModelRoadwayNetwork.apply_managed_lane_feature_change
       ~ModelRoadwayNetwork.apply_roadway_feature_change
+      ~ModelRoadwayNetwork.assess_connectivity
       ~ModelRoadwayNetwork.build_selection_key
       ~ModelRoadwayNetwork.calculate_area_type
       ~ModelRoadwayNetwork.calculate_assign_group
@@ -32,10 +34,15 @@ lasso.ModelRoadwayNetwork
       ~ModelRoadwayNetwork.create_managed_lane_network
       ~ModelRoadwayNetwork.dataframe_to_fixed_with
       ~ModelRoadwayNetwork.delete_roadway_feature_change
+      ~ModelRoadwayNetwork.deletion_map
       ~ModelRoadwayNetwork.from_RoadwayNetwork
       ~ModelRoadwayNetwork.get_attribute
       ~ModelRoadwayNetwork.get_managed_lane_node_ids
+      ~ModelRoadwayNetwork.get_modal_graph
+      ~ModelRoadwayNetwork.get_modal_links_nodes
       ~ModelRoadwayNetwork.get_property_by_time_period_and_group
+      ~ModelRoadwayNetwork.is_network_connected
+      ~ModelRoadwayNetwork.network_connection_plot
       ~ModelRoadwayNetwork.orig_dest_nodes_foreign_key
       ~ModelRoadwayNetwork.ox_graph
       ~ModelRoadwayNetwork.read
@@ -44,6 +51,7 @@ lasso.ModelRoadwayNetwork
       ~ModelRoadwayNetwork.roadway_standard_to_met_council_network
       ~ModelRoadwayNetwork.select_roadway_features
       ~ModelRoadwayNetwork.selection_has_unique_link_id
+      ~ModelRoadwayNetwork.selection_map
       ~ModelRoadwayNetwork.split_properties_by_time_period_and_category
       ~ModelRoadwayNetwork.validate_link_schema
       ~ModelRoadwayNetwork.validate_node_schema
@@ -73,6 +81,8 @@ lasso.ModelRoadwayNetwork
       ~ModelRoadwayNetwork.MANAGED_LANES_REQUIRED_ATTRIBUTES
       ~ModelRoadwayNetwork.MANAGED_LANES_SCALAR
       ~ModelRoadwayNetwork.MAX_SEARCH_BREADTH
+      ~ModelRoadwayNetwork.MODES_TO_NETWORK_LINK_VARIABLES
+      ~ModelRoadwayNetwork.MODES_TO_NETWORK_NODE_VARIABLES
       ~ModelRoadwayNetwork.NODE_FOREIGN_KEY
       ~ModelRoadwayNetwork.SEARCH_BREADTH
       ~ModelRoadwayNetwork.SELECTION_REQUIRES
