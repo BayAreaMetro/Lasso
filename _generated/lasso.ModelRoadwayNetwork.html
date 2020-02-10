@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -713,13 +713,14 @@ This isn’t perfect, but it much quicker than other methods.</p>
 <dt id="lasso.ModelRoadwayNetwork.create_dummy_connector_links">
 <code class="sig-name descname">create_dummy_connector_links</code><span class="sig-paren">(</span><em class="sig-param">ml_df</em><span class="sig-paren">)</span><a class="headerlink" href="#lasso.ModelRoadwayNetwork.create_dummy_connector_links" title="Permalink to this definition">¶</a></dt>
 <dd><p>create dummy connector links between the general purpose and managed lanes</p>
-<p>args:
-gp_df : GeoDataFrame</p>
-<blockquote>
-<div><p>dataframe of general purpose links (where managed lane also exists)</p>
-</div></blockquote>
-<dl class="simple">
-<dt>ml_df<span class="classifier">GeoDataFrame</span></dt><dd><p>dataframe of corresponding managed lane links</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gp_df</strong> – GeoDataFrame
+dataframe of general purpose links (where managed lane also exists)</p></li>
+<li><p><strong>ml_df</strong> – GeoDataFrame
+dataframe of corresponding managed lane links</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
