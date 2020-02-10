@@ -325,6 +325,7 @@
         <span class="n">county_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">county_shape_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;county&quot;</span><span class="p">,</span>
+        <span class="n">county_codes_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -375,6 +376,16 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
+        <span class="n">county_codes_dict</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">county_codes_dict</span>
+            <span class="k">if</span> <span class="n">county_codes_dict</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">county_code_dict</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">county_codes_dict</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No county codes dictionary specified&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start actual process</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -385,6 +396,13 @@
         <span class="n">county_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">county_shape</span><span class="p">)</span>
         <span class="n">county_gdf</span> <span class="o">=</span> <span class="n">county_gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="n">RoadwayNetwork</span><span class="o">.</span><span class="n">EPSG</span><span class="p">)</span>
         <span class="n">joined_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">sjoin</span><span class="p">(</span><span class="n">centroids_gdf</span><span class="p">,</span> <span class="n">county_gdf</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s2">&quot;intersects&quot;</span><span class="p">)</span>
+
+        <span class="n">joined_gdf</span><span class="p">[</span><span class="n">county_shape_variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">joined_gdf</span><span class="p">[</span><span class="n">county_shape_variable</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">county_codes_dict</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">joined_gdf</span><span class="p">[</span><span class="n">county_shape_variable</span><span class="p">]</span>
 

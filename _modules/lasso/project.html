@@ -161,6 +161,8 @@
 
 <span class="kn">from</span> <span class="nn">.transit</span> <span class="kn">import</span> <span class="n">CubeTransit</span><span class="p">,</span> <span class="n">StandardTransit</span>
 <span class="kn">from</span> <span class="nn">.logger</span> <span class="kn">import</span> <span class="n">WranglerLogger</span>
+<span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Parameters</span>
+<span class="kn">from</span> <span class="nn">.roadway</span> <span class="kn">import</span> <span class="n">ModelRoadwayNetwork</span>
 
 
 <div class="viewcode-block" id="Project"><a class="viewcode-back" href="../../_generated/lasso.Project.html#lasso.Project">[docs]</a><span class="k">class</span> <span class="nc">Project</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -202,7 +204,7 @@
         <span class="s2">&quot;model_link_id&quot;</span><span class="p">,</span>
         <span class="s2">&quot;area_type&quot;</span><span class="p">,</span>
         <span class="s2">&quot;county&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;asgngrp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;assign_group&quot;</span><span class="p">,</span>
         <span class="s2">&quot;centroidconnect&quot;</span><span class="p">,</span>
     <span class="p">]</span>
 
@@ -215,6 +217,7 @@
         <span class="n">build_transit_network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CubeTransit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">project_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">evaluate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        constructor</span>
@@ -229,6 +232,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">project_name</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">project_name</span> <span class="k">if</span> <span class="n">project_name</span> <span class="k">else</span> <span class="n">Project</span><span class="o">.</span><span class="n">DEFAULT_PROJECT_NAME</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">**</span><span class="n">parameters</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">base_roadway_network</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">determine_roadway_network_changes_compatability</span><span class="p">()</span>
@@ -261,6 +265,7 @@
         <span class="n">base_transit_network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CubeTransit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">build_transit_network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CubeTransit</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">project_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor for a Project instance.</span>
@@ -335,12 +340,14 @@
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">base_roadway_dir</span><span class="p">:</span>
-            <span class="n">base_roadway_network</span> <span class="o">=</span> <span class="n">RoadwayNetwork</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+            <span class="n">base_roadway_network</span> <span class="o">=</span> <span class="n">ModelRoadwayNetwork</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_roadway_dir</span><span class="p">,</span> <span class="s2">&quot;link.json&quot;</span><span class="p">),</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_roadway_dir</span><span class="p">,</span> <span class="s2">&quot;node.geojson&quot;</span><span class="p">),</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_roadway_dir</span><span class="p">,</span> <span class="s2">&quot;shape.geojson&quot;</span><span class="p">),</span>
                 <span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">base_roadway_network</span><span class="o">.</span><span class="n">create_calculated_variables</span><span class="p">()</span>
+            <span class="n">base_roadway_network</span><span class="o">.</span><span class="n">split_properties_by_time_period_and_category</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No base roadway network.&quot;</span>
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -354,6 +361,7 @@
             <span class="n">build_transit_network</span><span class="o">=</span><span class="n">build_transit_network</span><span class="p">,</span>
             <span class="n">evaluate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">project_name</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">project</span></div>
@@ -410,6 +418,16 @@
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s2">&quot;Evaluating compatibility between roadway network changes and base network. Not evaluating deletions.&quot;</span>
         <span class="p">)</span>
+
+        <span class="c1"># CUBE log file saves all varilable names in upper cases, need to convert them to be same as network</span>
+        <span class="n">log_to_net_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">log_to_net</span><span class="p">)</span>
+        <span class="n">log_to_net_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">log_to_net_df</span><span class="p">[</span><span class="s2">&quot;log&quot;</span><span class="p">],</span> <span class="n">log_to_net_df</span><span class="p">[</span><span class="s2">&quot;net&quot;</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roadway_changes</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">log_to_net_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">roadway_changes</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span> <span class="p">:</span> <span class="n">log_to_net_dict</span><span class="p">[</span><span class="n">c</span><span class="p">]},</span>
+                                            <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
 
         <span class="n">link_changes_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roadway_changes</span><span class="p">[</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roadway_changes</span><span class="o">.</span><span class="n">OBJECT</span> <span class="o">==</span> <span class="s2">&quot;L&quot;</span><span class="p">)</span>
@@ -616,99 +634,107 @@
 
         <span class="n">change_link_dict_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">change_row</span> <span class="ow">in</span> <span class="n">link_changes_df</span><span class="p">[</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">link_changes_df</span><span class="p">[</span>
             <span class="n">link_changes_df</span><span class="o">.</span><span class="n">OPERATION_final</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span>
-        <span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
-            <span class="n">base_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_roadway_network</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_roadway_network</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">change_row</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
-                <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_roadway_network</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">change_row</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
-            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">change_row</span> <span class="ow">in</span> <span class="n">link_changes_df</span><span class="p">[</span>
+                <span class="n">link_changes_df</span><span class="o">.</span><span class="n">OPERATION_final</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">base_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No match found in network for AB combination: (</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">). Incompatible base network.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">change_row</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">change_row</span><span class="o">.</span><span class="n">B</span>
-                <span class="p">)</span>
-                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="n">base_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_roadway_network</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_roadway_network</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">change_row</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+                    <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_roadway_network</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">change_row</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+                <span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">base_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Found more than one match in base network for AB combination: (</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">). Selecting first one to operate on but AB should be unique to network.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">row</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">B</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">base_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No match found in network for AB combination: (</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">). Incompatible base network.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">change_row</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">change_row</span><span class="o">.</span><span class="n">B</span>
                     <span class="p">)</span>
-                <span class="p">)</span>
-            <span class="n">base_row</span> <span class="o">=</span> <span class="n">base_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-            <span class="n">out_col</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">changeable_col</span><span class="p">:</span>
-                <span class="c1"># if it is the same as before, or a static value, don&#39;t process as a change</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">change_row</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">==</span> <span class="n">base_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span>
-                    <span class="n">col</span> <span class="ow">in</span> <span class="n">Project</span><span class="o">.</span><span class="n">STATIC_VALUES</span>
-                <span class="p">):</span>
-                    <span class="k">continue</span>
-                <span class="c1"># only look at distance if it has significantly changed</span>
-                <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="s2">&quot;distance&quot;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="p">(</span>
-                        <span class="nb">abs</span><span class="p">(</span>
-                            <span class="p">(</span><span class="n">change_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">base_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-                            <span class="o">/</span> <span class="n">base_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">base_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="s2">&quot;Found more than one match in base network for AB combination: (</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">). Selecting first one to operate on but AB should be unique to network.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">row</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">B</span>
                         <span class="p">)</span>
-                        <span class="o">&gt;</span> <span class="mf">0.01</span>
+                    <span class="p">)</span>
+                <span class="n">base_row</span> <span class="o">=</span> <span class="n">base_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="n">out_col</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">changeable_col</span><span class="p">:</span>
+                <span class="c1"># if it is the same as before, or a static value, don&#39;t process as a change</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">change_row</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">==</span> <span class="n">base_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span>
+                        <span class="n">col</span> <span class="ow">in</span> <span class="n">Project</span><span class="o">.</span><span class="n">STATIC_VALUES</span>
                     <span class="p">):</span>
-                        <span class="n">out_col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
                         <span class="k">continue</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">out_col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+                    <span class="c1"># only look at distance if it has significantly changed</span>
+                    <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="s2">&quot;distance&quot;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="nb">abs</span><span class="p">(</span>
+                                <span class="p">(</span><span class="n">change_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">base_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+                                <span class="o">/</span> <span class="n">base_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+                            <span class="p">)</span>
+                                <span class="o">&gt;</span> <span class="mf">0.01</span>
+                        <span class="p">):</span>
+                            <span class="n">out_col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">out_col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 
-            <span class="n">property_dict_list</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">out_col</span><span class="p">:</span>
-                <span class="n">property_dict</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;property&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
-                <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;existing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
-                <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;set&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
-                <span class="n">property_dict_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">property_dict</span><span class="p">)</span>
-            <span class="c1"># WranglerLogger.debug(&quot;property_dict_list: {}&quot;.format(property_dict_list))</span>
-            <span class="c1"># WranglerLogger.debug(&quot;base_df.model_link_id: {}&quot;.format(base_row[&#39;model_link_id&#39;]))</span>
-            <span class="n">card_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-                <span class="p">{</span>
-                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">property_dict_list</span><span class="p">]),</span>
-                    <span class="s2">&quot;model_link_id&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">base_row</span><span class="p">[</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">]),</span>
-                <span class="p">}</span>
+                <span class="n">property_dict_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">out_col</span><span class="p">:</span>
+                    <span class="n">property_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;property&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+                    <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;existing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                    <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;set&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                    <span class="n">property_dict_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">property_dict</span><span class="p">)</span>
+                <span class="c1"># WranglerLogger.debug(&quot;property_dict_list: {}&quot;.format(property_dict_list))</span>
+                <span class="c1"># WranglerLogger.debug(&quot;base_df.model_link_id: {}&quot;.format(base_row[&#39;model_link_id&#39;]))</span>
+                <span class="n">card_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">property_dict_list</span><span class="p">]),</span>
+                            <span class="s2">&quot;model_link_id&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">base_row</span><span class="p">[</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">]),</span>
+                        <span class="p">}</span>
+                <span class="p">)</span>
+                <span class="c1"># WranglerLogger.debug(&#39;card_df: {}&#39;.format(card_df))</span>
+                <span class="n">change_link_dict_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">change_link_dict_df</span><span class="p">,</span> <span class="n">card_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
+                    <span class="p">)</span>
+
+            <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+                    <span class="nb">str</span>
+                <span class="p">)</span>
+            <span class="c1"># WranglerLogger.debug(&#39;change_link_dict_df 1: {}&#39;.format(change_link_dict_df))</span>
+            <span class="n">change_link_dict_df</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">change_link_dict_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">)[[</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">]]</span>
+                <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
             <span class="p">)</span>
-            <span class="c1"># WranglerLogger.debug(&#39;card_df: {}&#39;.format(card_df))</span>
-            <span class="n">change_link_dict_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">change_link_dict_df</span><span class="p">,</span> <span class="n">card_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
+            <span class="c1"># WranglerLogger.debug(&#39;change_link_dict_df 2: {}&#39;.format(change_link_dict_df))</span>
+            <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;facility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">model_link_id</span><span class="p">}},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
             <span class="p">)</span>
 
-        <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
-            <span class="nb">str</span>
-        <span class="p">)</span>
-        <span class="c1"># WranglerLogger.debug(&#39;change_link_dict_df 1: {}&#39;.format(change_link_dict_df))</span>
-        <span class="n">change_link_dict_df</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">change_link_dict_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">)[[</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">]]</span>
-            <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="c1"># WranglerLogger.debug(&#39;change_link_dict_df 2: {}&#39;.format(change_link_dict_df))</span>
-        <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;facility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">model_link_id</span><span class="p">}},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
-        <span class="p">)</span>
+            <span class="c1"># WranglerLogger.debug(&#39;change_link_dict_df 3: {}&#39;.format(change_link_dict_df))</span>
+            <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))</span>
+            <span class="p">)</span>
 
-        <span class="c1"># WranglerLogger.debug(&#39;change_link_dict_df 3: {}&#39;.format(change_link_dict_df))</span>
-        <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">))</span>
-        <span class="p">)</span>
+            <span class="n">change_link_dict_list</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="p">[[</span><span class="s2">&quot;facility&quot;</span><span class="p">,</span> <span class="s2">&quot;properties&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span>
+                <span class="s2">&quot;record&quot;</span>
+            <span class="p">)</span>
 
-        <span class="n">change_link_dict_list</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="p">[[</span><span class="s2">&quot;facility&quot;</span><span class="p">,</span> <span class="s2">&quot;properties&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span>
-            <span class="s2">&quot;record&quot;</span>
-        <span class="p">)</span>
+            <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">change_link_dict_list</span><span class="p">:</span>
+                <span class="n">change</span><span class="p">[</span><span class="s2">&quot;category&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Roadway Attribute Change&quot;</span>
 
-        <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">change_link_dict_list</span><span class="p">:</span>
-            <span class="n">change</span><span class="p">[</span><span class="s2">&quot;category&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Roadway Attribute Change&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Changes Processed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">change_link_dict_list</span><span class="p">)))</span>
 
-        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Changes Processed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">change_link_dict_list</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No link changes processed&quot;</span><span class="p">)</span>
+            <span class="n">change_link_dict_list</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">highway_change_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">delete_link_dict</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">add_link_dict</span><span class="p">]</span> <span class="o">+</span> <span class="n">change_link_dict_list</span><span class="p">)</span>

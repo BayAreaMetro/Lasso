@@ -168,7 +168,7 @@
 <h1>lasso.Project<a class="headerlink" href="#lasso-project" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="lasso.Project">
-<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">Project</code><span class="sig-paren">(</span><em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=''</em>, <em class="sig-param">evaluate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">Project</code><span class="sig-paren">(</span><em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=''</em>, <em class="sig-param">evaluate=False</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A single or set of changes to the roadway or transit system.</p>
 <p>Compares a base and a build transit network or a base and build
@@ -273,7 +273,7 @@ are not evaluated when assessing changes.</p>
 
 <dl class="method">
 <dt id="lasso.Project.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=''</em>, <em class="sig-param">evaluate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=''</em>, <em class="sig-param">evaluate=False</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>constructor</p>
 </dd></dl>
 
@@ -346,7 +346,7 @@ adds entries into the self.card_data dictionary.</p>
 
 <dl class="method">
 <dt id="lasso.Project.create_project">
-<em class="property">static </em><code class="sig-name descname">create_project</code><span class="sig-paren">(</span><em class="sig-param">roadway_log_file=None</em>, <em class="sig-param">base_roadway_dir=None</em>, <em class="sig-param">base_transit_source=None</em>, <em class="sig-param">build_transit_source=None</em>, <em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.create_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.create_project" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">create_project</code><span class="sig-paren">(</span><em class="sig-param">roadway_log_file=None</em>, <em class="sig-param">base_roadway_dir=None</em>, <em class="sig-param">base_transit_source=None</em>, <em class="sig-param">build_transit_source=None</em>, <em class="sig-param">roadway_changes=None</em>, <em class="sig-param">transit_changes=None</em>, <em class="sig-param">base_roadway_network=None</em>, <em class="sig-param">base_transit_network=None</em>, <em class="sig-param">build_transit_network=None</em>, <em class="sig-param">project_name=None</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/project.html#Project.create_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.Project.create_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor for a Project instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -421,7 +421,7 @@ self.card_data to be an aggregation of transit and highway changes.</p>
 
 <dl class="attribute">
 <dt>
-<code class="sig-name descname">STATIC_VALUES</code><em class="property"> = ['model_link_id', 'area_type', 'county', 'asgngrp', 'centroidconnect']</em></dt>
+<code class="sig-name descname">STATIC_VALUES</code><em class="property"> = ['model_link_id', 'area_type', 'county', 'assign_group', 'centroidconnect']</em></dt>
 <dd></dd></dl>
 
 </dd></dl>

@@ -522,6 +522,29 @@
     <span class="p">)</span>
     <span class="n">DEFAULT_COUNTY_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;NAME&quot;</span>
 
+    <span class="n">DEFAULT_COUNTY_CODE_DICT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Anoka&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;Carver&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;Dakota&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;Hennepin&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span>
+        <span class="s1">&#39;Ramsey&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span>
+        <span class="s1">&#39;Scott&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span>
+        <span class="s1">&#39;Washington&#39;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
+        <span class="s1">&#39;external&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;Chisago&#39;</span><span class="p">:</span><span class="mi">11</span><span class="p">,</span>
+        <span class="s1">&#39;Goodhue&#39;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span>
+        <span class="s1">&#39;Isanti&#39;</span><span class="p">:</span><span class="mi">13</span><span class="p">,</span>
+        <span class="s1">&#39;Le Sueur&#39;</span><span class="p">:</span><span class="mi">14</span><span class="p">,</span>
+        <span class="s1">&#39;McLeod&#39;</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span>
+        <span class="s1">&#39;Pierce&#39;</span><span class="p">:</span><span class="mi">16</span><span class="p">,</span>
+        <span class="s1">&#39;Polk&#39;</span><span class="p">:</span><span class="mi">17</span><span class="p">,</span>
+        <span class="s1">&#39;Rice&#39;</span><span class="p">:</span><span class="mi">18</span><span class="p">,</span>
+        <span class="s1">&#39;Sherburne&#39;</span><span class="p">:</span><span class="mi">19</span><span class="p">,</span>
+        <span class="s1">&#39;Sibley&#39;</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span>
+        <span class="s1">&#39;St. Croix&#39;</span><span class="p">:</span><span class="mi">21</span><span class="p">,</span>
+        <span class="s1">&#39;Wright&#39;</span><span class="p">:</span><span class="mi">22</span>
+        <span class="p">}</span>
+
     <span class="n">DEFAULT_MPO_COUNTIES</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;ANOKA&quot;</span><span class="p">,</span>
         <span class="s2">&quot;DAKOTA&quot;</span><span class="p">,</span>
@@ -626,6 +649,8 @@
     <span class="n">DEFAULT_WIDOT_COUNT_VARIABLE_SHP</span> <span class="o">=</span> <span class="s2">&quot;AADT_wi&quot;</span>
 
     <span class="n">DEFAULT_NET_TO_DBF_CROSSWALK</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SETTINGS_LOCATION</span><span class="p">,</span> <span class="s2">&quot;net_to_dbf.csv&quot;</span><span class="p">)</span>
+
+    <span class="n">DEFAULT_LOG_TO_NET_CROSSWALK</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SETTINGS_LOCATION</span><span class="p">,</span> <span class="s2">&quot;log_to_net.csv&quot;</span><span class="p">)</span>
 
     <span class="n">DEFAULT_OUTPUT_VARIABLES</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;model_link_id&quot;</span><span class="p">,</span>
@@ -743,6 +768,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">county_shape</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_COUNTY_SHAPE</span>
         <span class="k">if</span> <span class="s2">&quot;county_variable_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">county_variable_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_COUNTY_VARIABLE_SHP</span>
+        <span class="k">if</span> <span class="s2">&quot;county_code_dict&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">county_code_dict</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_COUNTY_CODE_DICT</span>
         <span class="k">if</span> <span class="s2">&quot;mpo_counties&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mpo_counties</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_MPO_COUNTIES</span>
         <span class="k">if</span> <span class="s2">&quot;taz_shape&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -799,6 +826,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">widot_count_variable_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_WIDOT_COUNT_VARIABLE_SHP</span>
         <span class="k">if</span> <span class="s2">&quot;net_to_dbf&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">net_to_dbf</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_NET_TO_DBF_CROSSWALK</span>
+        <span class="k">if</span> <span class="s2">&quot;log_to_net&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_to_net</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_LOG_TO_NET_CROSSWALK</span>
         <span class="k">if</span> <span class="s2">&quot;output_link_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">output_link_shp</span> <span class="o">=</span> <span class="n">Parameters</span><span class="o">.</span><span class="n">DEFAULT_OUTPUT_LINK_SHP</span>
         <span class="k">if</span> <span class="s2">&quot;output_node_shp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
