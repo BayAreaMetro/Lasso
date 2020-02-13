@@ -155,6 +155,7 @@
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 
 <span class="kn">from</span> <span class="nn">network_wrangler</span> <span class="kn">import</span> <span class="n">ProjectCard</span>
 <span class="kn">from</span> <span class="nn">network_wrangler</span> <span class="kn">import</span> <span class="n">RoadwayNetwork</span>
@@ -204,7 +205,7 @@
         <span class="s2">&quot;model_link_id&quot;</span><span class="p">,</span>
         <span class="s2">&quot;area_type&quot;</span><span class="p">,</span>
         <span class="s2">&quot;county&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;assign_group&quot;</span><span class="p">,</span>
+        <span class="c1">#&quot;assign_group&quot;,</span>
         <span class="s2">&quot;centroidconnect&quot;</span><span class="p">,</span>
     <span class="p">]</span>
 
@@ -256,6 +257,8 @@
 <div class="viewcode-block" id="Project.create_project"><a class="viewcode-back" href="../../_generated/lasso.Project.html#lasso.Project.create_project">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">create_project</span><span class="p">(</span>
         <span class="n">roadway_log_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">roadway_shp_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">roadway_csv_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">base_roadway_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">base_transit_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">build_transit_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -272,6 +275,8 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            roadway_log_file (str): File path to consuming logfile.</span>
+<span class="sd">            roadway_shp_file (str): File path to consuming shape file for roadway changes.</span>
+<span class="sd">            roadway_csv_file (str): File path to consuming csv file for roadway changes.</span>
 <span class="sd">            base_roadway_dir (str): Folder path to base roadway network.</span>
 <span class="sd">            base_transit_dir (str): Folder path to base transit network.</span>
 <span class="sd">            base_transit_file (str): File path to base transit network.</span>
@@ -328,8 +333,35 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Method takes only one of &#39;roadway_log_file&#39; and &#39;roadway_changes&#39; but both given&quot;</span>
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roadway_shp_file</span> <span class="ow">and</span> <span class="n">roadway_changes</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Method takes only one of &#39;roadway_shp_file&#39; and &#39;roadway_changes&#39; but both given&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roadway_csv_file</span> <span class="ow">and</span> <span class="n">roadway_changes</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Method takes only one of &#39;roadway_csv_file&#39; and &#39;roadway_changes&#39; but both given&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roadway_log_file</span> <span class="ow">and</span> <span class="n">roadway_csv_file</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Method takes only one of &#39;roadway_log_file&#39; and &#39;roadway_csv_file&#39; but both given&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roadway_shp_file</span> <span class="ow">and</span> <span class="n">roadway_csv_file</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Method takes only one of &#39;roadway_shp_file&#39; and &#39;roadway_csv_file&#39; but both given&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roadway_log_file</span> <span class="ow">and</span> <span class="n">roadway_shp_file</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Method takes only one of &#39;roadway_log_file&#39; and &#39;roadway_shp_file&#39; but both given&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">roadway_log_file</span><span class="p">:</span>
             <span class="n">roadway_changes</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">read_logfile</span><span class="p">(</span><span class="n">roadway_log_file</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">roadway_shp_file</span><span class="p">:</span>
+            <span class="n">roadway_changes</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">roadway_shp_file</span><span class="p">)</span>
+            <span class="n">roadway_changes</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">roadway_changes</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">roadway_changes</span><span class="p">[</span><span class="s2">&quot;model_node_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">roadway_csv_file</span><span class="p">:</span>
+            <span class="n">roadway_changes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">roadway_csv_file</span><span class="p">)</span>
+            <span class="n">roadway_changes</span><span class="p">[</span><span class="s2">&quot;model_node_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No roadway changes given or processed.&quot;</span>
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -422,9 +454,16 @@
         <span class="c1"># CUBE log file saves all varilable names in upper cases, need to convert them to be same as network</span>
         <span class="n">log_to_net_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">log_to_net</span><span class="p">)</span>
         <span class="n">log_to_net_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">log_to_net_df</span><span class="p">[</span><span class="s2">&quot;log&quot;</span><span class="p">],</span> <span class="n">log_to_net_df</span><span class="p">[</span><span class="s2">&quot;net&quot;</span><span class="p">]))</span>
+
+        <span class="n">dbf_to_net_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">net_to_dbf</span><span class="p">)</span>
+        <span class="n">dbf_to_net_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dbf_to_net_df</span><span class="p">[</span><span class="s2">&quot;dbf&quot;</span><span class="p">],</span> <span class="n">dbf_to_net_df</span><span class="p">[</span><span class="s2">&quot;net&quot;</span><span class="p">]))</span>
+
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roadway_changes</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">log_to_net_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">roadway_changes</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span> <span class="p">:</span> <span class="n">log_to_net_dict</span><span class="p">[</span><span class="n">c</span><span class="p">]},</span>
+                                            <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dbf_to_net_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">roadway_changes</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span> <span class="p">:</span> <span class="n">dbf_to_net_dict</span><span class="p">[</span><span class="n">c</span><span class="p">]},</span>
                                             <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -668,6 +707,8 @@
                     <span class="k">if</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">change_row</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">==</span> <span class="n">base_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span>
                         <span class="n">col</span> <span class="ow">in</span> <span class="n">Project</span><span class="o">.</span><span class="n">STATIC_VALUES</span>
                     <span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="p">((</span><span class="n">col</span> <span class="o">==</span> <span class="s2">&quot;roadway_class&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">change_row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)):</span>
                         <span class="k">continue</span>
                     <span class="c1"># only look at distance if it has significantly changed</span>
                     <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="s2">&quot;distance&quot;</span><span class="p">:</span>
