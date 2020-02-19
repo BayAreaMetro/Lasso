@@ -214,13 +214,14 @@
 <span class="sd">        diff_dict (dict):</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CubeTransit.__init__"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">Parameters</span><span class="p">()):</span>
+<div class="viewcode-block" id="CubeTransit.__init__"><a class="viewcode-back" href="../../_generated/lasso.CubeTransit.html#lasso.CubeTransit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{}):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        line_properties_dict (dict[line names]: line level attributes)</span>
 <span class="sd">        line_shapes_dict (dict[line names]: line shape df)</span>
 
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HI THERE&quot;</span><span class="p">)</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Creating a new Cube Transit instance&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
@@ -229,7 +230,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">shapes</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">program_type</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">**</span><span class="n">parameters</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">source_list</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -968,18 +970,20 @@
 <span class="sd">            about time periods and variables.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="StandardTransit.__init__"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptg_feed</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">Parameters</span><span class="p">()):</span>
+<div class="viewcode-block" id="StandardTransit.__init__"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptg_feed</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{}):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">feed</span> <span class="o">=</span> <span class="n">ptg_feed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span></div>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">**</span><span class="n">parameters</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StandardTransit.fromTransitNetwork"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.fromTransitNetwork">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">fromTransitNetwork</span><span class="p">(</span><span class="n">transit_network_object</span><span class="p">:</span> <span class="n">TransitNetwork</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">()):</span>
+    <span class="k">def</span> <span class="nf">fromTransitNetwork</span><span class="p">(</span><span class="n">transit_network_object</span><span class="p">:</span> <span class="n">TransitNetwork</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        RoadwayNetwork to ModelRoadwayNetwork</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            transit_network_object: Reference to an instance of TransitNetwork.</span>
-<span class="sd">            parameters : Parameters instance for lasso.</span>
+<span class="sd">            parameters (Optional): Dictionary of parameter settings. If not provided will</span>
+<span class="sd">                use default parameters.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            StandardTransit</span>
@@ -987,14 +991,14 @@
         <span class="k">return</span> <span class="n">StandardTransit</span><span class="p">(</span><span class="n">transit_network_object</span><span class="o">.</span><span class="n">feed</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StandardTransit.read_gtfs"><a class="viewcode-back" href="../../_generated/lasso.StandardTransit.html#lasso.StandardTransit.read_gtfs">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">read_gtfs</span><span class="p">(</span><span class="n">gtfs_feed_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Parameters</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">()):</span>
+    <span class="k">def</span> <span class="nf">read_gtfs</span><span class="p">(</span><span class="n">gtfs_feed_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads GTFS files from a directory and returns a StandardTransit</span>
 <span class="sd">        instance.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            gtfs_feed_dir: location of the GTFS files</span>
-<span class="sd">            parameters (Optional): Parameters instance, if not provided will</span>
+<span class="sd">            parameters (Optional): Dictionary of parameter settings. Of not provided will</span>
 <span class="sd">                use default parameters.</span>
 
 <span class="sd">        Returns:</span>

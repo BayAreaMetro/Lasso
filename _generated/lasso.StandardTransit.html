@@ -168,7 +168,7 @@
 <h1>lasso.StandardTransit<a class="headerlink" href="#lasso-standardtransit" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="lasso.StandardTransit">
-<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">StandardTransit</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">StandardTransit</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Holds a standard transit feed as a Partridge object and contains
 methods to manipulate and translate the GTFS data to MetCouncil’s
@@ -198,7 +198,7 @@ about time periods and variables.</p>
 
 <dl class="method">
 <dt id="lasso.StandardTransit.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -299,13 +299,14 @@ trip_id, shape_id, NAME, LONGNAME, tod, HEADWAY, MODE, ONEWAY, OPERATOR</p>
 
 <dl class="method">
 <dt id="lasso.StandardTransit.fromTransitNetwork">
-<em class="property">static </em><code class="sig-name descname">fromTransitNetwork</code><span class="sig-paren">(</span><em class="sig-param">transit_network_object</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.fromTransitNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.fromTransitNetwork" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">fromTransitNetwork</code><span class="sig-paren">(</span><em class="sig-param">transit_network_object</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.fromTransitNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.fromTransitNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>RoadwayNetwork to ModelRoadwayNetwork</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>transit_network_object</strong> – Reference to an instance of TransitNetwork.</p></li>
-<li><p><strong>parameters</strong> – Parameters instance for lasso.</p></li>
+<li><p><strong>parameters</strong> (<em>Optional</em>) – Dictionary of parameter settings. If not provided will
+use default parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -316,14 +317,14 @@ trip_id, shape_id, NAME, LONGNAME, tod, HEADWAY, MODE, ONEWAY, OPERATOR</p>
 
 <dl class="method">
 <dt id="lasso.StandardTransit.read_gtfs">
-<em class="property">static </em><code class="sig-name descname">read_gtfs</code><span class="sig-paren">(</span><em class="sig-param">gtfs_feed_dir</em>, <em class="sig-param">parameters=&lt;lasso.parameters.Parameters object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.read_gtfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.read_gtfs" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">read_gtfs</code><span class="sig-paren">(</span><em class="sig-param">gtfs_feed_dir</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.read_gtfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.read_gtfs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads GTFS files from a directory and returns a StandardTransit
 instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>gtfs_feed_dir</strong> – location of the GTFS files</p></li>
-<li><p><strong>parameters</strong> (<em>Optional</em>) – Parameters instance, if not provided will
+<li><p><strong>parameters</strong> (<em>Optional</em>) – Dictionary of parameter settings. Of not provided will
 use default parameters.</p></li>
 </ul>
 </dd>
