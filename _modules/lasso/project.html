@@ -725,25 +725,28 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">out_col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 
-                <span class="n">property_dict_list</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">out_col</span><span class="p">:</span>
-                    <span class="n">property_dict</span> <span class="o">=</span> <span class="p">{}</span>
-                    <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;property&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
-                    <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;existing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
-                    <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;set&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
-                    <span class="n">property_dict_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">property_dict</span><span class="p">)</span>
-                <span class="c1"># WranglerLogger.debug(&quot;property_dict_list: {}&quot;.format(property_dict_list))</span>
-                <span class="c1"># WranglerLogger.debug(&quot;base_df.model_link_id: {}&quot;.format(base_row[&#39;model_link_id&#39;]))</span>
-                <span class="n">card_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-                        <span class="p">{</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out_col</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">property_dict_list</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">out_col</span><span class="p">:</span>
+                        <span class="n">property_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;property&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+                        <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;existing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                        <span class="n">property_dict</span><span class="p">[</span><span class="s2">&quot;set&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                        <span class="n">property_dict_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">property_dict</span><span class="p">)</span>
+                        <span class="c1"># WranglerLogger.debug(&quot;property_dict_list: {}&quot;.format(property_dict_list))</span>
+                        <span class="c1"># WranglerLogger.debug(&quot;base_df.model_link_id: {}&quot;.format(base_row[&#39;model_link_id&#39;]))</span>
+                    <span class="n">card_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                            <span class="p">{</span>
                             <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">property_dict_list</span><span class="p">]),</span>
                             <span class="s2">&quot;model_link_id&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">base_row</span><span class="p">[</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">]),</span>
-                        <span class="p">}</span>
-                <span class="p">)</span>
+                            <span class="p">}</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">card_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
                 <span class="c1"># WranglerLogger.debug(&#39;card_df: {}&#39;.format(card_df))</span>
                 <span class="n">change_link_dict_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">change_link_dict_df</span><span class="p">,</span> <span class="n">card_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
-                    <span class="p">)</span>
+                            <span class="p">[</span><span class="n">change_link_dict_df</span><span class="p">,</span> <span class="n">card_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
+                        <span class="p">)</span>
 
             <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">change_link_dict_df</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
                     <span class="nb">str</span>
