@@ -1269,6 +1269,13 @@
             <span class="n">on</span><span class="o">=</span><span class="s2">&quot;source_link_id&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
+        <span class="c1"># drop duplicated records with same field value</span>
+
+        <span class="n">join_refId_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span>
+            <span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">,</span> <span class="s2">&quot;shstReferenceId&quot;</span><span class="p">,</span> <span class="n">field_name</span><span class="p">],</span>
+            <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="p">)</span>
+
         <span class="c1"># more than one match, take the best score</span>
 
         <span class="n">join_refId_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
