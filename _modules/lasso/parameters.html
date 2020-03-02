@@ -676,6 +676,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">output_variables</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;model_link_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;link_id&quot;</span><span class="p">,</span>
             <span class="s2">&quot;A&quot;</span><span class="p">,</span>
             <span class="s2">&quot;B&quot;</span><span class="p">,</span>
             <span class="s2">&quot;shstGeometryId&quot;</span><span class="p">,</span>
@@ -734,6 +735,7 @@
             <span class="s2">&quot;count_PM&quot;</span><span class="p">,</span>
             <span class="s2">&quot;count_NT&quot;</span><span class="p">,</span>
             <span class="s2">&quot;count_daily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HOV&quot;</span><span class="p">,</span>
             <span class="s2">&quot;model_node_id&quot;</span><span class="p">,</span>
             <span class="s2">&quot;N&quot;</span><span class="p">,</span>
             <span class="s2">&quot;osm_node_id&quot;</span><span class="p">,</span>
@@ -753,10 +755,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">output_link_txt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;links.txt&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_node_txt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;nodes.txt&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_link_header_width_csv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;links_header_width.csv&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;links_header_width.txt&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_node_header_width_csv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;nodes_header_width.csv&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;nodes_header_width.txt&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_cube_network_script</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;make_complete_network_from_fixed_width_file.s&quot;</span>

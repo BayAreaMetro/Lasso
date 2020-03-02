@@ -284,7 +284,7 @@
                     <span class="n">params</span><span class="p">[</span><span class="s2">&quot;time_periods&quot;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;categories&quot;</span><span class="p">]</span>
                 <span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span>
-                        <span class="n">out_var</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">time_suffix</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">category_suffix</span>
+                        <span class="n">out_var</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">category_suffix</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">time_suffix</span>
                     <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property_by_time_period_and_group</span><span class="p">(</span>
                         <span class="n">params</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">],</span>
                         <span class="n">category</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;categories&quot;</span><span class="p">][</span><span class="n">category_suffix</span><span class="p">],</span>
@@ -318,7 +318,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_mpo</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_assign_group</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_roadway_class</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_counts</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_counts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculate_hov</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.calculate_county"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.calculate_county">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_county</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1293,6 +1294,74 @@
 
         <span class="k">return</span> <span class="n">join_refId_df</span><span class="p">[</span><span class="n">links_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">field_name</span><span class="p">]]</span></div>
 
+<div class="viewcode-block" id="ModelRoadwayNetwork.calculate_hov"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.calculate_hov">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_hov</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;HOV&quot;</span><span class="p">,</span>
+        <span class="n">as_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates hov variable.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            network_variable (str): Variable that should be written to in the network. Default to &quot;HOV&quot;</span>
+<span class="sd">            as_integer (bool): If True, will convert true/false to 1/0s.  Defauly to True.</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing county variable in network.  Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">network_variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Overwriting existing hov Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;hov Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network. Returning without overwriting.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">return</span>
+
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Calculating hov and adding as roadway network variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">network_variable</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify inputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">network_variable</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No network variable specified for centroid connector&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start actual process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="s2">&quot;assign_group&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span>
+            <span class="o">|</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="s2">&quot;access&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;hov&quot;</span><span class="p">),</span>
+            <span class="n">network_variable</span><span class="p">,</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+
+        <span class="k">if</span> <span class="n">as_integer</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+                <span class="nb">int</span>
+            <span class="p">)</span>
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Finished calculating hov variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">network_variable</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="ModelRoadwayNetwork.roadway_standard_to_met_council_network"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network">[docs]</a>    <span class="k">def</span> <span class="nf">roadway_standard_to_met_council_network</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_epsg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rename and format roadway attributes to be consistent with what metcouncil&#39;s model is expecting.</span>
@@ -1323,6 +1392,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t detect managed lanes in network.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">create_calculated_variables</span><span class="p">()</span>
+        <span class="c1"># no method to calculate price yet, will be hard coded in project card</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="s2">&quot;price&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Splitting variables by time period and category&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">split_properties_by_time_period_and_category</span><span class="p">()</span>
 
@@ -1348,8 +1419,16 @@
             <span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="o">.</span><span class="n">y</span>
         <span class="p">)</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;count_AM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;AADT&quot;</span><span class="p">]</span><span class="o">/</span><span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;count_MD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;AADT&quot;</span><span class="p">]</span><span class="o">/</span><span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;count_PM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;AADT&quot;</span><span class="p">]</span><span class="o">/</span><span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;count_NT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;AADT&quot;</span><span class="p">]</span><span class="o">/</span><span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;count_daily&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;AADT&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="p">[</span><span class="s2">&quot;count_year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2017</span>
+
         <span class="c1"># CUBE expect node id to be N</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model_node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model_node_id&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_metcouncil_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model_link_id&quot;</span><span class="p">:</span> <span class="s2">&quot;link_id&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.rename_variables_for_dbf"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.rename_variables_for_dbf">[docs]</a>    <span class="k">def</span> <span class="nf">rename_variables_for_dbf</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
