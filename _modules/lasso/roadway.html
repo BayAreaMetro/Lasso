@@ -157,6 +157,7 @@
 
 <span class="kn">from</span> <span class="nn">geopandas</span> <span class="kn">import</span> <span class="n">GeoDataFrame</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">network_wrangler</span> <span class="kn">import</span> <span class="n">RoadwayNetwork</span>
 <span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Parameters</span>
@@ -1402,7 +1403,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Finished creatnig ML lanes variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_variable</span><span class="p">)</span>
+            <span class="s2">&quot;Finished creating ML lanes variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_variable</span><span class="p">)</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.create_hov_corridor_variable"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.create_hov_corridor_variable">[docs]</a>    <span class="k">def</span> <span class="nf">create_hov_corridor_variable</span><span class="p">(</span>
@@ -1443,8 +1444,57 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;Finished creatnig hov corridor variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_variable</span><span class="p">)</span>
+            <span class="s2">&quot;Finished creating hov corridor variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_variable</span><span class="p">)</span>
         <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ModelRoadwayNetwork.convert_int"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.convert_int">[docs]</a>    <span class="k">def</span> <span class="nf">convert_int</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        convert integer columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Converting variable type to MetCouncil standard&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">int_col_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">int_col</span>
+        <span class="n">int_col_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;lanes&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">int_col_names</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes_df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">int_col_names</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nodes_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ModelRoadwayNetwork.fill_na"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.fill_na">[docs]</a>    <span class="k">def</span> <span class="nf">fill_na</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fill na values from create_managed_lane_network()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Filling nan for network from network wrangler&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">num_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">int_col</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">float_col</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">num_col</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span>
+                    <span class="mi">0</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="n">k</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes_df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">num_col</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nodes_df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nodes_df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.roadway_standard_to_met_council_network"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network">[docs]</a>    <span class="k">def</span> <span class="nf">roadway_standard_to_met_council_network</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_epsg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1475,6 +1525,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">create_managed_lane_network</span><span class="p">(</span><span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t detect managed lanes in network.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fill_na</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">convert_int</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">create_calculated_variables</span><span class="p">()</span>
         <span class="c1"># no method to calculate price yet, will be hard coded in project card</span>
         <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Splitting variables by time period and category&quot;</span><span class="p">)</span>
@@ -1740,8 +1794,8 @@
         <span class="n">link_output_variables</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">output_link_txt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">output_node_txt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">output_link_header_width_csv</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">output_node_header_width_csv</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_link_header_width_txt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_node_header_width_txt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">output_cube_network_script</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1757,8 +1811,8 @@
 <span class="sd">            link_output_variables (list): list of node variable names.</span>
 <span class="sd">            output_link_txt (str): File path to output link database.</span>
 <span class="sd">            output_node_txt (str): File path to output node database.</span>
-<span class="sd">            output_link_header_width_csv (str): File path to link column width records.</span>
-<span class="sd">            output_link_header_width_csv (str): File path to node column width records.</span>
+<span class="sd">            output_link_header_width_txt (str): File path to link column width records.</span>
+<span class="sd">            output_link_header_width_txt (str): File path to node column width records.</span>
 <span class="sd">            output_cube_network_script (str): File path to CUBE network building script.</span>
 
 <span class="sd">        Returns:</span>
@@ -1814,16 +1868,16 @@
             <span class="n">output_node_txt</span> <span class="k">if</span> <span class="n">output_node_txt</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">output_node_txt</span>
         <span class="p">)</span>
 
-        <span class="n">output_link_header_width_csv</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">output_link_header_width_csv</span>
-            <span class="k">if</span> <span class="n">output_link_header_width_csv</span>
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">output_link_header_width_csv</span>
+        <span class="n">output_link_header_width_txt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">output_link_header_width_txt</span>
+            <span class="k">if</span> <span class="n">output_link_header_width_txt</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">output_link_header_width_txt</span>
         <span class="p">)</span>
 
-        <span class="n">output_node_header_width_csv</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">output_node_header_width_csv</span>
-            <span class="k">if</span> <span class="n">output_node_header_width_csv</span>
-            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">output_node_header_width_csv</span>
+        <span class="n">output_node_header_width_txt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">output_node_header_width_txt</span>
+            <span class="k">if</span> <span class="n">output_node_header_width_txt</span>
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">output_node_header_width_txt</span>
         <span class="p">)</span>
 
         <span class="n">output_cube_network_script</span> <span class="o">=</span> <span class="p">(</span>
@@ -1847,7 +1901,7 @@
         <span class="n">link_max_width_df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
             <span class="nb">list</span><span class="p">(</span><span class="n">link_max_width_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="n">link_max_width_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_link_header_width_csv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">link_max_width_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_link_header_width_txt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="n">node_ff_df</span><span class="p">,</span> <span class="n">node_max_width_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe_to_fixed_with</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nodes_metcouncil_df</span><span class="p">[</span><span class="n">node_output_variables</span><span class="p">]</span>
@@ -1861,7 +1915,7 @@
         <span class="n">node_max_width_df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
             <span class="nb">list</span><span class="p">(</span><span class="n">node_max_width_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="n">node_max_width_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_node_header_width_csv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">node_max_width_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_node_header_width_txt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># write out cube script</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;RUN PGM = NETWORK MSG = &quot;Read in network from fixed width file&quot; </span><span class="se">\n</span><span class="s1">&#39;</span>

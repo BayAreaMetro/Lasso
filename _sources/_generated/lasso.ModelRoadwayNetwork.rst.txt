@@ -30,6 +30,7 @@ lasso.ModelRoadwayNetwork
       ~ModelRoadwayNetwork.calculate_hov
       ~ModelRoadwayNetwork.calculate_mpo
       ~ModelRoadwayNetwork.calculate_roadway_class
+      ~ModelRoadwayNetwork.convert_int
       ~ModelRoadwayNetwork.create_ML_variable
       ~ModelRoadwayNetwork.create_calculated_variables
       ~ModelRoadwayNetwork.create_dummy_connector_links
@@ -38,6 +39,7 @@ lasso.ModelRoadwayNetwork
       ~ModelRoadwayNetwork.dataframe_to_fixed_with
       ~ModelRoadwayNetwork.delete_roadway_feature_change
       ~ModelRoadwayNetwork.deletion_map
+      ~ModelRoadwayNetwork.fill_na
       ~ModelRoadwayNetwork.from_RoadwayNetwork
       ~ModelRoadwayNetwork.get_attribute
       ~ModelRoadwayNetwork.get_managed_lane_node_ids

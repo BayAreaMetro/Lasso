@@ -445,12 +445,12 @@
 <span class="sd">        output_node_txt (str): Output fixed format txt for roadway nodes. Default:</span>
 <span class="sd">            ::</span>
 <span class="sd">                r&quot;tests/scratch/nodes.txt&quot;</span>
-<span class="sd">        output_link_header_width_csv (str): Header for csv roadway links. Default:</span>
+<span class="sd">        output_link_header_width_txt (str): Header for txt roadway links. Default:</span>
 <span class="sd">            ::</span>
-<span class="sd">                r&quot;tests/scratch/links_header_width.csv&quot;</span>
-<span class="sd">        output_node_header_width_csv (str): Header for csv for roadway Nodes. Default:</span>
+<span class="sd">                r&quot;tests/scratch/links_header_width.txt&quot;</span>
+<span class="sd">        output_node_header_width_txt (str): Header for txt for roadway Nodes. Default:</span>
 <span class="sd">            ::</span>
-<span class="sd">                r&quot;tests/scratch/nodes_header_width.csv&quot;</span>
+<span class="sd">                r&quot;tests/scratch/nodes_header_width.txt&quot;</span>
 <span class="sd">        output_cube_network_script (str): Cube script for importing</span>
 <span class="sd">            fixed-format roadway network. Default:</span>
 <span class="sd">            ::</span>
@@ -759,10 +759,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">output_node_csv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;nodes.csv&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_link_txt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;links.txt&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_node_txt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;nodes.txt&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_link_header_width_csv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_link_header_width_txt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;links_header_width.txt&quot;</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_node_header_width_csv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_node_header_width_txt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;nodes_header_width.txt&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_cube_network_script</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -778,6 +778,46 @@
             <span class="n">p</span> <span class="o">+</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
             <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;HEADWAY&quot;</span><span class="p">,</span> <span class="s2">&quot;FREQ&quot;</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cube_time_periods</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">int_col</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;model_link_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;model_node_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;A&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;lanes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;roadway_class&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;assign_group&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;county&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;area_type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;trn_priority&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;AADT&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;count_AM&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;count_MD&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;count_PM&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;count_NT&#39;</span><span class="p">,</span>
+            <span class="s2">&quot;count_daily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;centroidconnect&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bike_facility&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;drive_access&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;walk_access&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bike_access&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;transit_access&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;truck_access&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;drive_node&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;walk_node&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bike_node&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;transit_node&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ML_lanes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;segment_id&quot;</span>
+        <span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">float_col</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;distance&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ttime_assert&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;price&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Y&quot;</span>
         <span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span></div></div>
