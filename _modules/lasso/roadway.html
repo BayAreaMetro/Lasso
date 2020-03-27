@@ -251,6 +251,7 @@
 <span class="sd">                    &#39;trn_priority&#39; : {&#39;v&#39;:&#39;trn_priority&#39;, &#39;times_periods&#39;:{&quot;AM&quot;: (&quot;6:00&quot;, &quot;9:00&quot;),&quot;PM&quot;: (&quot;16:00&quot;, &quot;19:00&quot;)}},</span>
 <span class="sd">                    &#39;ttime_assert&#39; : {&#39;v&#39;:&#39;ttime_assert&#39;, &#39;times_periods&#39;:{&quot;AM&quot;: (&quot;6:00&quot;, &quot;9:00&quot;),&quot;PM&quot;: (&quot;16:00&quot;, &quot;19:00&quot;)}},</span>
 <span class="sd">                    &#39;lanes&#39; : {&#39;v&#39;:&#39;lanes&#39;, &#39;times_periods&#39;:{&quot;AM&quot;: (&quot;6:00&quot;, &quot;9:00&quot;),&quot;PM&quot;: (&quot;16:00&quot;, &quot;19:00&quot;)}},</span>
+<span class="sd">                    &#39;ML_lanes&#39; : {&#39;v&#39;:&#39;ML_lanes&#39;, &#39;times_periods&#39;:{&quot;AM&quot;: (&quot;6:00&quot;, &quot;9:00&quot;),&quot;PM&quot;: (&quot;16:00&quot;, &quot;19:00&quot;)}},</span>
 <span class="sd">                    &#39;price&#39; : {&#39;v&#39;:&#39;price&#39;, &#39;times_periods&#39;:{&quot;AM&quot;: (&quot;6:00&quot;, &quot;9:00&quot;),&quot;PM&quot;: (&quot;16:00&quot;, &quot;19:00&quot;)}},&#39;categories&#39;: {&quot;sov&quot;: [&quot;sov&quot;, &quot;default&quot;],&quot;hov2&quot;: [&quot;hov2&quot;, &quot;default&quot;, &quot;sov&quot;]}},</span>
 <span class="sd">                    &#39;access&#39; : {&#39;v&#39;:&#39;access&#39;, &#39;times_periods&#39;:{&quot;AM&quot;: (&quot;6:00&quot;, &quot;9:00&quot;),&quot;PM&quot;: (&quot;16:00&quot;, &quot;19:00&quot;)}},</span>
 <span class="sd">                }</span>
@@ -319,7 +320,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_assign_group</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculate_roadway_class</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_counts</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calculate_hov</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_ML_variable</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_hov_corridor_variable</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.calculate_county"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.calculate_county">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_county</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1360,6 +1362,88 @@
             <span class="s2">&quot;Finished calculating hov variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">network_variable</span>
             <span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ModelRoadwayNetwork.create_ML_variable"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.create_ML_variable">[docs]</a>    <span class="k">def</span> <span class="nf">create_ML_variable</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;ML_lanes&quot;</span><span class="p">,</span>
+        <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Created ML lanes placeholder for project to write out ML changes</span>
+
+<span class="sd">        ML lanes default to 0, ML info comes from cube LOG file and store in project cards</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing variable in network.  Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">network_variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Overwriting existing ML Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;ML Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network. Returning without overwriting.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">return</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify inputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Finished creatnig ML lanes variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_variable</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ModelRoadwayNetwork.create_hov_corridor_variable"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.create_hov_corridor_variable">[docs]</a>    <span class="k">def</span> <span class="nf">create_hov_corridor_variable</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">network_variable</span><span class="o">=</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span>
+        <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Created hov corridor placeholder for project to write out corridor changes</span>
+
+<span class="sd">        hov corridor id default to 0, its info comes from cube LOG file and store in project cards</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing variable in network.  Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">network_variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Overwriting existing hov corridor Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Hov corridor Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network. Returning without overwriting.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">return</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify inputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Finished creatnig hov corridor variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_variable</span><span class="p">)</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ModelRoadwayNetwork.roadway_standard_to_met_council_network"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.roadway_standard_to_met_council_network">[docs]</a>    <span class="k">def</span> <span class="nf">roadway_standard_to_met_council_network</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_epsg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

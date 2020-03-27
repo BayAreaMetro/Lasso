@@ -236,11 +236,17 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.calculate_roadway_class" title="lasso.ModelRoadwayNetwork.calculate_roadway_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_roadway_class</span></code></a>([network_variable, …])</p></td>
 <td><p>Calculates roadway class variable.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_calculated_variables" title="lasso.ModelRoadwayNetwork.create_calculated_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_calculated_variables</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_ML_variable" title="lasso.ModelRoadwayNetwork.create_ML_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_ML_variable</span></code></a>([network_variable, overwrite])</p></td>
+<td><p>Created ML lanes placeholder for project to write out ML changes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_calculated_variables" title="lasso.ModelRoadwayNetwork.create_calculated_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_calculated_variables</span></code></a>()</p></td>
 <td><p>Creates calculated roadway variables.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_dummy_connector_links" title="lasso.ModelRoadwayNetwork.create_dummy_connector_links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dummy_connector_links</span></code></a>(ml_df)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_dummy_connector_links" title="lasso.ModelRoadwayNetwork.create_dummy_connector_links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dummy_connector_links</span></code></a>(ml_df)</p></td>
 <td><p>create dummy connector links between the general purpose and managed lanes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_hov_corridor_variable" title="lasso.ModelRoadwayNetwork.create_hov_corridor_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_hov_corridor_variable</span></code></a>([…])</p></td>
+<td><p>Created hov corridor placeholder for project to write out corridor changes</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#lasso.ModelRoadwayNetwork.create_managed_lane_network" title="lasso.ModelRoadwayNetwork.create_managed_lane_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_managed_lane_network</span></code></a>([in_place])</p></td>
 <td><p>Create a roadway network with managed lanes links separated out</p></td>
@@ -720,6 +726,21 @@ This isn’t perfect, but it much quicker than other methods.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="lasso.ModelRoadwayNetwork.create_ML_variable">
+<code class="sig-name descname">create_ML_variable</code><span class="sig-paren">(</span><em class="sig-param">network_variable='ML_lanes'</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/roadway.html#ModelRoadwayNetwork.create_ML_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.create_ML_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created ML lanes placeholder for project to write out ML changes</p>
+<p>ML lanes default to 0, ML info comes from cube LOG file and store in project cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>overwrite</strong> (<em>Bool</em>) – True if overwriting existing variable in network.  Default to False.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="lasso.ModelRoadwayNetwork.create_calculated_variables">
 <code class="sig-name descname">create_calculated_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/roadway.html#ModelRoadwayNetwork.create_calculated_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.create_calculated_variables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates calculated roadway variables.</p>
@@ -742,6 +763,21 @@ dataframe of general purpose links (where managed lane also exists)</p></li>
 <li><p><strong>ml_df</strong> – GeoDataFrame
 dataframe of corresponding managed lane links</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lasso.ModelRoadwayNetwork.create_hov_corridor_variable">
+<code class="sig-name descname">create_hov_corridor_variable</code><span class="sig-paren">(</span><em class="sig-param">network_variable='segment_id'</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/roadway.html#ModelRoadwayNetwork.create_hov_corridor_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.ModelRoadwayNetwork.create_hov_corridor_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created hov corridor placeholder for project to write out corridor changes</p>
+<p>hov corridor id default to 0, its info comes from cube LOG file and store in project cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>overwrite</strong> (<em>Bool</em>) – True if overwriting existing variable in network.  Default to False.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1142,6 +1178,7 @@ e.g.
 <div><p>’trn_priority’ : {‘v’:’trn_priority’, ‘times_periods’:{“AM”: (“6:00”, “9:00”),”PM”: (“16:00”, “19:00”)}},
 ‘ttime_assert’ : {‘v’:’ttime_assert’, ‘times_periods’:{“AM”: (“6:00”, “9:00”),”PM”: (“16:00”, “19:00”)}},
 ‘lanes’ : {‘v’:’lanes’, ‘times_periods’:{“AM”: (“6:00”, “9:00”),”PM”: (“16:00”, “19:00”)}},
+‘ML_lanes’ : {‘v’:’ML_lanes’, ‘times_periods’:{“AM”: (“6:00”, “9:00”),”PM”: (“16:00”, “19:00”)}},
 ‘price’ : {‘v’:’price’, ‘times_periods’:{“AM”: (“6:00”, “9:00”),”PM”: (“16:00”, “19:00”)}},’categories’: {“sov”: [“sov”, “default”],”hov2”: [“hov2”, “default”, “sov”]}},
 ‘access’ : {‘v’:’access’, ‘times_periods’:{“AM”: (“6:00”, “9:00”),”PM”: (“16:00”, “19:00”)}},</p>
 </div></blockquote>
