@@ -1529,7 +1529,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start actual process</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;ML&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;managed&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating managed lane network.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">create_managed_lane_network</span><span class="p">(</span><span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1809,12 +1809,12 @@
 <span class="sd">        3. write out cube network building script with header and width specification.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            node_output_variables (list): list of link variable names.</span>
-<span class="sd">            link_output_variables (list): list of node variable names.</span>
+<span class="sd">            node_output_variables (list): list of node variable names.</span>
+<span class="sd">            link_output_variables (list): list of link variable names.</span>
 <span class="sd">            output_link_txt (str): File path to output link database.</span>
 <span class="sd">            output_node_txt (str): File path to output node database.</span>
 <span class="sd">            output_link_header_width_txt (str): File path to link column width records.</span>
-<span class="sd">            output_link_header_width_txt (str): File path to node column width records.</span>
+<span class="sd">            output_node_header_width_txt (str): File path to node column width records.</span>
 <span class="sd">            output_cube_network_script (str): File path to CUBE network building script.</span>
 
 <span class="sd">        Returns:</span>
