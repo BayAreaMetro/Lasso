@@ -166,9 +166,9 @@
             
   <div class="section" id="lasso-standardtransit">
 <h1>lasso.StandardTransit<a class="headerlink" href="#lasso-standardtransit" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="lasso.StandardTransit">
-<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">StandardTransit</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">lasso.</code><code class="sig-name descname">StandardTransit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ptg_feed</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Holds a standard transit feed as a Partridge object and contains
 methods to manipulate and translate the GTFS data to MetCouncil’s
@@ -178,13 +178,13 @@ Cube Line files.</p>
 <span class="n">cube_transit_net</span><span class="o">.</span><span class="n">write_as_cube_lin</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WRITE_DIR</span><span class="p">,</span> <span class="s2">&quot;outfile.lin&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="lasso.StandardTransit.feed">
 <code class="sig-name descname">feed</code><a class="headerlink" href="#lasso.StandardTransit.feed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Partridge Feed object containing read-only access to GTFS feed</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="lasso.StandardTransit.parameters">
 <code class="sig-name descname">parameters</code><a class="headerlink" href="#lasso.StandardTransit.parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters instance containing information
@@ -196,9 +196,9 @@ about time periods and variables.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">ptg_feed</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ptg_feed</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -238,9 +238,9 @@ about time periods and variables.</p>
 </tr>
 </tbody>
 </table>
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.calculate_cube_mode">
-<code class="sig-name descname">calculate_cube_mode</code><span class="sig-paren">(</span><em class="sig-param">row</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.calculate_cube_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.calculate_cube_mode" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_cube_mode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.calculate_cube_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.calculate_cube_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assigns a cube mode number by following logic.</p>
 <p>For rail, uses GTFS route_type variable:
 <a class="reference external" href="https://developers.google.com/transit/gtfs/reference">https://developers.google.com/transit/gtfs/reference</a></p>
@@ -282,9 +282,9 @@ express and suburban buses  as follows:</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.cube_format">
-<code class="sig-name descname">cube_format</code><span class="sig-paren">(</span><em class="sig-param">row</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.cube_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.cube_format" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">cube_format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.cube_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.cube_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a string represnting the route in cube line file notation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -297,9 +297,9 @@ trip_id, shape_id, NAME, LONGNAME, tod, HEADWAY, MODE, ONEWAY, OPERATOR</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.fromTransitNetwork">
-<em class="property">static </em><code class="sig-name descname">fromTransitNetwork</code><span class="sig-paren">(</span><em class="sig-param">transit_network_object</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.fromTransitNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.fromTransitNetwork" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">fromTransitNetwork</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transit_network_object</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.fromTransitNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.fromTransitNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>RoadwayNetwork to ModelRoadwayNetwork</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -315,9 +315,9 @@ use default parameters.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.read_gtfs">
-<em class="property">static </em><code class="sig-name descname">read_gtfs</code><span class="sig-paren">(</span><em class="sig-param">gtfs_feed_dir</em>, <em class="sig-param">parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.read_gtfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.read_gtfs" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">read_gtfs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gtfs_feed_dir</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.read_gtfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.read_gtfs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads GTFS files from a directory and returns a StandardTransit
 instance.</p>
 <dl class="field-list simple">
@@ -334,9 +334,9 @@ use default parameters.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.route_properties_gtfs_to_cube">
-<em class="property">static </em><code class="sig-name descname">route_properties_gtfs_to_cube</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.route_properties_gtfs_to_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.route_properties_gtfs_to_cube" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">route_properties_gtfs_to_cube</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.route_properties_gtfs_to_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.route_properties_gtfs_to_cube" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare gtfs for cube lin file.</p>
 <p>Does the following operations:
 1. Combines route, frequency, trip, and shape information
@@ -364,9 +364,9 @@ use default parameters.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.shape_gtfs_to_cube">
-<code class="sig-name descname">shape_gtfs_to_cube</code><span class="sig-paren">(</span><em class="sig-param">row</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.shape_gtfs_to_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.shape_gtfs_to_cube" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">shape_gtfs_to_cube</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.shape_gtfs_to_cube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.shape_gtfs_to_cube" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a list of nodes that for the route in appropriate
 cube format.</p>
 <dl class="field-list simple">
@@ -380,9 +380,9 @@ cube format.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.time_to_cube_time_period">
-<code class="sig-name descname">time_to_cube_time_period</code><span class="sig-paren">(</span><em class="sig-param">start_time_secs</em>, <em class="sig-param">as_str=True</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.time_to_cube_time_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.time_to_cube_time_period" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_to_cube_time_period</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_time_secs</span></em>, <em class="sig-param"><span class="n">as_str</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.time_to_cube_time_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.time_to_cube_time_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts seconds from midnight to the cube time period.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -408,9 +408,9 @@ otherwise returns a numeric time period</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="lasso.StandardTransit.write_as_cube_lin">
-<code class="sig-name descname">write_as_cube_lin</code><span class="sig-paren">(</span><em class="sig-param">outpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.write_as_cube_lin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.write_as_cube_lin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_as_cube_lin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">outpath</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/lasso/transit.html#StandardTransit.write_as_cube_lin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lasso.StandardTransit.write_as_cube_lin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the gtfs feed as a cube line file after
 converting gtfs properties to MetCouncil cube properties.</p>
 <dl class="field-list simple">
