@@ -681,7 +681,7 @@
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;MPO Counties: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mpo_counties</span><span class="p">)))</span>
+        <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;MPO Counties: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">mpo_counties</span><span class="p">))))</span>
 
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Start actual process</span>
@@ -955,6 +955,10 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">centroidconnect</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">return</span> <span class="mi">9</span>
+                <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">bus_only</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="mi">98</span>
+                <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">rail_only</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="mi">100</span>
                 <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">assignment_group_mrcc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">assignment_group_mrcc</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">assignment_group_widot</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>

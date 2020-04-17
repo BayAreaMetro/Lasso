@@ -567,13 +567,13 @@
             <span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mpo_counties</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;ANOKA&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;DAKOTA&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;HENNEPIN&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;RAMSEY&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;SCOTT&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;WASHINGTON&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;CARVER&quot;</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="mi">3</span><span class="p">,</span>
+            <span class="mi">4</span><span class="p">,</span>
+            <span class="mi">5</span><span class="p">,</span>
+            <span class="mi">6</span><span class="p">,</span>
+            <span class="mi">7</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="c1">###  TAZS</span>
@@ -686,7 +686,6 @@
             <span class="s2">&quot;name&quot;</span><span class="p">,</span>
             <span class="s2">&quot;roadway_class&quot;</span><span class="p">,</span>
             <span class="s2">&quot;bike_access&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;transit_access&quot;</span><span class="p">,</span>
             <span class="s2">&quot;walk_access&quot;</span><span class="p">,</span>
             <span class="s2">&quot;drive_access&quot;</span><span class="p">,</span>
             <span class="s2">&quot;truck_access&quot;</span><span class="p">,</span>
@@ -751,7 +750,9 @@
             <span class="s2">&quot;ML_lanes_PM&quot;</span><span class="p">,</span>
             <span class="s2">&quot;ML_lanes_NT&quot;</span><span class="p">,</span>
             <span class="s2">&quot;segment_id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;managed&quot;</span>
+            <span class="s2">&quot;managed&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bus_only&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rail_only&quot;</span>
         <span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">output_link_shp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scratch_location</span><span class="p">,</span> <span class="s2">&quot;links.shp&quot;</span><span class="p">)</span>
@@ -803,7 +804,6 @@
             <span class="s2">&quot;drive_access&quot;</span><span class="p">,</span>
             <span class="s2">&quot;walk_access&quot;</span><span class="p">,</span>
             <span class="s2">&quot;bike_access&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;transit_access&quot;</span><span class="p">,</span>
             <span class="s2">&quot;truck_access&quot;</span><span class="p">,</span>
             <span class="s2">&quot;drive_node&quot;</span><span class="p">,</span>
             <span class="s2">&quot;walk_node&quot;</span><span class="p">,</span>
@@ -811,7 +811,9 @@
             <span class="s2">&quot;transit_node&quot;</span><span class="p">,</span>
             <span class="s2">&quot;ML_lanes&quot;</span><span class="p">,</span>
             <span class="s2">&quot;segment_id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;managed&quot;</span>
+            <span class="s2">&quot;managed&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bus_only&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rail_only&quot;</span>
         <span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">float_col</span> <span class="o">=</span> <span class="p">[</span>
