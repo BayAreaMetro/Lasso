@@ -1459,6 +1459,75 @@
             <span class="s2">&quot;Finished creating hov corridor variable: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_variable</span><span class="p">)</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="ModelRoadwayNetwork.calculate_distance"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.calculate_distance">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_distance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">network_variable</span> <span class="o">=</span> <span class="s2">&quot;distance&quot;</span><span class="p">,</span>
+            <span class="n">centroidconnect_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">overwrite</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        calculate link distance in miles</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            centroidconnect_only (Bool):  True if calculating distance for centroidconnectors only.  Default to True.</span>
+<span class="sd">            overwrite (Bool): True if overwriting existing variable in network.  Default to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">network_variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Overwriting existing distance Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Distance Variable &#39;</span><span class="si">{}</span><span class="s2">&#39; already in network. Returning without overwriting.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">network_variable</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">return</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify inputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;centroidconnect&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No variable specified for centroid connector, calculating centroidconnect first&quot;</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calculate_centroidconnect</span><span class="p">()</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start actual process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">temp_links_gdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">temp_links_gdf</span> <span class="o">=</span> <span class="n">temp_links_gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">26915</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">centroidconnect_only</span><span class="p">:</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Calculating </span><span class="si">{}</span><span class="s2"> for centroid connectors&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">network_variable</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">temp_links_gdf</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="n">temp_links_gdf</span><span class="o">.</span><span class="n">centroidconnect</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">temp_links_gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="mf">1609.34</span><span class="p">,</span>
+                <span class="n">temp_links_gdf</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Calculating distance for all links&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">network_variable</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">temp_links_gdf</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_links_gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">length</span><span class="o">/</span><span class="mf">1609.34</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">links_df</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_links_gdf</span><span class="p">[</span><span class="n">network_variable</span><span class="p">]</span></div>
+
 <div class="viewcode-block" id="ModelRoadwayNetwork.convert_int"><a class="viewcode-back" href="../../_generated/lasso.ModelRoadwayNetwork.html#lasso.ModelRoadwayNetwork.convert_int">[docs]</a>    <span class="k">def</span> <span class="nf">convert_int</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        convert integer columns</span>
@@ -1540,6 +1609,7 @@
             <span class="n">WranglerLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t detect managed lanes in network.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">create_calculated_variables</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculate_distance</span><span class="p">(</span><span class="n">overwrite</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fill_na</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">convert_int</span><span class="p">()</span>

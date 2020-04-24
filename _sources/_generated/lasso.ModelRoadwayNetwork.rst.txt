@@ -27,6 +27,7 @@ lasso.ModelRoadwayNetwork
       ~ModelRoadwayNetwork.calculate_assign_group
       ~ModelRoadwayNetwork.calculate_centroidconnect
       ~ModelRoadwayNetwork.calculate_county
+      ~ModelRoadwayNetwork.calculate_distance
       ~ModelRoadwayNetwork.calculate_hov
       ~ModelRoadwayNetwork.calculate_mpo
       ~ModelRoadwayNetwork.calculate_roadway_class

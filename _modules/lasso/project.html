@@ -379,6 +379,7 @@
                 <span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">base_roadway_network</span><span class="o">.</span><span class="n">create_calculated_variables</span><span class="p">()</span>
+            <span class="n">base_roadway_network</span><span class="o">.</span><span class="n">calculate_distance</span><span class="p">(</span><span class="n">overwrite</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
             <span class="n">base_roadway_network</span><span class="o">.</span><span class="n">fill_na</span><span class="p">()</span>
             <span class="n">base_roadway_network</span><span class="o">.</span><span class="n">convert_int</span><span class="p">()</span>
             <span class="n">base_roadway_network</span><span class="o">.</span><span class="n">split_properties_by_time_period_and_category</span><span class="p">()</span>
