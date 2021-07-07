@@ -1,3 +1,8 @@
+from functools import partial
+import pyproj
+from shapely.ops import transform
+from shapely.geometry import Point, Polygon
+
 def get_shared_streets_intersection_hash(lat, long, osm_node_id=None):
     """
     Calculated per:
@@ -47,3 +52,79 @@ def secs_to_datetime(secs: int):
     dt = (datetime.datetime.min + datetime.timedelta(seconds=secs)).time()
 
     return dt
+
+
+def geodesic_point_buffer(lat, lon, meters):
+    """
+    creates circular buffer polygon for node
+
+    Args:
+        lat: node lat
+        lon: node lon
+        meters: buffer distance, radius of circle
+    Returns:
+        Polygon
+    """
+    proj_wgs84 = pyproj.Proj('+proj=longlat +datum=WGS84')
+    # Azimuthal equidistant projection
+    aeqd_proj = '+proj=aeqd +lat_0={lat} +lon_0={lon} +x_0=0 +y_0=0'
+    project = partial(
+        pyproj.transform,
+        pyproj.Proj(aeqd_proj.format(lat=lat, lon=lon)),
+        proj_wgs84)
+    buf = Point(0, 0).buffer(meters)  # distance in meters
+    return Polygon(transform(project, buf).exterior.coords[:])
+
+def create_locationreference(node, link):
+    node['X'] = node['geometry'].apply(lambda p: p.x)
+    node['Y'] = node['geometry'].apply(lambda p: p.y)
+    node['point'] = [list(xy) for xy in zip(node.X, node.Y)]
+    node_dict = dict(zip(node.model_node_id, node.point))
+
+    link['A_point'] = link['A'].map(node_dict)
+    link['B_point'] = link['B'].map(node_dict)
+    link['locationReferences'] = link.apply(lambda x: [{'sequence':1,
+                                                        'point': x['A_point'],
+                                                        'distanceToNextRef':x['length'],
+                                                        'bearing' : 0,
+                                                        'intersectionId':x['fromIntersectionId']},
+                                                                         {'sequence':2,
+                                                             'point': x['B_point'],
+                                                             'intersectionId':x['toIntersectionId']}],
+                                                   axis = 1)
+
+def column_name_to_parts(c, parameters=None):
+
+    if not parameters:
+        from .parameters import Parameters
+
+        parameters = Parameters()
+
+    if c[0:2] == "ML":
+        managed = True
+    else:
+        managed = False
+
+    time_period = None
+    category = None
+
+    if c.split("_")[0] not in parameters.properties_to_split.keys():
+        return c, None, None, managed
+
+    tps = parameters.time_period_to_time.keys()
+    cats = parameters.categories.keys()
+
+    if c.split("_")[-1] in tps:
+        time_period = c.split("_")[-1]
+        base_name = c.split(time_period)[-2][:-1]
+        if c.split("_")[-2] in cats:
+            category = c.split("_")[-2]
+            base_name = c.split(category)[-2][:-1]
+    elif c.split("_")[-1] in cats:
+        category = c.split("_")[-1]
+        base_name = c.split(category)[-2][:-1]
+    else:
+        msg = "Can't split property correctly: {}".format(c)
+        WranglerLogger.error(msg)
+
+    return base_name, time_period, category, managed
