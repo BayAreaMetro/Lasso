@@ -13,6 +13,8 @@ from scipy.spatial import cKDTree
 from sklearn.cluster import KMeans
 from pyproj import CRS
 from shapely.geometry import Point, LineString
+import osmnx as ox
+import networkx as nx
 
 from .parameters import Parameters
 from .logger import WranglerLogger
@@ -2822,3 +2824,330 @@ def calculate_county(
         )
 
         return roadway_network
+
+
+def get_period_mode_trn_stops(transit_network: CubeTransit = None) -> pd.DataFrame:
+
+    # get transit line properties: line name, time period, and mode
+    trn_line_properties = pd.DataFrame(
+        {
+            "name": [k.replace('"', "") for k in transit_network.line_properties.keys()],
+            "time_period": [
+                k.replace('"', "").split("_")[2] for k in transit_network.line_properties.keys()
+            ],
+            "mode": [
+                v["USERA2"].replace('"', "") for v in transit_network.line_properties.values()
+            ],
+        }
+    )
+
+    # get transit stops' node ids
+    trn_line_stops = pd.DataFrame()
+    for line in transit_network.shapes.keys():
+        line_nodes = transit_network.shapes[line]
+        line_nodes = line_nodes[line_nodes["stop"] == True]  # keep only stop nodes
+        line_stops = pd.DataFrame(
+            {"name": line.replace('"', ""), "stop": line_nodes["node_id"].to_list()}
+        )
+        trn_line_stops = pd.concat([trn_line_stops, line_stops])
+
+    # add transit line properties to trn_line_stops
+    trn_line_stops = pd.merge(trn_line_stops, trn_line_properties, how="left", on="name")
+
+    # keep only the unique pair of time_period - mode - stop
+    period_mode_trn_stops = trn_line_stops[["time_period", "mode", "stop"]].drop_duplicates()
+
+    return period_mode_trn_stops
+
+
+def estimate_maz_walk_time(
+    roadway_network: ModelRoadwayNetwork = None,
+    transit_network: CubeTransit = None,
+    stop_demand: pd.DataFrame = None,
+    direction: str = "access",  # "access" or "egress"
+    parameters=None,  # for getting taz-maz lookup
+) -> pd.DataFrame:
+
+    # specify direction-specific variables
+    if direction == "access":
+        dir_col_maz = "from_maz"
+        dir_col_taz = "from_taz"
+        dir_col_stop = "to_stop"
+        dir_col_node = "A"  # for filtering directional maz connectors
+        dir_col_stop_demand = "boardings"  # for stop demand % in corresponding taz
+    else:
+        dir_col_maz = "to_maz"
+        dir_col_taz = "to_taz"
+        dir_col_stop = "from_stop"
+        dir_col_node = "B"
+        dir_col_stop_demand = "alightings"
+
+    # project to a coordinate system that use ft as base unit
+    print("reproject roadway network")
+    links = roadway_network.links_df.copy().to_crs(epsg=2230)
+    nodes = roadway_network.nodes_df.copy().to_crs(epsg=2230)
+
+    ###############################################################
+    ## Part 1: for each maz, find transit stops within 1.5 miles ##
+    ###############################################################
+    # Create 1.5 miles (7920 foot) buffer for each maz
+    print("create 1.5 miles buffer for maz nodes")
+    maz_nodes = nodes[
+        (nodes["model_node_id"] < 900000)
+        & (nodes["model_node_id"] % 100000 < 90000)
+        & (nodes["model_node_id"] % 100000 >= 10000)
+    ].reset_index(drop=True)
+    buffer_geom = maz_nodes["geometry"].buffer(7920)
+    maz_buffer = gpd.GeoDataFrame(
+        maz_nodes[["model_node_id"]].rename(columns={"model_node_id": "maz"}),
+        geometry=buffer_geom,
+        crs=maz_nodes.crs,
+    )
+    print(f"# of maz: {len(maz_buffer)}")
+
+    # get transit stop node ids from transit_network, and add geometry from nodes
+    period_mode_trn_stops = get_period_mode_trn_stops(transit_network)
+    period_mode_trn_stops = gpd.GeoDataFrame(
+        pd.merge(
+            period_mode_trn_stops,
+            nodes[["model_node_id", "geometry"]],
+            how="left",
+            left_on="stop",
+            right_on="model_node_id",
+        ).drop(columns="model_node_id")
+    )
+
+    # spatial join to find transit stops in each maz
+    print("spatial join maz buffer and transit stop nodes")
+    print(f"# of transit stops: {len(period_mode_trn_stops)}")
+    maz_trn_stops = (
+        gpd.sjoin(period_mode_trn_stops, maz_buffer, how="inner", op="intersects")
+        .drop(columns=["index_right", "geometry"])
+        .rename(columns={"maz": dir_col_maz, "stop": dir_col_stop})
+        .reset_index(drop=True)
+    )
+
+    #######################################################
+    ## Part 2: find shortest path between maz-stop pairs ##
+    #######################################################
+    # walk accessibility should be the same across time periods
+    # (select unique maz-stop pairs to reduce runtime)
+    maz_stop_pairs = (
+        maz_trn_stops[[dir_col_maz, dir_col_stop]].drop_duplicates().reset_index(drop=True)
+    )
+    print(f"unique maz-stop pairs: {len(maz_stop_pairs)}")
+
+    # create walk network, exclude connectors (note: TAZ connectors are already with WALK_ACCESS = 0)
+    print("create walk network")
+    walk_net = links[
+        (links["walk_access"] == 1) & (links["cntype"] != "MAZ") & (links["cntype"] != "TAP")
+    ].reset_index(drop=True)
+
+    # add one-direction of MAZ connectors to the walk network
+    # (based on direction argument specified by the user)
+    maz_connectors = links[
+        (links["cntype"] == "MAZ")
+        & (links[dir_col_node] < 900000)
+        & (links[dir_col_node] % 100000 < 90000)
+        & (links[dir_col_node] % 100000 >= 10000)
+    ].reset_index(drop=True)
+    walk_net = pd.concat([walk_net, maz_connectors]).reset_index(drop=True)
+
+    # format walk_net dataframe
+    walk_net["u"] = walk_net["A"]
+    walk_net["v"] = walk_net["B"]
+    walk_net["key"] = walk_net.index + 1
+    walk_net = walk_net[["u", "v", "key", "A", "B", "distance", "geometry"]]
+
+    # create walk nodes
+    walk_nodes = nodes[nodes["walk_access"] == 1]
+    walk_nodes["x"] = walk_nodes["geometry"].x
+    walk_nodes["y"] = walk_nodes["geometry"].y
+    walk_nodes = walk_nodes[["model_node_id", "x", "y", "geometry"]]
+
+    # build walk network graph
+    walk_graph = ox.graph_from_gdfs(walk_nodes, walk_net)
+
+    print("build shortest path between maz and stop")
+    shortest_paths = {dir_col_maz: [], dir_col_stop: [], "distance": [], "path": []}
+    shortest_paths_fail = {dir_col_maz: [], dir_col_stop: []}
+
+    print(f"# of paths to be processed: {len(maz_stop_pairs)}")
+    print("build shortest paths ...")
+    for i in range(len(maz_stop_pairs)):
+        if i % 5000 == 0:
+            print(f"processing path #: {i + 1}")
+        # get two trip ends
+        maz_end = maz_stop_pairs.loc[i, dir_col_maz]
+        stop_end = maz_stop_pairs.loc[i, dir_col_stop]
+
+        try:
+            if direction == "access":
+                path_dist = nx.shortest_path_length(
+                    walk_graph, maz_end, stop_end, weight="distance"
+                )
+                path = nx.shortest_path(walk_graph, maz_end, stop_end, weight="distance")
+            else:
+                path_dist = nx.shortest_path_length(
+                    walk_graph, stop_end, maz_end, weight="distance"
+                )
+                path = nx.shortest_path(walk_graph, stop_end, maz_end, weight="distance")
+            shortest_paths[dir_col_maz].append(maz_end)
+            shortest_paths[dir_col_stop].append(stop_end)
+            shortest_paths["distance"].append(path_dist)
+            shortest_paths["path"].append(str(path))
+        except:
+            shortest_paths_fail[dir_col_maz].append(maz_end)
+            shortest_paths_fail[dir_col_stop].append(stop_end)
+
+    # convert shortest path results from dict to df
+    shortest_paths = pd.DataFrame.from_dict(shortest_paths)
+    shortest_paths_fail = pd.DataFrame.from_dict(shortest_paths_fail)
+
+    # remove maz-stop pairs that exceed 1.5 miles walk distance
+    shortest_paths = shortest_paths[shortest_paths["distance"] <= 1.5].reset_index(drop=True)
+
+    # calculate shortest walk time in minute (assume walk speed = 3 mph)
+    shortest_paths["walk_min"] = (shortest_paths["distance"] / 3) * 60
+
+    # calculate impedance and time-to-impedance ratio
+    def _calculate_impedance(x):
+        # 1 * a + 5 * b + 10 * c + 20 * d
+        a = min(x.walk_min, 5)
+        b = min(x.walk_min - 5, 5)
+        c = min(x.walk_min - 10, 10)
+        d = x.walk_min - 15
+        if x.walk_min >= 15:
+            return a + 5 * b + 10 * c + 20 * d
+        elif x.walk_min >= 10:
+            return a + 5 * b + 10 * c
+        elif x.walk_min >= 5:
+            return a + 5 * b
+        else:
+            return a
+    shortest_paths["impedance"] = shortest_paths.apply(lambda x: _calculate_impedance(x), axis=1)
+    shortest_paths["time_impedance_ratio"] = (
+        shortest_paths["walk_min"] / shortest_paths["impedance"]
+    )
+
+    # add taz info
+    maz_taz_lookup = pd.read_csv(parameters.taz_maz_crosswalk_file)
+    maz_taz_lookup = maz_taz_lookup[["MAZ_ORIGINAL", "TAZ_ORIGINAL"]].rename(
+        columns={"MAZ_ORIGINAL": dir_col_maz, "TAZ_ORIGINAL": dir_col_taz}
+    )
+    shortest_paths = pd.merge(shortest_paths, maz_taz_lookup, how="left", on=dir_col_maz)
+    shortest_paths[dir_col_taz] = shortest_paths[dir_col_taz].astype(int)
+
+    # add shortest path info back to maz_trn_stops
+    maz_trn_stops = pd.merge(
+        maz_trn_stops, shortest_paths, how="left", on=[dir_col_maz, dir_col_stop]
+    )
+    # some records will have null distance because those with > 1.5 walk distance was removed from shortest path
+    maz_trn_stops = maz_trn_stops[~maz_trn_stops["distance"].isnull()].reset_index(drop=True)
+
+    # expand maz_trn_stops to have records by skim set
+    # (note: maz_trn_stops already have time period & mode info)
+    maz_trn_stops_set1 = maz_trn_stops[maz_trn_stops["mode"] == "Local bus"].copy()
+    maz_trn_stops_set1["skim_set"] = 1
+    maz_trn_stops_set2 = maz_trn_stops[maz_trn_stops["mode"] != "Local bus"].copy()
+    maz_trn_stops_set2["skim_set"] = 2
+    maz_trn_stops_set3 = maz_trn_stops.copy()
+    maz_trn_stops_set3["skim_set"] = 3
+    maz_trn_stops_all_sets = pd.concat(
+        [maz_trn_stops_set1, maz_trn_stops_set2, maz_trn_stops_set3]
+    ).reset_index(drop=True)
+
+    # initialize df that keep results from all skim sets & time periods
+    result_maz_trn_stops = pd.DataFrame()
+
+    for skim_set in [1, 2, 3]:
+        for time_period in ["EA", "AM", "MD", "PM", "EV"]:
+            print(f"process skim set {skim_set}, time period: {time_period}")
+
+            # select maz_trn_stop for the given skim set & time period
+            maz_trn_stop_set_per = maz_trn_stops_all_sets[
+                (maz_trn_stops_all_sets["skim_set"] == skim_set)
+                & (maz_trn_stops_all_sets["time_period"] == time_period)
+            ].copy()
+
+            # select stop boardings/alightings volumes for the given skim set & time period
+            stop_demand = stop_demand.rename(columns={"stop": dir_col_stop})
+            if skim_set == 1:
+                stop_demand_set_per = stop_demand[
+                    (stop_demand["mode"] == "local") & (stop_demand["time_period"] == time_period)
+                ]
+            elif skim_set == 2:
+                stop_demand_set_per = stop_demand[
+                    (stop_demand["mode"] == "premium") & (stop_demand["time_period"] == time_period)
+                ]
+            else:
+                stop_demand_set_per = stop_demand[stop_demand["time_period"] == time_period]
+            stop_demand_set_per = stop_demand_set_per.drop(columns=["mode", "time_period"])
+
+            # add stop demand to maz_trn_stop_set_per
+            maz_trn_stop_set_per = pd.merge(
+                maz_trn_stop_set_per, stop_demand_set_per, how="left", on=dir_col_stop
+            )
+            # remove records w/o stop demand
+            maz_trn_stop_set_per = maz_trn_stop_set_per[
+                ~maz_trn_stop_set_per[dir_col_stop_demand].isnull()
+            ]
+
+            # calculate total boarding / alighting demand for each taz
+            taz_demand = (
+                maz_trn_stop_set_per[[dir_col_stop, dir_col_taz, dir_col_stop_demand]]
+                .drop_duplicates()
+                .groupby([dir_col_taz])[dir_col_stop_demand]
+                .agg("sum")
+                .reset_index(name=f"taz_total_{dir_col_stop_demand}")
+            )
+
+            # add taz demand to maz_trn_stop_set_per
+            maz_trn_stop_set_per = pd.merge(
+                maz_trn_stop_set_per, taz_demand, how="left", on=dir_col_taz
+            )
+
+            # calculate bording/alighting share at each stop within its corresponding taz
+            maz_trn_stop_set_per["stop_taz_demand_share"] = (
+                maz_trn_stop_set_per[dir_col_stop_demand]
+                / maz_trn_stop_set_per[f"taz_total_{dir_col_stop_demand}"]
+            )
+
+            maz_trn_stop_set_per["stop_walk_time_weight"] = (
+                maz_trn_stop_set_per["stop_taz_demand_share"]
+                * maz_trn_stop_set_per["time_impedance_ratio"]
+            )
+
+            # calculate maz-level sum of "stop_walk_time_weight"
+            maz_weight_sum = (
+                maz_trn_stop_set_per[[dir_col_maz, "stop_walk_time_weight"]]
+                .groupby([dir_col_maz])["stop_walk_time_weight"]
+                .agg("sum")
+                .reset_index(name="maz_weight_sum")
+            )
+            maz_trn_stop_set_per = pd.merge(
+                maz_trn_stop_set_per, maz_weight_sum, how="left", on=dir_col_maz
+            )
+
+            maz_trn_stop_set_per["stop_weight"] = (
+                maz_trn_stop_set_per["stop_walk_time_weight"]
+                / maz_trn_stop_set_per["maz_weight_sum"]
+            )
+            maz_trn_stop_set_per["weighted_walk_min"] = (
+                maz_trn_stop_set_per["stop_weight"] * maz_trn_stop_set_per["walk_min"]
+            )
+
+            result_maz_trn_stops = pd.concat([result_maz_trn_stops, maz_trn_stop_set_per])
+
+    # aggregate to maz level to get estimated maz walk access time
+    est_maz_walk_time = (
+        result_maz_trn_stops.groupby(["skim_set", "time_period", dir_col_maz])["weighted_walk_min"]
+        .agg("sum")
+        .reset_index(name=f"est_maz_walk_{direction}_min")
+    )
+    est_maz_walk_time[f"est_maz_walk_{direction}_min"] = est_maz_walk_time[
+        f"est_maz_walk_{direction}_min"
+    ].round(3)
+
+    # optional return df: result_maz_trn_stops, shortest_paths_fail
+    return est_maz_walk_time

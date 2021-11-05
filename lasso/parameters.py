@@ -916,3 +916,7 @@ class Parameters:
         ]
 
         self.__dict__.update(kwargs)
+
+        self.taz_maz_crosswalk_file = os.path.join(
+            self.data_file_location, "lookups", "maz_data_withDensity.csv"
+        )
