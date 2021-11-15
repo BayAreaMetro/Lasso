@@ -3151,3 +3151,82 @@ def estimate_maz_walk_time(
 
     # optional return df: result_maz_trn_stops, shortest_paths_fail
     return est_maz_walk_time
+
+
+def estimate_transit_taz_connectors(
+    maz_stop_walk_time: pd.DataFrame = None,
+    direction: str = "access",
+    trn_trip_list: pd.DataFrame = None,
+    parameters=None,
+):
+    # specify direction-specific variables
+    if direction == "access":
+        dir_col_maz = "from_maz"
+        dir_col_taz = "from_taz"
+        dir_col_stop = "to_stop"
+    else:
+        dir_col_maz = "to_maz"
+        dir_col_taz = "to_taz"
+        dir_col_stop = "from_stop"
+
+    # calculate maz-scale transit demand
+    maz_demand = (
+        trn_trip_list.groupby(["skim_set", "time_period", dir_col_maz])
+        .size()
+        .reset_index(name="maz_demand")
+    )
+
+    # add taz info to maz_demand
+    maz_taz_lookup = pd.read_csv(parameters.taz_maz_crosswalk_file)
+    maz_demand = (
+        pd.merge(
+            maz_demand,
+            maz_taz_lookup[["MAZ_ORIGINAL", "TAZ_ORIGINAL"]],
+            how="left",
+            left_on=dir_col_maz,
+            right_on="MAZ_ORIGINAL",
+        )
+        .drop(columns=["MAZ_ORIGINAL"])
+        .rename(columns={"TAZ_ORIGINAL": dir_col_taz})
+    )
+
+    # join maz-stop walk access/egress time data to maz_demand
+    walk_time_with_demand = pd.merge(
+        maz_stop_walk_time,
+        maz_demand,
+        how="left",
+        on=["skim_set", "time_period", dir_col_maz],
+    )
+
+    walk_time_with_demand = walk_time_with_demand[~walk_time_with_demand["maz_demand"].isnull()]
+    walk_time_with_demand[dir_col_taz] = walk_time_with_demand[dir_col_taz].astype(int)
+
+    # calculate sum of maz demand by stop by taz
+    taz_stop_demand = (
+        walk_time_with_demand.groupby(["skim_set", "time_period", dir_col_taz, dir_col_stop])[
+            "maz_demand"
+        ]
+        .agg("sum")
+        .reset_index(name="taz_stop_demand")
+    )
+    walk_time_with_demand = pd.merge(
+        walk_time_with_demand,
+        taz_stop_demand,
+        how="left",
+        on=["skim_set", "time_period", dir_col_taz, dir_col_stop],
+    )
+
+    walk_time_with_demand["demand_weighted_walk_min"] = (
+        walk_time_with_demand["walk_min"] * walk_time_with_demand["maz_demand"]
+    ) / walk_time_with_demand["taz_stop_demand"]
+
+    # aggregate to taz-stop level to get the final estimated taz-stop walk access/egress time
+    est_taz_connectors = (
+        walk_time_with_demand.groupby(["skim_set", "time_period", dir_col_taz, dir_col_stop])[
+            "demand_weighted_walk_min"
+        ]
+        .agg("sum")
+        .reset_index(name="est_walk_min")
+    )
+
+    return est_taz_connectors
