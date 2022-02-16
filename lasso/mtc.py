@@ -3088,10 +3088,10 @@ def estimate_maz_walk_time(
             maz_trn_stop_set_per = pd.merge(
                 maz_trn_stop_set_per, stop_demand_set_per, how="left", on=dir_col_stop
             )
-            # remove records w/o stop demand
-            maz_trn_stop_set_per = maz_trn_stop_set_per[
-                ~maz_trn_stop_set_per[dir_col_stop_demand].isnull()
-            ]
+            # fill stop with zero demand with 1 (so that all stop remain in the record)
+            maz_trn_stop_set_per[dir_col_stop_demand] = maz_trn_stop_set_per[
+                dir_col_stop_demand
+            ].fillna(1.0)
 
             # calculate total boarding / alighting demand for each taz
             taz_demand = (
