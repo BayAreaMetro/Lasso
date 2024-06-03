@@ -28,6 +28,9 @@ from .roadway import ModelRoadwayNetwork
 from .parameters import Parameters
 from .logger import WranglerLogger
 from .mtc import _is_express_bus, _special_vehicle_type
+from . import build_connectors_mtc
+
+from pathlib import Path
 
 from lasso import StandardTransit
 
@@ -39,8 +42,20 @@ _dir = _os.path.dirname
 def _norm(path):
     return _os.path.normcase(_os.path.normpath(path))
 
-
+centroid_connector_defaults ={
+    "ft": 8,
+    "roadway": "taz",
+    "drive_access": 1,
+    "bike_access": 0,
+    "walk_access": 0,
+    'lanes_EA': 1, 'lanes_AM':1 , 'lanes_MD': 1, 'lanes_PM':1, 'lanes_EV': 1,
+    'useclass_EA': 0, 'useclass_AM': 0, 'useclass_MD': 0, 'useclass_PM': 0, 'useclass_EV': 0, 'tollseg':0, 
+    'tollbooth': 0, 'segment_id': 0, "bus_only": 0, "assignable": 1, "managed": 0,
+    'transit': 0,
+    'rail_only': 0,
+} 
 def create_emme_network(
+    input_dir: str,
     roadway_network: Optional[ModelRoadwayNetwork] = None,
     transit_network: Optional[StandardTransit] = None,
     include_transit: Optional[bool] =False,
@@ -201,10 +216,14 @@ def create_emme_network(
     if write_taz_drive_network:
         _NAME = "emme_taz_drive_network"
         include_transit = False
-        model_tables = prepare_table_for_taz_drive_network(
+        # TODO find transit object network
+        # transit_network .feed.shapes
+        model_tables = prepare_table_for_tazmaz_drive_network(
             nodes_df=nodes_df,
             links_df=links_df,
-            parameters=parameters
+            input_dir=input_dir,
+            parameters=parameters,
+            taz_or_maz="taz"
         )
 
         setup = SetupEmme(model_tables, out_dir, _NAME, include_transit, parameters)
@@ -213,10 +232,12 @@ def create_emme_network(
     if write_maz_drive_network:
         _NAME = "emme_maz_drive_network"
         include_transit = False
-        model_tables = prepare_table_for_maz_drive_network(
+        model_tables = prepare_table_for_tazmaz_drive_network(
             nodes_df=nodes_df,
             links_df=links_df,
-            parameters=parameters
+            input_dir=input_dir,
+            parameters=parameters,
+            taz_or_maz="maz"
         )
 
         setup = SetupEmme(model_tables, out_dir, _NAME, include_transit, parameters)
@@ -268,10 +289,27 @@ def create_emme_network(
         setup = SetupEmme(model_tables, out_dir, _NAME, include_transit, parameters)
         setup.run()
 
-def prepare_table_for_taz_drive_network(
+def extract_gtfs_from_dir(path: str):
+    path = Path(path)
+    shapes = pd.read_csv(path / "shapes.txt")
+    trips = pd.read_csv(path / "trips.txt")
+    routes = pd.read_csv(path / "routes.txt")
+
+    bus_routes = routes.loc[routes["route_type"].isin([3]), "route_id"]
+    bus_trips = trips.loc[trips["route_id"].isin(bus_routes), "shape_id"]
+    bus_shapes = shapes[shapes["shape_id"].isin(bus_trips)]
+    return bus_shapes
+    
+
+
+
+
+def prepare_table_for_tazmaz_drive_network(
     nodes_df,
     links_df,
+    input_dir,
     parameters,
+    taz_or_maz:str,
 ):
 
     """
@@ -286,27 +324,133 @@ def prepare_table_for_taz_drive_network(
         dictionary of model network settings
     """
 
-    model_tables = dict()
+    # check external 
+    if taz_or_maz == "taz":
+        taz_areas = gpd.read_file(parameters.taz_shape_file).to_crs(nodes_df.crs)
+        net_max_ft = parameters.taz_net_max_ft
+        taz_centroid = nodes_df[nodes_df.N.isin(parameters.taz_N_list)]
+        
 
-    # use taz as centroids, drop maz nodes and connectors
-    model_tables["centroid_table"] = nodes_df[
-        nodes_df.N.isin(parameters.taz_N_list)
-    ].to_dict('records')
+    elif taz_or_maz == "maz":
+        taz_areas = gpd.read_file(parameters.maz_shape_file).to_crs(nodes_df.crs)
+        net_max_ft = parameters.maz_net_max_ft
+        taz_centroid = nodes_df[nodes_df.N.isin(parameters.maz_N_list)]
 
-    model_tables["connector_table"] = links_df[
-        (links_df.A.isin(parameters.taz_N_list)) | (links_df.B.isin(parameters.taz_N_list))
-    ].to_dict('records')
+    if parameters.taz_node_join_tolerance[1] != taz_areas.crs.axis_info[0].unit_name:
+        WranglerLogger.warn("taz_node_join_tolerance in lasso/parameters.py has differnt units to crs for project, expected {}, but got {}".format(
+            taz_areas.crs.axis_info[0].unit_name,
+            parameters.taz_node_join_tolerance[1], 
+        ))
 
+    taz_areas["geometry"] = taz_areas["geometry"].buffer(parameters.taz_node_join_tolerance[0])
+
+    gtfs_shape_bus_routes = extract_gtfs_from_dir(input_dir)
+
+
+    
+
+    gtfs_shape_bus_routes["next_node_id"] = gtfs_shape_bus_routes["shape_model_node_id"].shift(1)
+    #assume shape id and stop sequence are in order
+    gtfs_shape_bus_routes = gtfs_shape_bus_routes.sort_values(by=["shape_id", "shape_pt_sequence"])
+    gtfs_shape_bus_routes = gtfs_shape_bus_routes[(gtfs_shape_bus_routes["shape_pt_sequence"] != 1)]
+    gtfs_shape_bus_routes = gtfs_shape_bus_routes.drop_duplicates(subset=["shape_model_node_id", "next_node_id"])
+    gtfs_shape_bus_routes["has_bus_on_link"] = True
+    links_df = pd.merge(links_df, gtfs_shape_bus_routes[["shape_model_node_id", "next_node_id", "has_bus_on_link"]], 
+        left_on=["A", "B"],
+        right_on=["shape_model_node_id", "next_node_id"],
+        how="left"
+    ).drop(columns=["shape_model_node_id", "next_node_id"])
+    links_df["has_bus_on_link"] = links_df["has_bus_on_link"].fillna(False)
+    
+    # links to keep:
+    # ft > 7
+    # links containing bus routes
+    # toll booths > 1
+    # toll sag > 1 
+    # make sure connectors gone
+    # bus links need to be on
+    # wayy after all this is good-> need to filter out broken connecters
+    # if centroid is empty -> build new connectors
+    # rebuild connectors for all TAZ
+    #TODO test 6 is less links then previous implementatoin
+    
     drive_links_df = links_df[
-        ~(links_df.A.isin(parameters.taz_N_list + parameters.maz_N_list)) & 
-        ~(links_df.B.isin(parameters.taz_N_list + parameters.maz_N_list)) &
-        ((links_df.drive_access == 1) & (links_df.assignable == 1))
+        (
+            ~(links_df.A.isin(parameters.taz_N_list + parameters.maz_N_list)) & 
+            ~(links_df.B.isin(parameters.taz_N_list + parameters.maz_N_list)) &
+            ( # ft > 7 should be kept in the nework
+                (
+                    (links_df.drive_access == 1) & 
+                    (links_df.ft <= net_max_ft)
+                ) |
+                ( # is a tollsegment, should be kept within the network
+                    (links_df.tollseg != 0) |
+                    (links_df.tollbooth != 0)
+                ) 
+            )
+        ) | links_df["has_bus_on_link"] # if the link has a bus on it we want to keep it no matter what
     ].copy()
+    from importlib import reload
+    reload(build_connectors_mtc)
+
+    centroid_connector_links = build_connectors_mtc.connect_centroids(nodes_df, drive_links_df, taz_centroid, taz_areas, parameters, taz_or_maz)
+    # return centroid_connector_links
+    #TODO check 
+    
+    max_existing_link_id = drive_links_df["model_link_id"].max()
+    centroid_connector_links["model_link_id"] = np.arange(centroid_connector_links.shape[0]) + max_existing_link_id + 1
+
+    for col_value, default_value in centroid_connector_defaults.items():
+        centroid_connector_links[col_value] = default_value
+
+    # centroid_connector_links["_links"] = centroid_connector_links["geometry"].to_wkt()
+    # centroid_connector_links["links"] = centroid_connector_links["_links"]
+    # print(centroid_connector_links["links"])
+        
+    drive_links_df["taz_node_id"] = 0
+    
+    if taz_or_maz == "taz":
+        # if we are doing taz we also have external centroid connectors, we need to include them
+        external_connectors_slicer = ((links_df.A > 900_000) & (links_df.A < 1_000_000)) | ((links_df.A > 900_000) & (links_df.A < 1_000_000))
+        print("model is taz, adding external links:", sum(external_connectors_slicer))
+        external_connectors = links_df[external_connectors_slicer]
+        centroid_connector_links = pd.concat([centroid_connector_links, external_connectors])
+
+
+
+    print(links_df.iloc[10])
+    
+    
+    centroid_connector_links["geometry_wkt"] = centroid_connector_links["geometry"].apply(lambda x: x.wkt)
+    # bad link Ides
+    bad_externeral = [5117530, 5118443, 4239334, 4241510, 1143651, 1142182, 5118662, 5117749, 2518654, 2522313, 7135835, 
+    7137048, 2522059, 2518400, 2522058, 2518399, 2519408,2523067, 5118661, 5117748, 3320292, 3316432]
+    bad_externeral_connectos = centroid_connector_links["model_link_id"].isin(bad_externeral)
+    print("Number of External Connectors Removed: ", bad_externeral_connectos.sum())
+    centroid_connector_links = centroid_connector_links[~bad_externeral_connectos]
+
+    centroid_connector_links
+    print(centroid_connector_links.iloc[10])
+    # drive_links_df = pd.concat([drive_links_df, centroid_connector_links])
+    # return drive_links_df
+
+    model_tables = dict()
+    
+
+    # external 
+    # use taz as centroids, drop maz nodes and connectors
+    # include internal and external nodes
+    model_tables["centroid_table"] = taz_centroid.to_dict('records')
+
+    # this should be depricated
+    # all connectors need to go into 
+    model_tables["connector_table"] = centroid_connector_links.to_dict('records')
 
     model_tables["link_table"] = drive_links_df.to_dict('records')
 
+    # We must keep maz N nodes, as they are used in a later part of this project
     drive_nodes_df = nodes_df[
-        (nodes_df.N.isin(drive_links_df.A.tolist()) + nodes_df.N.isin(drive_links_df.B.tolist()))
+        (nodes_df.N.isin(drive_links_df.A.tolist()) | nodes_df.N.isin(drive_links_df.B.tolist())) | nodes_df.N.isin(parameters.maz_N_list)
     ].copy()
 
     model_tables["node_table"] = drive_nodes_df.to_dict('records')
@@ -389,6 +533,9 @@ def prepare_table_for_maz_drive_network(
     model_tables["centroid_table"] = []
 
     model_tables["connector_table"] = []
+    
+    # add bus links in transit network to this link table
+    
 
     drive_links_df = links_df[
         ~(links_df.A.isin(parameters.taz_N_list)) & 
@@ -1707,6 +1854,7 @@ class SetupEmme(object):
         link_table = self._model_tables["link_table"]
 
         proc = ProcessNetwork(self._attrs)
+        # print(link_table)
         proc.process_base_network(
                 centroid_table, node_table, connector_table, link_table, drive_speed=40.0)  # add drive speed
         if self._include_transit:
@@ -1837,9 +1985,17 @@ class SetupEmme(object):
             _os.mkdir(db_root)
         emmebank_path = _norm(_join(project_root, "Database", "emmebank"))
         
+        print("creating emme")
+        print(emmebank_path)
         if _os.path.exists(emmebank_path):
+            print("removing", emmebank_path)
             _os.remove(emmebank_path)
+        else:
+            print("path does not exist")
+
+        print("using _eb for first time...")
         emmebank = _eb.create(emmebank_path, dimensions)
+        print("emebank ran")
         emmebank.title = self._NAME
         emmebank.coord_unit_length = 0.0001  # Meters to kilometers
         emmebank.unit_of_length = "km"
@@ -1847,10 +2003,12 @@ class SetupEmme(object):
         emmebank.unit_of_energy = "MJ"
         emmebank.node_number_digits = 6
         emmebank.use_engineering_notation = True
+        print("network time")
         self._emmebank = emmebank
 
     def save_networks(self):
         """Save processed networks in Emmebank."""
+        print("saving networks")
 
         scen_id = 1 # needs to be int
         scenario = self._emmebank.scenario(scen_id)
@@ -1986,6 +2144,8 @@ class ProcessNetwork(object):
             except KeyError:
                 index_errors.append("-".join([str(row["A"]), str(row["B"])]))
                 continue
+            print(row["geometry_wkt"])
+            # if row["geometry_wkt"] ==
             link = network.create_link(i_node, j_node, mode_map(row))
             for attr in connector_attrs:
                 attr.set(link, row)
@@ -2016,6 +2176,7 @@ class ProcessNetwork(object):
         # Copy link verticies to correct attribute name, if they are present
         if "_vertices" in network.attributes("LINK"):
             for link in network.links():
+                print()
                 link.vertices = link._vertices
             network.delete_attribute("LINK", "_vertices")
 
@@ -2152,7 +2313,13 @@ class NetworkAttribute(object):
         """Set the value for this attribute from the row of data to the Emme network element."""
         if self.name is None or self.src_name is None:
             return
+
+        # try:
         element[self.name] = self.cast(row[self.src_name])
+        # except:
+        #     print(self.name)
+        #     print(row[self.src_name], "cannot be type", self.cast)
+        #     element[self.name] = 1
 
 
 def wkt_to_vertices(wkt_geometry):

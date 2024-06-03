@@ -20,7 +20,7 @@ def get_base_dir(lasso_base_dir=os.getcwd()):
     WranglerLogger.error(msg)
     raise (ValueError(msg))
 
-
+# should be a dataclass
 class Parameters:
     """A class representing all the parameters defining the networks
     including time of day, categories, etc.
@@ -344,6 +344,16 @@ class Parameters:
             "5": "EV",
         }
 
+        self.taz_net_max_ft = 6
+        self.maz_net_max_ft = 7
+        # Potentially make a named tuple
+        self.taz_node_join_tolerance = (0, "US survey foot")
+        self.max_length_centroid_connector_when_none_in_taz = 999999999999999999999999999999999999
+
+        #TODO make this relative
+        self.taz_shape_file = r"C:\Users\USLP095001\code\MTC\travel-model-two\maz_taz\shapefiles\tazs_TM2_v2_2.shp"
+        self.maz_shape_file = r"C:\Users\USLP095001\code\MTC\travel-model-two\maz_taz\shapefiles\mazs_TM2_v2_2.shp"
+
         """
         #MC
         self.route_type_bus_mode_dict = {"Urb Loc": 5, "Sub Loc": 6, "Express": 7}
@@ -523,6 +533,11 @@ class Parameters:
             7,
             8,
             9
+        ]
+        
+        
+        self.emme_drive_filter_criteria = [
+            ""
         ]
 
         self.taz_N_list = list(range(1, 10000)) + list(range(100001, 110000)) + list(range(200001, 210000)) + list(range(300001, 310000))\
