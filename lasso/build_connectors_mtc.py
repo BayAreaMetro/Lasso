@@ -45,6 +45,13 @@ def get_geoms(closest_nodes):
     closest_nodes["geometry"] = closest_nodes.apply(get_linestring_from_row, axis=1)
     return gpd.GeoDataFrame(closest_nodes, geometry='geometry', crs="EPSG:2875")
 
+def get_two_way(links_df):
+    links_df = links_df[["A", "B"]]
+    
+    ab = links_df["A"].astype(str) + "-" + links_df["B"].astype(str)
+    ba = links_df["B"].astype(str) + "-" + links_df["A"].astype(str)
+
+    return ab.isin(ba)
 
 
 def connect_centroids(
@@ -52,19 +59,22 @@ def connect_centroids(
     maz_or_taz
 ):
     # taz_nodes = nodes_df[nodes_df["N"].isin(parameters.taz_N_list)]
-    
+    links_df["link_is_two_way"] = get_two_way(links_df) * 1
+    print("proportion of links 2 way", links_df["link_is_two_way"].mean())
+    links_df["link_is_two_way"] = links_df["link_is_two_way"] *-1
+
     #exclude nodes that are in intersections and already a centroid, 
     non_centroid_nodes = nodes_df[~nodes_df["N"].isin(taz_centroid["N"])]
     nodes_df_not_intersections, _ = get_non_intersection_drive_nodes(links_df, non_centroid_nodes)
     # we want to attatch to the lowest rank nodes, 
-    nodes_df_not_intersections = attache_highest_ft_to_node(links_df, nodes_df_not_intersections, clip_upper=7)
-    non_centroid_nodes = attache_highest_ft_to_node(links_df, non_centroid_nodes, clip_upper=7)
+    nodes_df_not_intersections = join_ft_and_two_way_to_node(links_df, nodes_df_not_intersections, clip_upper=7)
+    non_centroid_nodes = join_ft_and_two_way_to_node(links_df, non_centroid_nodes, clip_upper=7)
 
     #collect candidate nodes for building connector, change this to TAZ
     # get the x, y coordinates of the centroid of the shape for building the connector
     taz_area = taz_zones[[maz_or_taz, "geometry"]].merge(taz_centroid[["N", "X", "Y"]], left_on=maz_or_taz, right_on="N", how="inner")
 
-    candidate_points = gpd.sjoin(taz_area, nodes_df_not_intersections[["N", "geometry", "X", "Y", "ft", "county"]].rename(columns={"N":"N_Joined", "X": "X_net", "Y": "Y_net"}))
+    candidate_points = gpd.sjoin(taz_area, nodes_df_not_intersections[["N", "geometry", "X", "Y", "ft", "link_is_two_way", "county"]].rename(columns={"N":"N_Joined", "X": "X_net", "Y": "Y_net"}))
     
     # reverse ft so that when we sort ascending the ft=6 is first
     # after being sorted, it find the the closest ft6, if there are no ft6 then ft5 ect until
@@ -82,7 +92,7 @@ def connect_centroids(
     # if there were None, we will try again using all non centroid nodes
     # ----------------------------------------------------------------------------------------------------------------------------------------------------------
     taz_with_no_links = taz_area[~taz_area["N"].isin(candidate_points["N"])]
-    candidate_points = gpd.sjoin(taz_with_no_links, non_centroid_nodes[["N", "geometry", "X", "Y", "ft", "county"]].rename(columns={"N":"N_Joined", "X": "X_net", "Y": "Y_net"}))
+    candidate_points = gpd.sjoin(taz_with_no_links, non_centroid_nodes[["N", "geometry", "X", "Y", "ft", "link_is_two_way", "county"]].rename(columns={"N":"N_Joined", "X": "X_net", "Y": "Y_net"}))
 
     candidate_points["ft"] = -1 * candidate_points["ft"]
     for taz_node_N, taz_node_candidate_links in candidate_points.groupby("N"):
@@ -91,14 +101,14 @@ def connect_centroids(
         links_to_be_added.append(links)
 
     taz_with_no_links = taz_with_no_links[~taz_with_no_links["N"].isin(candidate_points["N"])]
-
+    
     # ----------------------------------------------------------------------------------------------------------------------------------------------------------
-    # if there is is still none we will match to the closest node
+    # if there is is still none we will match to the closest two-way node
     # ----------------------------------------------------------------------------------------------------------------------------------------------------------
     taz_with_no_links["geometry"] = taz_with_no_links.apply(lambda row: Point(row["X"], row["Y"]), axis=1)
     # cant do sjoin nearest due to dependency issues, will change and check in future
     # connections_outside_taz_area = gpd.sjoin_nearest(centroids_with_no_connections, nodes_df_not_intersections, max_distance=parameters.max_length_centroid_connector_when_none_in_taz)
-    non_centroid_nodes = non_centroid_nodes[non_centroid_nodes["ft"] != 1]
+    non_centroid_nodes = non_centroid_nodes[(non_centroid_nodes["ft"] != 1) & (non_centroid_nodes["link_is_two_way"] != 0)]
     join_nodes_tree = cKDTree(non_centroid_nodes[["X", "Y"]].to_numpy())
     
     join_taz_nodes = []
@@ -157,7 +167,8 @@ def connect_centroids(
         )
     ].copy()
 
-def create_links(taz_node_N: int, taz_node_candidate_links: gpd.GeoDataFrame, sort_columns = ("ft", "squared_distance")):
+def create_links(taz_node_N: int, taz_node_candidate_links: gpd.GeoDataFrame, sort_columns = ("link_is_two_way", "ft", "squared_distance")):
+    
 
     taz_node_candidate_links.reset_index()
 
@@ -197,18 +208,25 @@ def create_links(taz_node_N: int, taz_node_candidate_links: gpd.GeoDataFrame, so
     links["taz_node_id"] = taz_node_N
     return links
 
-def attache_highest_ft_to_node(links_df, nodes_df, clip_upper=6):
+def join_ft_and_two_way_to_node(links_df, nodes_df, clip_upper=6):
     
     all_ft_into_nodes = pd.concat(
         [
-            links_df[["A", "ft"]].rename(columns={"A":"N"}), 
-            links_df[["B", "ft"]].rename(columns={"A":"N"}),
+            links_df[["A", "ft", "link_is_two_way"]].rename(columns={"A":"N"}), 
+            links_df[["B", "ft", "link_is_two_way"]].rename(columns={"A":"N"}),
         ]
     )
-    highest_ft_attached_to_node = all_ft_into_nodes.groupby("N").agg({"ft":"max"})
-    highest_ft_attached_to_node["ft"] = highest_ft_attached_to_node["ft"].clip(upper=clip_upper)
-    return pd.merge(nodes_df, highest_ft_attached_to_node, left_on="N", right_index=True)
+    highest_ft_attached_to_node = all_ft_into_nodes.groupby("N").agg({"ft":"max", "link_is_two_way":"max"})
+    
+    # highest_ft_attached_to_node["ft"] = highest_ft_attached_to_node[highest_ft_attached_to_node["ft"] <= 6]
 
+    highest_ft_attached_to_node["ft"] = highest_ft_attached_to_node["ft"].clip(upper=clip_upper)
+    
+    return_nodes = pd.merge(nodes_df, highest_ft_attached_to_node, left_on="N", right_index=True) # should check this is inner merge 
+    
+    return_nodes = return_nodes[return_nodes["ft"] <= 5]
+
+    return return_nodes
 
 def get_non_intersection_drive_nodes(links_df, nodes_df):
         """

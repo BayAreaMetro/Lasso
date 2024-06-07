@@ -347,7 +347,7 @@ class Parameters:
         self.taz_net_max_ft = 6
         self.maz_net_max_ft = 7
         # Potentially make a named tuple
-        self.taz_node_join_tolerance = (0, "US survey foot")
+        self.taz_node_join_tolerance = (100, "US survey foot")
         self.max_length_centroid_connector_when_none_in_taz = 999999999999999999999999999999999999
 
         #TODO make this relative
