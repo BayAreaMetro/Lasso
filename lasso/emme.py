@@ -29,6 +29,7 @@ from .parameters import Parameters
 from .logger import WranglerLogger
 from .mtc import _is_express_bus, _special_vehicle_type
 from . import build_connectors_mtc
+from . import build_connectors
 
 from pathlib import Path
 

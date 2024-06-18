@@ -224,7 +224,7 @@ def join_ft_and_two_way_to_node(links_df, nodes_df, clip_upper=6):
     
     return_nodes = pd.merge(nodes_df, highest_ft_attached_to_node, left_on="N", right_index=True) # should check this is inner merge 
     
-    return_nodes = return_nodes[return_nodes["ft"] <= 5]
+    # return_nodes = return_nodes[return_nodes["ft"] <= 5]
 
     return return_nodes
 
