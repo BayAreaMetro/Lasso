@@ -4,7 +4,7 @@ import math
 from pyproj import CRS
 
 def build_taz_drive_connector(
-    links_df, nodes_df,
+    links_df, nodes_df, taz_node_gdf,
     taz_polygon_df: gpd.GeoDataFrame, num_connectors_per_centroid: int = 3
 ):
     """
@@ -22,6 +22,7 @@ def build_taz_drive_connector(
     # for each zone, find nodes that have only two assignable/drive
     # geometries (not reference) - good intersections
 
+
     taz_good_intersection_df = _get_nodes_in_zones(
         node_two_geometry_df, taz_polygon_df
     )
@@ -37,7 +38,7 @@ def build_taz_drive_connector(
 
     drive_node_gdf = nodes_df[
         (nodes_df.drive_access == 1)
-        & ~(
+        & ~(output[0][output[0].taz_id
             nodes_df.osm_node_id.isin(
                 exclude_links_df.u.tolist() + exclude_links_df.v.tolist()
             )
@@ -59,65 +60,56 @@ def build_taz_drive_connector(
     return taz_centroid_gdf, taz_loading_node_df
     
 
-
-
 def _get_non_intersection_drive_nodes(links_df, nodes_df):
-        """
-        return nodes that have only two drivable geometries
-        """
-        drive_links_gdf = links_df[
-            ~(
-                links_df.roadway.isin(
-                    ["motorway_link", "motorway", "trunk", "trunk_link", "service"]
-                )
+    """
+    return nodes that have only two drivable geometries
+    """
+    drive_links_gdf = links_df[
+        ~(
+            links_df.roadway.isin(
+                ["motorway_link", "motorway", "trunk", "trunk_link", "service"]
             )
-            & (links_df.drive_access == 1)
-        ].copy()
-
-        a_geometry_count_df = (
-            drive_links_gdf.groupby(["u", "shstGeometryId"])["shstReferenceId"]
-            .count()
-            .reset_index()
-            .rename(columns={"u": "osm_node_id"})
         )
+        & (links_df.drive_access == 1)
+    ].copy()
 
-        b_geometry_count_df = (
-            drive_links_gdf.groupby(["v", "shstGeometryId"])["shstReferenceId"]
-            .count()
-            .reset_index()
-            .rename(columns={"v": "osm_node_id"})
-        )
+    a_geometry_count_df = (
+        drive_links_gdf.groupby(["u", "shstGeometryId"])["shstReferenceId"]
+        .count()
+        .reset_index()
+        .rename(columns={"u": "osm_node_id"})
+    )
 
-        node_geometry_count_df = pd.concat(
-            [a_geometry_count_df, b_geometry_count_df], ignore_index=True, sort=False
-        )
+    b_geometry_count_df = (
+        drive_links_gdf.groupby(["v", "shstGeometryId"])["shstReferenceId"]
+        .count()
+        .reset_index()
+        .rename(columns={"v": "osm_node_id"})
+    )
 
-        node_geometry_count_df = (
-            node_geometry_count_df.groupby(["osm_node_id", "shstGeometryId"])
-            .count()
-            .reset_index()
-            .groupby(["osm_node_id"])["shstGeometryId"]
-            .count()
-            .reset_index()
-        )
+    node_geometry_count_df = pd.concat(
+        [a_geometry_count_df, b_geometry_count_df], ignore_index=True, sort=False
+    )
 
-        node_two_geometry_df = node_geometry_count_df[
-            node_geometry_count_df.shstGeometryId == 2
-        ].copy()
+    node_geometry_count_df = (
+        node_geometry_count_df.groupby(["osm_node_id", "shstGeometryId"])
+        .count()
+        .reset_index()
+        .groupby(["osm_node_id"])["shstGeometryId"]
+        .count()
+        .reset_index()
+    )
 
-        
-        two_geometry_connected_to_node_slicer = nodes_df.osm_node_id.isin(node_two_geometry_df.osm_node_id.tolist())
+    node_two_geometry_df = node_geometry_count_df[
+        node_geometry_count_df.shstGeometryId == 2
+    ].copy()
 
-        node_two_geometry_df = nodes_df[
-            two_geometry_connected_to_node_slicer
-        ].copy()
+    node_two_geometry_df = nodes_df[
+        nodes_df.osm_node_id.isin(node_two_geometry_df.osm_node_id.tolist())
+    ].copy()
 
-        nodde_not_two_geometru_df = nodes_df[
-            ~two_geometry_connected_to_node_slicer
-        ].copy()
+    return node_two_geometry_df
 
-
-        return node_two_geometry_df, nodde_not_two_geometru_df
 
 
 def _get_nodes_in_zones(nodes_gdf, zones_gdf):
@@ -137,6 +129,7 @@ def _get_nodes_in_zones(nodes_gdf, zones_gdf):
             columns={"geometry": "geometry_orig", "geometry_buffer": "geometry"},
             inplace=True,
         )
+        nodes_gdf = nodes_gdf.drop(columns="index_right")
         nodes_in_zones_gdf = gpd.sjoin(
             nodes_gdf,
             polygon_buffer_gdf[["geometry", "taz_id"]],
@@ -173,22 +166,29 @@ def get_taz_loading_nodes(
         lambda x: list(x.coords)[0]
     )
 
+
+
     all_load_nodes_df = pd.merge(
         all_load_nodes_df.drop("geometry", axis=1),
         taz_centroid_df.drop("geometry", axis=1),
         how="left",
         on=["taz_id"],
     )
-
+    
+    # dont know why these C points are missing
+    # TODO find out why this is being dropped
+    all_load_nodes_df = all_load_nodes_df[all_load_nodes_df["c_point"].notna()]
     all_load_nodes_df["distance"] = all_load_nodes_df.apply(
-        lambda x: _haversine_distance(list(x.ld_point), list(x.c_point)), axis=1
+        lambda x: _haversine_distance(x.ld_point, x.c_point),
+        axis=1
     )
 
     # sort on preferred, distance
     all_load_nodes_df.sort_values(
         by=["preferred", "distance"], ascending=[False, True], inplace=True
     )
-
+    
+    all_load_nodes_df = all_load_nodes_df.rename(columns = {"osm_node_id_x": "osm_node_id"})
     all_load_nodes_df.drop_duplicates(
         subset=["osm_node_id", "taz_id"], inplace=True
     )
@@ -250,6 +250,14 @@ def _haversine_distance(origin: list, destination: list, units="miles"):
 
     Returns: string
     """
+    try:
+        origin = list(origin)
+        destination = list(destination)
+    except Exception:
+        # if not(isinstance(origin, list) and isinstance(destination, list)):
+        # we got some strange data in
+        print("broken", origin, destination)
+        return None
 
     lon1, lat1 = origin
     lon2, lat2 = destination
@@ -288,11 +296,12 @@ def getAngle(a, b, c):
 
 def buffer1(polygon):
     buffer_dist = 10
-    poly_proj, crs_utm = project_geometry(polygon)
-    poly_proj_buff = poly_proj.buffer(buffer_dist)
-    poly_buff, _ = project_geometry(poly_proj_buff, crs=crs_utm, to_latlong=True)
 
-    return poly_buff
+    # poly_proj, crs_utm = project_geometry(polygon)
+    # poly_proj_buff = poly_proj.buffer(buffer_dist)
+    # poly_buff, _ = project_geometry(poly_proj_buff, crs=crs_utm, to_latlong=True)
+
+    return polygon.buffer(buffer_dist)
 
 def project_geometry(geometry, crs=None, to_crs=None, to_latlong=False):
     """
@@ -300,7 +309,7 @@ def project_geometry(geometry, crs=None, to_crs=None, to_latlong=False):
     If to_crs is None, project to the UTM CRS for the UTM zone in which the
     geometry's centroid lies. Otherwise project to the CRS defined by to_crs.
     Parameters
-    ----------
+    ---------- 
     geometry : shapely.geometry.Polygon or shapely.geometry.MultiPolygon
         the geometry to project
     crs : dict or string or pyproj.CRS

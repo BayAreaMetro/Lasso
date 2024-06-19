@@ -36,7 +36,6 @@ from pathlib import Path
 from lasso import StandardTransit
 
 from lasso import mtc
-from importlib import reload
 
 _join = _os.path.join
 _dir = _os.path.dirname
@@ -405,7 +404,12 @@ def prepare_table_for_tazmaz_drive_network(
     drive_links_df = drive_links_df[drive_links_df["A"].isin(largest_sub_graph_nodes) & drive_links_df["B"].isin(largest_sub_graph_nodes)]
     print("done")
 
-    centroid_connector_links = build_connectors_mtc.connect_centroids(nodes_df, drive_links_df, taz_centroid, taz_areas, parameters, taz_or_maz)
+    # centroid_connector_links = build_connectors_mtc.connect_centroids(nodes_df, drive_links_df, taz_centroid, taz_areas, parameters, taz_or_maz)
+    taz_areas = taz_areas.rename(columns ={"taz":"taz_id"})
+    taz_centroid_in = taz_centroid.rename(columns={"N": "taz_id"})
+    centroid_connector_links = build_connectors.build_taz_drive_connector(drive_links_df, nodes_df, taz_centroid_in, taz_areas)
+    # print(centroid_connector_links.shape)
+    return centroid_connector_links
     # return centroid_connector_links
     #TODO check 
     
