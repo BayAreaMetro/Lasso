@@ -407,7 +407,7 @@ def prepare_table_for_tazmaz_drive_network(
     # centroid_connector_links = build_connectors_mtc.connect_centroids(nodes_df, drive_links_df, taz_centroid, taz_areas, parameters, taz_or_maz)
     taz_areas = taz_areas.rename(columns ={"taz":"taz_id"})
     taz_centroid_in = taz_centroid.rename(columns={"N": "taz_id"})
-    centroid_connector_links = build_connectors.build_taz_drive_connector(drive_links_df, nodes_df, taz_centroid_in, taz_areas)
+    centroid_connector_links = build_connectors.build_taz_drive_connector(drive_links_df, nodes_df, taz_centroid_in, taz_areas, input_crs=drive_links_df.crs)
     # print(centroid_connector_links.shape)
     return centroid_connector_links
     # return centroid_connector_links
