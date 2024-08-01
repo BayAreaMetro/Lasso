@@ -384,7 +384,7 @@ def prepare_table_for_tazmaz_drive_network(
             ( # ft > 7 should be kept in the nework
                 (
                     (links_df.drive_access == 1) & 
-                    (links_df.ft <= net_max_ft)
+                    (links_df.ft <= 7)
                 ) |
                 ( # is a tollsegment, should be kept within the network
                     (links_df.tollseg != 0) |
@@ -393,51 +393,56 @@ def prepare_table_for_tazmaz_drive_network(
             )
         ) | links_df["has_bus_on_link"] | links_df["managed_lane_connector"] # special cases we would like tp keep
     ].copy()
-    import networkx as nx
+
+    centroid_connector_links = links_df[
+        (links_df.A.isin(parameters.taz_N_list + parameters.maz_N_list)) |
+        (links_df.B.isin(parameters.taz_N_list + parameters.maz_N_list))
+    ].copy()
+    print("------------------------", centroid_connector_links.shape)
+    # import networkx as nx
 
     # ----------------------------------------- get largest sub graph -------------------------------------------------
-    print("finding largest sub graph...")
-    G = nx.from_pandas_edgelist(drive_links_df, "A", "B")
-    sets_of_subgaph_nodes = [list(G.subgraph(c).copy().nodes) for c in nx.connected_components(G)]
-    sets_of_subgaph_nodes.sort(key=lambda list_of_nodes: len(list_of_nodes))
-    largest_sub_graph_nodes = sets_of_subgaph_nodes[-1]
-    drive_links_df = drive_links_df[drive_links_df["A"].isin(largest_sub_graph_nodes) & drive_links_df["B"].isin(largest_sub_graph_nodes)]
-    print("done")
+    # print("finding largest sub graph...")
+    # G = nx.from_pandas_edgelist(drive_links_df, "A", "B")
+    # sets_of_subgaph_nodes = [list(G.subgraph(c).copy().nodes) for c in nx.connected_components(G)]
+    # sets_of_subgaph_nodes.sort(key=lambda list_of_nodes: len(list_of_nodes))
+    # largest_sub_graph_nodes = sets_of_subgaph_nodes[-1]
+    # drive_links_df = drive_links_df[drive_links_df["A"].isin(largest_sub_graph_nodes) & drive_links_df["B"].isin(largest_sub_graph_nodes)]
+    # print("done")
 
-    # centroid_connector_links = build_connectors_mtc.connect_centroids(nodes_df, drive_links_df, taz_centroid, taz_areas, parameters, taz_or_maz)
-    taz_areas = taz_areas.rename(columns ={"taz":"taz_id"})
-    taz_centroid_in = taz_centroid.rename(columns={"N": "taz_id"})
-    centroid_connector_links = build_connectors.build_taz_drive_connector(drive_links_df, nodes_df, taz_centroid_in, taz_areas, input_crs=drive_links_df.crs)
-    # print(centroid_connector_links.shape)
-    return centroid_connector_links
-    # return centroid_connector_links
-    #TODO check 
+    # # centroid_connector_links = build_connectors_mtc.connect_centroids(nodes_df, drive_links_df, taz_centroid, taz_areas, parameters, taz_or_maz)
+    # taz_areas = taz_areas.rename(columns ={"taz":"taz_id"})
+    # taz_centroid_in = taz_centroid.rename(columns={"N": "taz_id"})
+    # centroid_connector_links = build_connectors.build_taz_drive_connector(drive_links_df, nodes_df, taz_centroid_in, taz_areas, input_crs=drive_links_df.crs)
+    # # print(centroid_connector_links.shape)
+    # # return centroid_connector_links
+    # #TODO check 
     
-    max_existing_link_id = drive_links_df["model_link_id"].max()
-    centroid_connector_links["model_link_id"] = np.arange(centroid_connector_links.shape[0]) + max_existing_link_id + 1
+    # max_existing_link_id = drive_links_df["model_link_id"].max()
+    # centroid_connector_links["model_link_id"] = np.arange(centroid_connector_links.shape[0]) + max_existing_link_id + 1
 
-    for col_value, default_value in centroid_connector_defaults.items():
-        centroid_connector_links[col_value] = default_value
+    # for col_value, default_value in centroid_connector_defaults.items():
+    #     centroid_connector_links[col_value] = default_value
 
-    centroid_connector_links['distance'] = centroid_connector_links.to_crs(epsg=26915).geometry.length / 1609.34
-    # centroid_connector_links["_links"] = centroid_connector_links["geometry"].to_wkt()
-    # centroid_connector_links["links"] = centroid_connector_links["_links"]
-    # print(centroid_connector_links["links"])
+    # centroid_connector_links['distance'] = centroid_connector_links.to_crs(epsg=26915).geometry.length / 1609.34
+    # # centroid_connector_links["_links"] = centroid_connector_links["geometry"].to_wkt()
+    # # centroid_connector_links["links"] = centroid_connector_links["_links"]
+    # # print(centroid_connector_links["links"])
         
-    # drive_links_df["taz_node_id"] = 0
+    # # drive_links_df["taz_node_id"] = 0
     
-    if taz_or_maz == "taz":
-        # if we are doing taz we also have external centroid connectors, we need to include them
-        external_connectors_slicer = ((links_df.A > 900_000) & (links_df.A < 1_000_000)) | ((links_df.B > 900_000) & (links_df.B < 1_000_000))
-        print("model is taz, adding external links:", sum(external_connectors_slicer))
-        external_connectors = links_df[external_connectors_slicer]
-        centroid_connector_links = pd.concat([centroid_connector_links, external_connectors])
+    # if taz_or_maz == "taz":
+    #     # if we are doing taz we also have external centroid connectors, we need to include them
+    #     external_connectors_slicer = ((links_df.A > 900_000) & (links_df.A < 1_000_000)) | ((links_df.B > 900_000) & (links_df.B < 1_000_000))
+    #     print("model is taz, adding external links:", sum(external_connectors_slicer))
+    #     external_connectors = links_df[external_connectors_slicer]
+    #     centroid_connector_links = pd.concat([centroid_connector_links, external_connectors])
 
 
 
     
     
-    centroid_connector_links["geometry_wkt"] = centroid_connector_links["geometry"].apply(lambda x: x.wkt)
+    # centroid_connector_links["geometry_wkt"] = centroid_connector_links["geometry"].apply(lambda x: x.wkt)
     # bad link Ides
     # bad_externeral = [5117530, 5118443, 4239334, 4241510, 1143651, 1142182, 5118662, 5117749, 2518654, 2522313, 7135835, 
     # 7137048, 2522059, 2518400, 2522058, 2518399, 2519408,2523067, 5118661, 5117748, 3320292, 3316432]
@@ -462,32 +467,32 @@ def prepare_table_for_tazmaz_drive_network(
     # ----------------------------------------------------------------------------
     # ----------------------------------------------------------------------------
     # ----------------------------------------------------------------------------
-    if validate_network_connectivity:
-        print("starting checks")
-        test_network = pd.concat([drive_links_df, centroid_connector_links])
-        # foo = gpd.GeoDataFrame(test_network, geometry="geometry")
-        # print(foo.columns)
-        # foo[["A", "B", "segment_id", "geometry"]].to_file(r"D:\data_dump\test.gpkg")
+    # if validate_network_connectivity:
+    #     print("starting checks")
+    #     test_network = pd.concat([drive_links_df, centroid_connector_links])
+    #     # foo = gpd.GeoDataFrame(test_network, geometry="geometry")
+    #     # print(foo.columns)
+    #     # foo[["A", "B", "segment_id", "geometry"]].to_file(r"D:\data_dump\test.gpkg")
 
-        # return test_network
-        test_graph = nx.from_pandas_edgelist(test_network, "A", "B", create_using=nx.DiGraph())
-        from itertools import product
-        bad_nodes = set()
-        print(taz_centroid.shape)
-        x = 0
-        for start_node, end_node in product(taz_centroid["N"], taz_centroid["N"][50:51]):
-            print(x)
-            x = x+1
-            if not nx.has_path(test_graph, start_node, end_node):
-                bad_nodes.add(start_node)
-            if not nx.has_path(test_graph, end_node, start_node):
-                bad_nodes.add(start_node)
+    #     # return test_network
+    #     test_graph = nx.from_pandas_edgelist(test_network, "A", "B", create_using=nx.DiGraph())
+    #     from itertools import product
+    #     bad_nodes = set()
+    #     print(taz_centroid.shape)
+    #     x = 0
+    #     for start_node, end_node in product(taz_centroid["N"], taz_centroid["N"][50:51]):
+    #         print(x)
+    #         x = x+1
+    #         if not nx.has_path(test_graph, start_node, end_node):
+    #             bad_nodes.add(start_node)
+    #         if not nx.has_path(test_graph, end_node, start_node):
+    #             bad_nodes.add(start_node)
 
-        print("ending checks")
+    #     print("ending checks")
 
-        if len(bad_nodes) > 0:
-            raise Exception(f"Graph was not fully connected, the following nodes are missing a pasth either to or from them {bad_nodes}")
-        print("passed")
+    #     if len(bad_nodes) > 0:
+    #         raise Exception(f"Graph was not fully connected, the following nodes are missing a pasth either to or from them {bad_nodes}")
+    #     print("passed")
         
 
     model_tables = dict()

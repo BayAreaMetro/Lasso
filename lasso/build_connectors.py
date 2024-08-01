@@ -2,10 +2,23 @@ import geopandas as gpd
 import pandas as pd
 import math
 from pyproj import CRS
+from shapely.geometry import LineString
+
+def remove_nodes_below_threshold(nodes_df: gpd.GeoDataFrame, links_df: gpd.GeoDataFrame, threshold: int) -> gpd.GeoDataFrame:
+    # find the smallest ft 
+    min_a = links_df[["ft", "A"]].groupby("A").min().reset_index()
+    min_b = links_df[["ft", "B"]].groupby("B").min().reset_index().rename(columns={"B": "A"})
+    min_all = pd.concat([min_a, min_b])#.groupby("A").min()
+    print(min_all["A"])
+    min_all = min_all[min_all["ft"] <= threshold]
+    print(min_all)
+    return nodes_df[nodes_df["N"].isin(list(min_all["A"]))]
+
+    
 
 def build_taz_drive_connector(
     links_df, nodes_df, taz_node_gdf,
-    taz_polygon_df: gpd.GeoDataFrame, num_connectors_per_centroid: int = 3
+    taz_polygon_df: gpd.GeoDataFrame, input_crs, num_connectors_per_centroid: int = 3
 ):
     """
     build taz drive centroid connectors
@@ -17,7 +30,10 @@ def build_taz_drive_connector(
 
     # node_two_geometry_df = self.get_non_intersection_drive_nodes()
     node_two_geometry_df = _get_non_intersection_drive_nodes(links_df, nodes_df)
-
+    print(node_two_geometry_df.shape)
+    # node_two_geometry_df = remove_nodes_below_threshold(node_two_geometry_df, links_df, threshold=7)
+    print("---------------------")
+    print(node_two_geometry_df.shape)
     # step 2
     # for each zone, find nodes that have only two assignable/drive
     # geometries (not reference) - good intersections
@@ -36,13 +52,19 @@ def build_taz_drive_connector(
         )
     ].copy()
 
+    # drive_node_gdf = nodes_df[
+    #     (nodes_df.drive_access == 1)
+    #     & ~(output[0][output[0].taz_id
+    #         nodes_df.osm_node_id.isin(
+    #             exclude_links_df.u.tolist() + exclude_links_df.v.tolist()
+    #         )
+    #     )
+    # ].copy()
     drive_node_gdf = nodes_df[
-        (nodes_df.drive_access == 1)
-        & ~(output[0][output[0].taz_id
-            nodes_df.osm_node_id.isin(
-                exclude_links_df.u.tolist() + exclude_links_df.v.tolist()
-            )
-        )
+        (nodes_df.drive_access == 1) &
+        (~nodes_df.osm_node_id.isin(
+            exclude_links_df['u'].tolist() + exclude_links_df['v'].tolist()
+        ))
     ].copy()
 
     taz_drive_node_df = _get_nodes_in_zones(drive_node_gdf, taz_polygon_df)
@@ -57,7 +79,23 @@ def build_taz_drive_connector(
         num_connectors_per_centroid,
     )
     
-    return taz_centroid_gdf, taz_loading_node_df
+    # step 5 make geometry 
+    connections = pd.concat(
+        [
+            taz_loading_node_df[["taz_id", "N"]].rename(columns={"taz_id": "A", "N": "B"}),
+            taz_loading_node_df[["taz_id", "N"]].rename(columns={"taz_id": "B", "N": "A"}),
+        ]
+    )
+    connections = connections.merge(
+        nodes_df[["N", "geometry"]], how="left", left_on="A", right_on="N" 
+    ).drop(columns="N").rename(columns={"geometry": "a_geom"}).merge(
+        nodes_df[["N", "geometry"]], how="left", left_on="B", right_on="N" 
+    ).drop(columns="N").rename(columns={"geometry": "b_geom"})
+    
+    make_linestring = lambda row: LineString([row.a_geom, row.b_geom])
+    connections["geometry"] = connections.apply(make_linestring, axis=1)
+
+    return gpd.GeoDataFrame(connections, geometry="geometry", crs=input_crs)
     
 
 def _get_non_intersection_drive_nodes(links_df, nodes_df):
@@ -129,7 +167,10 @@ def _get_nodes_in_zones(nodes_gdf, zones_gdf):
             columns={"geometry": "geometry_orig", "geometry_buffer": "geometry"},
             inplace=True,
         )
-        nodes_gdf = nodes_gdf.drop(columns="index_right")
+
+        if "index_right" in nodes_gdf.columns:
+            nodes_gdf = nodes_gdf.drop(columns="index_right")
+
         nodes_in_zones_gdf = gpd.sjoin(
             nodes_gdf,
             polygon_buffer_gdf[["geometry", "taz_id"]],
