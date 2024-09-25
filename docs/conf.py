@@ -27,7 +27,7 @@ import lasso
 # -- Project information -----------------------------------------------------
 
 project = "lasso"
-copyright = "2019 Metropolitan Council"
+copyright = "2019-2022 Metropolitan Council, Metropolitan Transportation Commission"
 author = "Sijia Wang and Elizabeth Sall"
 
 
@@ -87,8 +87,6 @@ autodoc_default_options = {
     "member-order": "groupwise",
 }
 
-autoclass_content = (
-    "class"
-)  # classes should include both the class' and the __init__ method's docstring
+autoclass_content = "class"  # classes should include both the class' and the __init__ method's docstring
 
 autosummary_generate = True
