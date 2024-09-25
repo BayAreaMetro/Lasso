@@ -1,0 +1,31 @@
+﻿lasso.Parameters
+================
+
+.. currentmodule:: lasso
+
+.. autoclass:: Parameters
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Parameters.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Parameters.maz_shape_file
+      ~Parameters.properties_to_split
+      ~Parameters.county_link_range_dict
+      ~Parameters.zones
+   
+   
